@@ -57,6 +57,7 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ['./stores/**'],
   },
+  plugins: [{ src: '~/plugins/vue3-openlayers.ts', mode: 'client' }],
   vite: {
     vue: {
       template: {

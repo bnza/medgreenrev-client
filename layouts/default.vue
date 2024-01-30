@@ -12,10 +12,6 @@
   </v-main>
   <app-footer></app-footer>
   <app-snackbar></app-snackbar>
-<!--  <app-bar />-->
-<!--  <v-main class="d-flex align-center justify-center">-->
-<!--    <slot></slot>-->
-<!--  </v-main>-->
 </template>
 
 <style scoped></style>

@@ -2,6 +2,7 @@ export {}
 
 declare global {
   type Role = 'ROLE_USER'|'ROLE_EDITOR'|'ROLE_ADMIN'
+  type UiMode = 'default'|'map'
 }
 interface ApiSessionData {
   email: string,
