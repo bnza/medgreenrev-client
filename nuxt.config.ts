@@ -30,7 +30,7 @@ export default defineNuxtConfig({
   css: ['~/assets/styles/index.css'],
   devtools: { enabled: true },
   imports: {
-    dirs: ['./constants'],
+    dirs: ['./lib', './lib/constants'],
   },
   modules: [
     '@nuxt/eslint',
@@ -38,6 +38,16 @@ export default defineNuxtConfig({
     ['@nuxtjs/google-fonts', googleFonts],
     '@sidebase/nuxt-auth',
   ],
+  router: {
+    options: {
+      hashMode: true,
+    },
+  },
+  runtimeConfig: {
+    public: {
+      apiBaseURL: 'http://localhost:8000/api',
+    },
+  },
   ssr: false,
   typescript: { strict: false },
 })

@@ -1,7 +1,3 @@
-import { STATE_DATA_UI_MODE } from '~/constants/stateKeys'
-import { DATA_UI_MODE } from '~/constants/enums.js'
-
-// type DataUiMode = 'default' | 'map'
 export const useDataUiModeState = () => {
   const mode = useState(STATE_DATA_UI_MODE, () => DATA_UI_MODE.Default)
 

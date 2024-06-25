@@ -1,0 +1,40 @@
+<script setup>
+const props = defineProps({
+  resource: {
+    type: Object,
+    validator(value) {
+      return 'appPath' in value
+    },
+  },
+  item: {
+    type: Object,
+    validator(value) {
+      return 'id' in value && '_acl' in value
+    },
+  },
+})
+
+const disabled = computed(() => {
+  return !props.item._acl.canUpdate
+})
+const color = computed(() => {
+  return disabled.value ? '' : 'success'
+})
+</script>
+
+<template>
+  <v-btn
+    :color="color"
+    density="compact"
+    :disabled="disabled"
+    :icon="true"
+    nuxt
+    :to="`${resource.appPath}/${item.id}/update`"
+    variant="text"
+  >
+    <v-icon icon="fas fa-pen-to-square" />
+    <v-tooltip activator="parent" location="bottom">Edit item</v-tooltip>
+  </v-btn>
+</template>
+
+<style scoped></style>
