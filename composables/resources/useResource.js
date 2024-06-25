@@ -50,12 +50,26 @@ function useResource(options) {
     const totalItems = computed(() => data.value?.['hydra:totalItems'] || 0)
     return { data, pending, error, items, totalItems, paginationOptions }
   }
+
+  const fetchItem = async (id) => {
+    const { data, pending, error } = await repository.fetchItem(
+      id,
+      {},
+      {
+        watch: [id],
+      },
+    )
+    const code = computed(() => resourceConfig.getCodeFn(data.value)())
+    return { item: data, pending, error, code }
+  }
+
   return {
     collectionLabel,
     headers,
     itemLabel,
     resourceConfig,
     fetchCollection,
+    fetchItem,
   }
 }
 

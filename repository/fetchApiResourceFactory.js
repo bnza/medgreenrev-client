@@ -31,6 +31,19 @@ class FetchApiResourceFactory extends FetchFactory {
       asyncDataOptions,
     )
   }
+
+  async fetchItem(id, fetchOptions, asyncDataOptions) {
+    const url = this.getItemUrl(id)
+    return useAsyncData(
+      url,
+      () =>
+        this.$fetch(url, {
+          method: 'GET',
+          ...fetchOptions,
+        }),
+      asyncDataOptions,
+    )
+  }
 }
 
 export default FetchApiResourceFactory
