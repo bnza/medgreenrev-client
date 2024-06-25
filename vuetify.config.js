@@ -1,8 +1,7 @@
-import colors from 'vuetify/util/colors'
 import { md3 } from 'vuetify/blueprints'
 import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
 
-const _colors = {
+const colors = {
   primary: '#2c549d',
   secondary: '#80bc37',
   anchor: '#FFF',
@@ -21,28 +20,9 @@ const _colors = {
   'secondary-darken-1': '#334b16',
 }
 
-const __colors = {
-  primary: colors.blue.darken2,
-  secondary: colors.amber.darken2,
-  anchor: '#FFF',
-  accent: '#505',
-  error: '#D45858',
-  info: '#4592CF',
-  success: '#69B069',
-  warning: '#F5A623',
-  background: '#111',
-  surface: '#222',
-  'surface-bright': '#282828',
-  'surface-light': '#333',
-  'surface-variant': '#444',
-  'on-surface-variant': '#EEE',
-  'primary-darken-1': colors.blue.darken3,
-  'secondary-darken-1': colors.blue.darken4,
-}
-
 const darkTheme = {
   dark: true,
-  colors: _colors,
+  colors,
   variables: {
     'border-color': '#FFF',
     'border-opacity': 0.12,

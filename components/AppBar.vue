@@ -15,7 +15,7 @@ const { toggle } = useAppNavigationDrawerVisibleState()
         </template>
       </v-tooltip>
     </template>
-    <v-img class="mx-2" src="logowhite35.png" max-height="40" contain />
+    <!--    <v-img class="mx-2" src="logowhite35.png" max-height="40" contain />-->
     <slot name="center" />
     <template #append>
       <auth-app-bar-icon />
