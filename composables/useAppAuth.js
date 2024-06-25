@@ -1,3 +1,5 @@
+import { ROLES } from '~/lib/constants/enums.js'
+
 export function useAppAuth() {
   const { data, status } = useAuth()
   const isAuthenticated = computed(() => unref(status) === 'authenticated')
@@ -7,5 +9,16 @@ export function useAppAuth() {
       ? data.value.email
       : null,
   )
-  return { isAuthenticated, isLoading, userIdentifier }
+
+  const roles = computed(() => (unref(isAuthenticated) ? data.value.roles : []))
+  function _hasRole(role) {
+    if (!Object.values(ROLES).includes(role)) {
+      throw `Invalid role "${role}"`
+    }
+    return unref(isAuthenticated) ? unref(roles).includes(role) : false
+  }
+
+  const hasRole = computed(() => _hasRole)
+  const hasRoleAdmin = computed(() => _hasRole(ROLES.Admin))
+  return { isAuthenticated, isLoading, userIdentifier, hasRoleAdmin }
 }

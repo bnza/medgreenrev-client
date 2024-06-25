@@ -1,7 +1,8 @@
 import { stringify } from 'qs'
 import SitesModule from '~/repository/modules/sites.js'
 import UsersModule from '~/repository/modules/users.js'
-import { resourceKeys } from '~/lib/resources/index.js'
+import ApiValidator from '~/repository/validator.js'
+
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
 
@@ -53,10 +54,13 @@ export default defineNuxtPlugin(() => {
     return modules[key]
   }
 
+  const validator = new ApiValidator(apiFetcher)
+
   return {
     provide: {
       api: {
         getRepository,
+        validator,
       },
     },
   }

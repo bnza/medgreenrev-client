@@ -17,12 +17,12 @@ const error = ref(null)
     <!--    />-->
   </div>
   <app-data-card v-else :title="collectionLabel">
-    <!--    <template #toolbar-append>-->
-    <!--      <navigation-resource-item-create-->
-    <!--        v-if="hasRoleAdmin"-->
-    <!--        :path="`${resourceConfig.appPath}/create`"-->
-    <!--      ></navigation-resource-item-create>-->
-    <!--    </template>-->
+    <template #toolbar-append>
+      <navigation-resource-item-create
+        v-if="hasRoleAdmin"
+        :path="`${resourceConfig.appPath}/create`"
+      />
+    </template>
     <template #default>
       <lazy-data-collection-site-table @error="error = $event" />
     </template>

@@ -1,4 +1,5 @@
 import FetchFactory from '~/repository/fetchFactory.js'
+import { diff } from 'deep-object-diff'
 
 class FetchApiResourceFactory extends FetchFactory {
   constructor(fetcher) {
@@ -43,6 +44,21 @@ class FetchApiResourceFactory extends FetchFactory {
         }),
       asyncDataOptions,
     )
+  }
+
+  async patchItem(oldItem, newItem) {
+    const diffItem = { ...diff(oldItem, newItem) }
+    if (Object.keys(diffItem).length === 0) {
+      return Promise.resolve()
+    }
+    return this.$fetch(this.getItemUrl(oldItem.id), {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/ld+json',
+        'Content-Type': 'application/merge-patch+json',
+      },
+      body: diffItem,
+    })
   }
 }
 

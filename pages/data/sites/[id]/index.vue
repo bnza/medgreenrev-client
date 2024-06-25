@@ -23,7 +23,11 @@ const { item, error, code } = await fetchItem(id)
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
     <template #default>
-      <lazy-data-item-site-read-form v-if="item" :item="item" />
+      <lazy-data-item-site-form
+        v-if="item"
+        :item="item"
+        :mode="DATA_FORM_MODE.Read"
+      />
     </template>
   </app-data-card>
 </template>

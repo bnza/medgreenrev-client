@@ -63,6 +63,10 @@ function useResource(options) {
     return { item: data, pending, error, code }
   }
 
+  const patchItem = (newItem, oldItem) => {
+    return repository.patchItem(unref(oldItem), unref(newItem))
+  }
+
   return {
     collectionLabel,
     headers,
@@ -70,6 +74,7 @@ function useResource(options) {
     resourceConfig,
     fetchCollection,
     fetchItem,
+    patchItem,
   }
 }
 
