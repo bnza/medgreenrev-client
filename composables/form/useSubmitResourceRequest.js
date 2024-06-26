@@ -1,8 +1,13 @@
 import { DATA_FORM_MODE } from '~/lib/constants/enums.js'
 
-export default function (submitFn, state, v$, redirectBasePath) {
+export default function (mode, getResourceActionFn, redirectBasePath) {
   const router = useRouter()
   const { show } = useAppSnackbarState()
+  const isSubmitPending = ref(false)
+
+  let submit = ref((item = null) => {
+    console.error('Submit function is not set yet!')
+  })
 
   const showError = (e) => {
     show({
@@ -16,36 +21,73 @@ export default function (submitFn, state, v$, redirectBasePath) {
     show({
       color: 'success',
       text: `Successfully ${action}d resource`,
+      timeout: 3000,
     })
   }
 
-  async function submitPatch(oldItem) {
-    const valid = await v$.value.$validate()
-    if (valid) {
-      await submitFn(state, oldItem).catch(showError)
-      await router.replace(`${redirectBasePath}/${state.id}`)
-      showSuccess(DATA_FORM_MODE.Update)
-    }
+  const unsetPendingState = () => {
+    isSubmitPending.value = false
   }
 
-  async function submitPost() {
-    const valid = await v$.value.$validate()
-    if (valid) {
-      const newItem = await submitFn(state).catch(showError)
-      await router.replace(`${redirectBasePath}/${newItem?.id}`)
-      showSuccess(DATA_FORM_MODE.Create)
+  const resourceActionFn = getResourceActionFn(mode)
+
+  const setSubmitFn = ({ state, v$ }) => {
+    async function submitPatch(oldItem) {
+      const valid = await v$.value.$validate()
+      if (valid) {
+        isSubmitPending.value = true
+        try {
+          await resourceActionFn(state, oldItem).finally(unsetPendingState)
+          await router.replace(`${redirectBasePath}/${state.id}`)
+          showSuccess(mode)
+        } catch (e) {
+          showError(e)
+        }
+      }
     }
+
+    async function submitPost() {
+      const valid = await v$.value.$validate()
+      if (valid) {
+        try {
+          const newItem =
+            await resourceActionFn(state).finally(unsetPendingState)
+          await router.replace(`${redirectBasePath}/${newItem?.id}`)
+          showSuccess(mode)
+        } catch (e) {
+          showError(e)
+        }
+      }
+    }
+
+    async function submitDelete() {
+      const valid = await v$.value.$validate()
+      if (valid) {
+        try {
+          await resourceActionFn(state).finally(unsetPendingState)
+          await router.replace(redirectBasePath)
+          showSuccess(mode)
+        } catch (e) {
+          showError(e)
+        }
+      }
+    }
+
+    const submitFns = {
+      [DATA_FORM_MODE.Create]: submitPost,
+      [DATA_FORM_MODE.Update]: submitPatch,
+      [DATA_FORM_MODE.Delete]: submitDelete,
+    }
+
+    const _getSubmitFn = () => {
+      if ((!mode) in submitFns) {
+        throw new Error(`Unsupported action "${mode}"`)
+      }
+      return submitFns[mode]
+    }
+
+    submit.value = _getSubmitFn()
   }
 
-  async function submitDelete() {
-    const valid = await v$.value.$validate()
-    const submitFn = submitFn('delete')
-    if (valid) {
-      await submitFn(state).catch(showError)
-      await router.replace(redirectBasePath)
-      showSuccess(DATA_FORM_MODE.Delete)
-    }
-  }
-
-  return { submitPatch, submitPost, submitDelete }
+  return { submit, isSubmitPending, setSubmitFn }
 }

@@ -1,6 +1,14 @@
 <script setup lang="ts">
-const { resourceConfig, fetchItem, itemLabel } = useResourceSite()
+const { resourceConfig, getAction, itemLabel } = useResourceSite()
 const item = ref({})
+const invalid = ref(false)
+const mode = DATA_FORM_MODE.Create
+
+const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
+  mode,
+  getAction,
+  resourceConfig.appPath,
+)
 </script>
 
 <template>
@@ -8,11 +16,27 @@ const item = ref({})
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
+    <template #toolbar-append>
+      <v-btn
+        v-if="item"
+        class="mx-4"
+        :disabled="invalid || isSubmitPending"
+        color="success"
+        rounded="false"
+        variant="text"
+        :icon="true"
+        @click="submit()"
+      >
+        <v-icon icon="fas fa-arrow-up-from-bracket" />
+        <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
+      </v-btn>
+    </template>
     <template #default>
       <lazy-data-item-site-form
         v-if="item"
         :item="item"
-        :mode="DATA_FORM_MODE.Create"
+        :mode="mode"
+        @validation-ready="setSubmitFn($event)"
       />
     </template>
   </app-data-card>

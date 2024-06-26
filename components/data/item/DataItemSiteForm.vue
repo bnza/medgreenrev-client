@@ -8,11 +8,11 @@ const props = defineProps({
 })
 
 const { readonly } = useDataForm({
-  mode: props.mode,
+  type: props.mode,
 })
 
 const { item } = toRefs(props)
-const _emitUpdateInvalid = defineEmits(['update:invalid', 'ready'])
+const _emitUpdateInvalid = defineEmits(['update:invalid', 'validationReady'])
 const { state, v$ } = useResourceSiteValidation(item, _emitUpdateInvalid)
 </script>
 

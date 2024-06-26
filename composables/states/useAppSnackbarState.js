@@ -8,7 +8,7 @@ export const useAppSnackbarState = () => {
     timeout: -1,
     multiline: false,
   }
-  const defaultFn = () => _default
+  const defaultFn = () => structuredClone(_default)
   const state = useState(STATE_APP_SNACKBAR, defaultFn)
 
   const reset = () => {

@@ -60,6 +60,27 @@ class FetchApiResourceFactory extends FetchFactory {
       body: diffItem,
     })
   }
+
+  async postItem(newItem) {
+    return this.$fetch(this.resource.apiPath, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/ld+json',
+        'Content-Type': 'application/ld+json',
+      },
+      body: newItem,
+    })
+  }
+
+  async deleteItem(oldItem) {
+    return this.$fetch(this.getItemUrl(oldItem.id), {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/ld+json',
+        'Content-Type': 'application/ld+json',
+      },
+    })
+  }
 }
 
 export default FetchApiResourceFactory

@@ -25,7 +25,7 @@ export function useResourceSiteValidation(item, emit) {
   useEmitValidationInvalid(v$, emit)
 
   onMounted(() => {
-    emit('ready', { state, v$ })
+    emit('validationReady', { state, v$ })
   })
 
   return { state, v$ }

@@ -1,17 +1,12 @@
 <script setup lang="ts">
-definePageMeta({
-  auth: false,
-})
-
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, getAction } = useResourceSite()
 const { item, error, code } = await fetchItem(id)
 
-const invalid = ref(false)
+const mode = DATA_FORM_MODE.Delete
 
-const mode = DATA_FORM_MODE.Update
 const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
   mode,
   getAction,
@@ -35,23 +30,27 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
       <v-btn
         v-if="item"
         class="mx-4"
-        :disabled="invalid || isSubmitPending"
-        color="success"
+        :disabled="isSubmitPending"
+        color="error"
         rounded="false"
         variant="text"
         :icon="true"
-        @click="submit(item)"
+        @click="submit()"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket" />
-        <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
+        <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
       </v-btn>
     </template>
     <template #default>
+      <v-alert
+        text="Select item will be delete. Are you sure tou want to proceed? This action cannot be undone."
+        title="Delete item?"
+        type="error"
+      />
       <lazy-data-item-site-form
         v-if="item"
         :item="item"
         :mode="mode"
-        @update:invalid="invalid = $event"
         @validation-ready="setSubmitFn($event)"
       />
     </template>

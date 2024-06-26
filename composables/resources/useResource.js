@@ -1,4 +1,5 @@
 import usePaginationOptions from '~/composables/resources/usePaginationOptions.js'
+import { DATA_FORM_MODE } from '~/lib/constants/enums.js'
 function useResource(options) {
   const { resourceKey, defaultHeaders } = options
 
@@ -67,6 +68,27 @@ function useResource(options) {
     return repository.patchItem(unref(oldItem), unref(newItem))
   }
 
+  const postItem = (newItem) => {
+    return repository.postItem(unref(newItem))
+  }
+
+  const deleteItem = (newItem) => {
+    return repository.deleteItem(unref(newItem))
+  }
+
+  const actions = {
+    [DATA_FORM_MODE.Update]: patchItem,
+    [DATA_FORM_MODE.Create]: postItem,
+    [DATA_FORM_MODE.Delete]: deleteItem,
+  }
+
+  const getAction = (type) => {
+    if ((!type) in actions) {
+      throw new Error(`Unsupported action "${type}"`)
+    }
+    return actions[type]
+  }
+
   return {
     collectionLabel,
     headers,
@@ -75,6 +97,7 @@ function useResource(options) {
     fetchCollection,
     fetchItem,
     patchItem,
+    getAction,
   }
 }
 

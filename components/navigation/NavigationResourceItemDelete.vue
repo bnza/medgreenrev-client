@@ -29,7 +29,7 @@ const color = computed(() => {
     :disabled="disabled"
     :icon="true"
     nuxt
-    :to="`${resource.appPath}/${item.id}`"
+    :to="`${resource.appPath}/${item.id}/delete`"
     variant="text"
   >
     <v-icon icon="fas fa-xmark" />
