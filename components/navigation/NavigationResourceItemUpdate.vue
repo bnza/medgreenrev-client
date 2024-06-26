@@ -32,7 +32,7 @@ const color = computed(() => {
     :to="`${resource.appPath}/${item.id}/update`"
     variant="text"
   >
-    <v-icon icon="fas fa-pen-to-square" />
+    <v-icon icon="fas fa-check" size="xsmall" />
     <v-tooltip activator="parent" location="bottom">Edit item</v-tooltip>
   </v-btn>
 </template>

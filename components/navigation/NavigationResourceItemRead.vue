@@ -32,7 +32,7 @@ const color = computed(() => {
     :to="`${resource.appPath}/${item.id}`"
     variant="text"
   >
-    <v-icon :color="color" icon="fas fa-arrow-right" />
+    <v-icon :color="color" icon="fas fa-arrow-right" size="xsmall" />
     <v-tooltip activator="parent" location="bottom">View item</v-tooltip>
   </v-btn>
 </template>

@@ -32,7 +32,7 @@ const color = computed(() => {
     :to="`${resource.appPath}/${item.id}/delete`"
     variant="text"
   >
-    <v-icon icon="fas fa-xmark" />
+    <v-icon icon="fas fa-minus" size="xsmall" />
     <v-tooltip activator="parent" location="bottom">Delete item</v-tooltip>
   </v-btn>
 </template>

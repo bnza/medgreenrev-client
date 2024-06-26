@@ -1,8 +1,5 @@
-<script setup lang="ts">
-definePageMeta({
-  auth: false,
-})
-
+<script setup>
+definePageMeta({ middleware: 'auth' })
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))

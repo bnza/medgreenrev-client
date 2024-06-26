@@ -8,7 +8,6 @@ const { state, reset } = useAppSnackbarState()
     :multi-line="state.multiline"
     :vertical="state.vertical"
     :timeout="state.timeout"
-    :timer="state.timeout > -1"
     :color="state.color"
     location="top"
     data-testid="app-snackbar"
@@ -20,7 +19,12 @@ const { state, reset } = useAppSnackbarState()
     </div>
 
     <template v-if="state.timeout === -1" #actions>
-      <v-btn icon="mdi-close-circle-outline" variant="text" @click="reset()" />
+      <v-btn
+        icon="fas fa-xmark"
+        variant="text"
+        @click="reset()"
+        color="anchor"
+      />
     </template>
   </v-snackbar>
 </template>

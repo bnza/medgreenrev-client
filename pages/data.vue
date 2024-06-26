@@ -2,7 +2,6 @@
 import { useDataUiModeState } from '~/composables/states/useDataUiModeState'
 
 definePageMeta({
-  auth: false,
   layout: false,
 })
 defineOptions({ name: 'DataWrapper' })
