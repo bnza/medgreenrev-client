@@ -1,16 +1,7 @@
-export default function () {
-  const defaultPaginationOptions = {
-    itemsPerPage: 10,
-    page: 1,
-    sortBy: [
-      {
-        key: 'id',
-        order: 'asc',
-      },
-    ],
-  }
+export default function (key) {
+  const { getPaginationOptions } = useFetchCollectionOptionsState(key)
 
-  const paginationOptions = reactive(structuredClone(defaultPaginationOptions))
+  const paginationOptions = getPaginationOptions()
 
   const queryPaginationOptionsParams = computed(() =>
     vuetifyPaginationOptionToQsObject(paginationOptions),
@@ -20,11 +11,7 @@ export default function () {
     if (componentPaginationOptions.itemsPerPage === -1) {
       delete componentPaginationOptions.itemsPerPage
     }
-    const paginationOptions = Object.assign(
-      {},
-      defaultPaginationOptions,
-      componentPaginationOptions,
-    )
+    const paginationOptions = Object.assign({}, componentPaginationOptions)
     const order = {}
     paginationOptions.sortBy.forEach((sortItem) => {
       let _order = 'asc'

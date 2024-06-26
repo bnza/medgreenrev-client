@@ -35,7 +35,7 @@ function useResource(options) {
   const repository = useNuxtApp().$api.getRepository(resourceKey)
 
   const { paginationOptions, queryPaginationOptionsParams } =
-    usePaginationOptions()
+    usePaginationOptions(resourceKey)
   const fetchCollection = async () => {
     const params = computed(() =>
       Object.assign({}, queryPaginationOptionsParams.value),
