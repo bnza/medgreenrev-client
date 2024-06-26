@@ -17,7 +17,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
 </script>
 
 <template>
-  <app-data-card v :title="itemLabel" code="">
+  <app-data-card v :title="itemLabel" code="" :mode="mode">
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
@@ -26,7 +26,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
         v-if="item"
         class="mx-4"
         :disabled="invalid || isSubmitPending"
-        color="success"
+        color="anchor"
         rounded="false"
         variant="text"
         :icon="true"

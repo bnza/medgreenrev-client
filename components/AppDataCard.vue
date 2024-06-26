@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { DATA_API_ACTIONS_BAR_COLOR } from '~/lib/constants/enums.js'
+
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -8,17 +10,33 @@ defineProps({
     type: String,
     default: '',
   },
+  mode: {
+    type: String,
+    default: API_ACTIONS.Read,
+  },
 })
+
+const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
 </script>
 
 <template>
   <v-card data-testid="app-data-card" :rounded="false" class="w-100 h-100">
-    <v-toolbar data-testid="app-data-card-toolbar" density="compact">
+    <v-toolbar
+      data-testid="app-data-card-toolbar"
+      density="compact"
+      :color="color"
+    >
       <template #prepend>
         <slot name="toolbar-prepend" />
       </template>
       <template #title
         >{{ title }}
+        <span
+          v-if="mode !== API_ACTIONS.Read"
+          style="font-size: small; text-transform: uppercase"
+        >
+          ({{ mode }})</span
+        >
         <span v-if="code" class="font-weight-bold text-secondary pl-6"
           >{{ code }}
         </span>

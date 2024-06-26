@@ -22,7 +22,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
     <!--      :close-tooltip-text="`Back to ${itemLabel} list`"-->
     <!--    />-->
   </div>
-  <app-data-card v-else :title="itemLabel" :code="code">
+  <app-data-card v-else :title="itemLabel" :code="code" :mode="mode">
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
@@ -31,7 +31,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
         v-if="item"
         class="mx-4"
         :disabled="isSubmitPending"
-        color="error"
+        color="anchor"
         rounded="false"
         variant="text"
         :icon="true"
@@ -42,17 +42,20 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
       </v-btn>
     </template>
     <template #default>
-      <v-alert
-        text="Select item will be delete. Are you sure tou want to proceed? This action cannot be undone."
-        title="Delete item?"
-        type="error"
-      />
       <lazy-data-item-site-form
         v-if="item"
         :item="item"
         :mode="mode"
         @validation-ready="setSubmitFn($event)"
-      />
+      >
+        <template #alert>
+          <v-alert
+            text="Select item will be delete. Are you sure tou want to proceed? This action cannot be undone."
+            title="Delete item?"
+            type="error"
+          />
+        </template>
+      </lazy-data-item-site-form>
     </template>
   </app-data-card>
 </template>

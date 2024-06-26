@@ -21,6 +21,11 @@ const { state, v$ } = useResourceSiteValidation(item, _emitUpdateInvalid)
 <template>
   <v-form :readonly="readonly" @submit.prevent>
     <v-container>
+      <v-row>
+        <v-col>
+          <slot name="alert" />
+        </v-col>
+      </v-row>
       <v-row v-if="isAuthenticated" no-gutters justify="end">
         <v-col cols="12" sm="3" class="px-2">
           <v-checkbox label="public" v-model="state.public" />

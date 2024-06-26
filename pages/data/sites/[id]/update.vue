@@ -24,7 +24,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
     <!--      :close-tooltip-text="`Back to ${itemLabel} list`"-->
     <!--    />-->
   </div>
-  <app-data-card v-else :title="itemLabel" :code="code">
+  <app-data-card v-else :title="itemLabel" :code="code" :mode="mode">
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
@@ -33,7 +33,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
         v-if="item"
         class="mx-4"
         :disabled="invalid || isSubmitPending"
-        color="success"
+        color="anchor"
         rounded="false"
         variant="text"
         :icon="true"
