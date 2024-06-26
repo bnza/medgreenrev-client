@@ -20,5 +20,5 @@ export function useAppAuth() {
 
   const hasRole = computed(() => _hasRole)
   const hasRoleAdmin = computed(() => _hasRole(ROLES.Admin))
-  return { isAuthenticated, isLoading, userIdentifier, hasRoleAdmin }
+  return { isAuthenticated, isLoading, userIdentifier, hasRoleAdmin, hasRole }
 }

@@ -11,6 +11,8 @@ const { readonly } = useDataForm({
   type: props.mode,
 })
 
+const { isAuthenticated } = useAppAuth()
+
 const { item } = toRefs(props)
 const _emitUpdateInvalid = defineEmits(['update:invalid', 'validationReady'])
 const { state, v$ } = useResourceSiteValidation(item, _emitUpdateInvalid)
@@ -19,7 +21,7 @@ const { state, v$ } = useResourceSiteValidation(item, _emitUpdateInvalid)
 <template>
   <v-form :readonly="readonly" @submit.prevent>
     <v-container>
-      <v-row no-gutters justify="end">
+      <v-row v-if="isAuthenticated" no-gutters justify="end">
         <v-col cols="12" sm="3" class="px-2">
           <v-checkbox label="public" v-model="state.public" />
         </v-col>

@@ -1,4 +1,9 @@
-<script setup lang="ts">
+<script setup>
+definePageMeta({
+  middleware: ['acl'],
+  voters: [ACL_VOTERS.HasRoleAdmin],
+})
+
 const { resourceConfig, getAction, itemLabel } = useResourceSite()
 const item = ref({})
 const invalid = ref(false)
