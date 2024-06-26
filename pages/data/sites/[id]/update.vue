@@ -26,7 +26,13 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
   </div>
   <app-data-card v-else :title="itemLabel" :code="code" :mode="mode">
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath" />
+      <navigation-resource-item-read
+        class="ml-3"
+        :resource="resourceConfig"
+        :item="item"
+        :back="true"
+        size="large"
+      />
     </template>
     <template #toolbar-append>
       <v-btn

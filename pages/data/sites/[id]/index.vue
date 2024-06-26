@@ -19,6 +19,20 @@ const { item, error, code } = await fetchItem(id)
     <!--    />-->
   </div>
   <app-data-card v-else :title="itemLabel" :code="code">
+    <template #toolbar-append>
+      <navigation-resource-item-update
+        class="mr-4"
+        :item="item"
+        :resource="resourceConfig"
+        size="large"
+      />
+      <navigation-resource-item-delete
+        class="mr-4"
+        :item="item"
+        :resource="resourceConfig"
+        size="large"
+      />
+    </template>
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>

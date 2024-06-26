@@ -12,6 +12,10 @@ const props = defineProps({
       return 'id' in value && '_acl' in value
     },
   },
+  size: {
+    type: String,
+    default: 'xsmall',
+  },
 })
 
 const disabled = computed(() => {
@@ -32,7 +36,7 @@ const color = computed(() => {
     :to="`${resource.appPath}/${item.id}/delete`"
     variant="text"
   >
-    <v-icon icon="fas fa-minus" size="xsmall" />
+    <v-icon icon="fas fa-minus" :size="size" />
     <v-tooltip activator="parent" location="bottom">Delete item</v-tooltip>
   </v-btn>
 </template>

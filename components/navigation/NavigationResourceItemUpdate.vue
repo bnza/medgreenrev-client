@@ -12,6 +12,10 @@ const props = defineProps({
       return 'id' in value && '_acl' in value
     },
   },
+  size: {
+    type: String,
+    default: 'xsmall',
+  },
 })
 
 const disabled = computed(() => {
@@ -32,7 +36,7 @@ const color = computed(() => {
     :to="`${resource.appPath}/${item.id}/update`"
     variant="text"
   >
-    <v-icon icon="fas fa-check" size="xsmall" />
+    <v-icon icon="fas fa-check" :size="size" />
     <v-tooltip activator="parent" location="bottom">Edit item</v-tooltip>
   </v-btn>
 </template>
