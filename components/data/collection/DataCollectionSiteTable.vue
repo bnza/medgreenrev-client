@@ -13,6 +13,7 @@ watch(error, (error) => {
 
 <template>
   <v-data-table-server
+    :items-per-page-options="ITEMS_PER_PAGE_OPTIONS"
     :items-per-page="paginationOptions.itemsPerPage"
     :headers="headers"
     :items-length="totalItems"
@@ -20,6 +21,7 @@ watch(error, (error) => {
     :page="paginationOptions.page"
     :loading="pending"
     :sort-by="paginationOptions.sortBy"
+    :fixed-header="true"
     density="compact"
     @update:options="Object.assign(paginationOptions, $event)"
   >

@@ -26,7 +26,7 @@ const { item, error, code } = await fetchItem(id)
       <lazy-data-item-site-form
         v-if="item"
         :item="item"
-        :mode="DATA_FORM_MODE.Read"
+        :mode="API_ACTIONS.Read"
       />
     </template>
   </app-data-card>

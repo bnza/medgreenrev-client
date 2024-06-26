@@ -2,7 +2,7 @@
 const { resourceConfig, getAction, itemLabel } = useResourceSite()
 const item = ref({})
 const invalid = ref(false)
-const mode = DATA_FORM_MODE.Create
+const mode = API_ACTIONS.Create
 
 const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
   mode,

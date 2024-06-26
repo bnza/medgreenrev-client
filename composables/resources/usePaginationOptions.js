@@ -17,6 +17,9 @@ export default function () {
   )
 
   const vuetifyPaginationOptionToQsObject = (componentPaginationOptions) => {
+    if (componentPaginationOptions.itemsPerPage === -1) {
+      delete componentPaginationOptions.itemsPerPage
+    }
     const paginationOptions = Object.assign(
       {},
       defaultPaginationOptions,

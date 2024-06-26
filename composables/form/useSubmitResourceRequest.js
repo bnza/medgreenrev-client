@@ -1,5 +1,3 @@
-import { DATA_FORM_MODE } from '~/lib/constants/enums.js'
-
 export default function (mode, getResourceActionFn, redirectBasePath) {
   const router = useRouter()
   const { show } = useAppSnackbarState()
@@ -74,9 +72,9 @@ export default function (mode, getResourceActionFn, redirectBasePath) {
     }
 
     const submitFns = {
-      [DATA_FORM_MODE.Create]: submitPost,
-      [DATA_FORM_MODE.Update]: submitPatch,
-      [DATA_FORM_MODE.Delete]: submitDelete,
+      [API_ACTIONS.Create]: submitPost,
+      [API_ACTIONS.Update]: submitPatch,
+      [API_ACTIONS.Delete]: submitDelete,
     }
 
     const _getSubmitFn = () => {

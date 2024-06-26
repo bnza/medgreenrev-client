@@ -11,7 +11,7 @@ const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)
 
-const mode = DATA_FORM_MODE.Update
+const mode = API_ACTIONS.Update
 const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
   mode,
   getAction,

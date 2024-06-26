@@ -1,5 +1,4 @@
 import usePaginationOptions from '~/composables/resources/usePaginationOptions.js'
-import { DATA_FORM_MODE } from '~/lib/constants/enums.js'
 function useResource(options) {
   const { resourceKey, defaultHeaders } = options
 
@@ -77,9 +76,9 @@ function useResource(options) {
   }
 
   const actions = {
-    [DATA_FORM_MODE.Update]: patchItem,
-    [DATA_FORM_MODE.Create]: postItem,
-    [DATA_FORM_MODE.Delete]: deleteItem,
+    [API_ACTIONS.Update]: patchItem,
+    [API_ACTIONS.Create]: postItem,
+    [API_ACTIONS.Delete]: deleteItem,
   }
 
   const getAction = (type) => {

@@ -5,7 +5,7 @@ const id = ref(routeParamIdToInt(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, getAction } = useResourceSite()
 const { item, error, code } = await fetchItem(id)
 
-const mode = DATA_FORM_MODE.Delete
+const mode = API_ACTIONS.Delete
 
 const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
   mode,
