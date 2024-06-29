@@ -1,13 +1,20 @@
-<script setup lang="ts">
+<script setup>
+import DeleteItemAlertRow from "~/components/DeleteItemAlertRow.vue";
+
+definePageMeta({
+  middleware: ['acl'],
+  voters: [ACL_VOTERS.HasRoleAdmin],
+})
+
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const { resourceConfig, fetchItem, itemLabel, getAction } = useResourceSite()
-const { item, error, code } = await fetchItem(id)
+const {resourceConfig, fetchItem, itemLabel, getAction} = useResourceSite()
+const {item, error, code} = await fetchItem(id)
 
 const mode = API_ACTIONS.Delete
 
-const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
+const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
   mode,
   getAction,
   resourceConfig.appPath,
@@ -29,7 +36,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
         :resource="resourceConfig"
         :item="item"
         :back="true"
-        size="large"
+        size="default"
       />
     </template>
     <template #toolbar-append>
@@ -43,7 +50,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
         :icon="true"
         @click="submit()"
       >
-        <v-icon icon="fas fa-arrow-up-from-bracket" />
+        <v-icon icon="fas fa-arrow-up-from-bracket"/>
         <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
       </v-btn>
     </template>
@@ -55,11 +62,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
         @validation-ready="setSubmitFn($event)"
       >
         <template #alert>
-          <v-alert
-            text="Select item will be delete. Are you sure tou want to proceed? This action cannot be undone."
-            title="Delete item?"
-            type="error"
-          />
+          <delete-item-alert-row/>
         </template>
       </lazy-data-item-site-form>
     </template>

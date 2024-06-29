@@ -1,5 +1,5 @@
 <script setup>
-const { toggle } = useAppNavigationDrawerVisibleState()
+const {toggle} = useAppNavigationDrawerVisibleState()
 </script>
 
 <template>
@@ -16,9 +16,9 @@ const { toggle } = useAppNavigationDrawerVisibleState()
       </v-tooltip>
     </template>
     <!--    <v-img class="mx-2" src="logowhite35.png" max-height="40" contain />-->
-    <slot name="center" />
+    <slot name="center"/>
     <template #append>
-      <auth-app-bar-icon />
+      <auth-app-bar-icon/>
     </template>
   </v-app-bar>
 </template>

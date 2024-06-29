@@ -1,6 +1,14 @@
-import usePaginationOptions from '~/composables/resources/usePaginationOptions.js'
+import usePaginationOptions
+  from '~/composables/resources/usePaginationOptions.js'
+import {updatedDiff} from "deep-object-diff";
+
 function useResource(options) {
-  const { resourceKey, defaultHeaders } = options
+
+  if (!options.normalizePatchItem) {
+    options.normalizePatchItem = (newItem, oldItem, diffItem) => diffItem
+  }
+
+  const {resourceKey, defaultHeaders, normalizePatchItem} = options
 
   if (!resourceKey) {
     throw new Error('Resource key is required!')
@@ -15,16 +23,16 @@ function useResource(options) {
 
   const resourceConfig = getResourceConfig(resourceKey)
 
-  const { isAuthenticated } = useAppAuth()
+  const {isAuthenticated} = useAppAuth()
 
   const headers = computed(() =>
     isAuthenticated.value
       ? defaultHeaders
       : defaultHeaders.filter((h) =>
-          typeof h.key === 'string' && protectedFields
-            ? !protectedFields.includes(h.key)
-            : false,
-        ),
+        typeof h.key === 'string' && protectedFields
+          ? !protectedFields.includes(h.key)
+          : false,
+      ),
   )
 
   /** @type string */
@@ -34,25 +42,25 @@ function useResource(options) {
 
   const repository = useNuxtApp().$api.getRepository(resourceKey)
 
-  const { paginationOptions, queryPaginationOptionsParams } =
+  const {paginationOptions, queryPaginationOptionsParams} =
     usePaginationOptions(resourceKey)
   const fetchCollection = async () => {
     const params = computed(() =>
       Object.assign({}, queryPaginationOptionsParams.value),
     )
-    const { data, pending, error } = await repository.fetchCollection(
+    const {data, pending, error} = await repository.fetchCollection(
       {
         params,
       },
-      { watch: [params] },
+      {watch: [params]},
     )
     const items = computed(() => data.value?.['hydra:member'])
     const totalItems = computed(() => data.value?.['hydra:totalItems'] || 0)
-    return { data, pending, error, items, totalItems, paginationOptions }
+    return {data, pending, error, items, totalItems, paginationOptions}
   }
 
   const fetchItem = async (id) => {
-    const { data, pending, error } = await repository.fetchItem(
+    const {data, pending, error} = await repository.fetchItem(
       id,
       {},
       {
@@ -60,11 +68,18 @@ function useResource(options) {
       },
     )
     const code = computed(() => resourceConfig.getCodeFn(data.value)())
-    return { item: data, pending, error, code }
+    return {item: data, pending, error, code}
   }
 
   const patchItem = (newItem, oldItem) => {
-    return repository.patchItem(unref(oldItem), unref(newItem))
+
+    const _getNormalizedPatchItem = (newItem, oldItem) => [newItem, oldItem, {...updatedDiff(unref(oldItem), unref(newItem))}]
+
+    const diffItem = normalizePatchItem(..._getNormalizedPatchItem(newItem, oldItem))
+    if (Object.keys(diffItem).length === 0) {
+      return Promise.resolve()
+    }
+    return repository.patchItem(oldItem.id, diffItem)
   }
 
   const postItem = (newItem) => {

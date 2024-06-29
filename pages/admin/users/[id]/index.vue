@@ -1,16 +1,21 @@
 <script setup lang="ts">
-definePageMeta({
-  auth: false,
-})
 
 const route = useRoute()
 
-const id = ref(routeParamIdToInt(route.params.id))
-const {resourceConfig, fetchItem, itemLabel} = useResourceSite()
+const id = ref(routeParamIdToString(route.params.id))
+const {resourceConfig, fetchItem, itemLabel} = useResourceUser()
 const {item, error, code} = await fetchItem(id)
+const {plainPassword, reset} = useUserPlainPasswordState()
+if (plainPassword.value) {
+  onUnmounted(() => {
+    reset()
+  })
+}
+
 </script>
 
 <template>
+  <lazy-show-user-password-dialog/>
   <app-data-card :title="itemLabel" :code="code">
     <template #toolbar-append>
       <navigation-resource-item-update
@@ -30,7 +35,7 @@ const {item, error, code} = await fetchItem(id)
       <navigation-resource-collection-list :path="resourceConfig.appPath"/>
     </template>
     <template #default>
-      <lazy-data-item-site-form
+      <lazy-data-item-user-form
         v-if="item"
         :item="item"
         :mode="API_ACTIONS.Read"

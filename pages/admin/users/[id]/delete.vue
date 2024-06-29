@@ -1,17 +1,15 @@
-<script setup>
-definePageMeta({
-  middleware: ['acl'],
-  voters: [ACL_VOTERS.HasRoleAdmin],
-})
+<script setup lang="ts">
+import DeleteItemAlert from "~/components/DeleteItemAlertRow.vue";
+import DeleteItemAlertRow from "~/components/DeleteItemAlertRow.vue";
+
 const route = useRoute()
 
-const id = ref(routeParamIdToInt(route.params.id))
-const {resourceConfig, fetchItem, itemLabel, getAction} = useResourceSite()
+const id = ref(routeParamIdToString(route.params.id))
+const {resourceConfig, fetchItem, itemLabel, getAction} = useResourceUser()
 const {item, error, code} = await fetchItem(id)
 
-const invalid = ref(false)
+const mode = API_ACTIONS.Delete
 
-const mode = API_ACTIONS.Update
 const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
   mode,
   getAction,
@@ -34,25 +32,28 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
       <v-btn
         v-if="item"
         class="mx-4"
-        :disabled="invalid || isSubmitPending"
+        :disabled="isSubmitPending"
         color="anchor"
         rounded="false"
         variant="text"
         :icon="true"
-        @click="submit(item)"
+        @click="submit()"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket"/>
-        <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
+        <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
       </v-btn>
     </template>
     <template #default>
-      <lazy-data-item-site-form
+      <lazy-data-item-user-form
         v-if="item"
         :item="item"
         :mode="mode"
-        @update:invalid="invalid = $event"
         @validation-ready="setSubmitFn($event)"
-      />
+      >
+        <template #alert>
+          <delete-item-alert-row/>
+        </template>
+      </lazy-data-item-user-form>
     </template>
   </app-data-card>
 </template>

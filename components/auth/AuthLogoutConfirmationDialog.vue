@@ -3,7 +3,16 @@ defineProps({
   isOpen: Boolean,
 })
 defineEmits(['update:isOpen'])
-const { signOut } = useAuth()
+const {show} = useAppSnackbarState()
+const {signOut} = useAuth()
+const signOutAndFeedBack = async () => {
+  await signOut({callbackUrl: '/'})
+  show({
+    color: 'success',
+    text: `User successfully logged out`,
+    timeout: 4000,
+  })
+}
 </script>
 
 <template>
@@ -13,11 +22,12 @@ const { signOut } = useAuth()
       <v-card-text> Are you sure you want to logout?</v-card-text>
       <v-card-actions>
         <v-btn color="anchor" @click="$emit('update:isOpen', false)"
-          >Cancel</v-btn
+        >Cancel
+        </v-btn
         >
-        <v-spacer />
-        <v-btn color="secondary" @click="signOut({ callbackUrl: '/' })"
-          >Logout
+        <v-spacer/>
+        <v-btn color="secondary" @click="signOutAndFeedBack()"
+        >Logout
         </v-btn>
       </v-card-actions>
     </v-card>

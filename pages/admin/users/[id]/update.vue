@@ -1,12 +1,7 @@
 <script setup>
-definePageMeta({
-  middleware: ['acl'],
-  voters: [ACL_VOTERS.HasRoleAdmin],
-})
 const route = useRoute()
-
-const id = ref(routeParamIdToInt(route.params.id))
-const {resourceConfig, fetchItem, itemLabel, getAction} = useResourceSite()
+const id = ref(routeParamIdToString(route.params.id))
+const {resourceConfig, fetchItem, itemLabel, getAction} = useResourceUser()
 const {item, error, code} = await fetchItem(id)
 
 const invalid = ref(false)
@@ -46,7 +41,7 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
       </v-btn>
     </template>
     <template #default>
-      <lazy-data-item-site-form
+      <lazy-data-item-user-form
         v-if="item"
         :item="item"
         :mode="mode"
@@ -56,3 +51,7 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
     </template>
   </app-data-card>
 </template>
+
+<style scoped>
+
+</style>

@@ -1,10 +1,11 @@
 import FetchFactory from '~/repository/fetchFactory.js'
-import { diff } from 'deep-object-diff'
+import {updatedDiff} from 'deep-object-diff'
 
 class FetchApiResourceFactory extends FetchFactory {
   constructor(fetcher) {
     super(fetcher)
   }
+
   /**
    * @abstract
    */
@@ -46,12 +47,8 @@ class FetchApiResourceFactory extends FetchFactory {
     )
   }
 
-  async patchItem(oldItem, newItem) {
-    const diffItem = { ...diff(oldItem, newItem) }
-    if (Object.keys(diffItem).length === 0) {
-      return Promise.resolve()
-    }
-    return this.$fetch(this.getItemUrl(oldItem.id), {
+  async patchItem(id, diffItem) {
+    return this.$fetch(this.getItemUrl(id), {
       method: 'PATCH',
       headers: {
         Accept: 'application/ld+json',

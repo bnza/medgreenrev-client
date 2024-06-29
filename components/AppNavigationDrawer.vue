@@ -1,7 +1,8 @@
 <script setup>
-const { visible } = useAppNavigationDrawerVisibleState()
+const {visible} = useAppNavigationDrawerVisibleState()
 
 const open = ref([])
+const {hasRoleAdmin} = useAppAuth()
 </script>
 
 <template>
@@ -19,7 +20,7 @@ const open = ref([])
         <template #activator="{ props }">
           <v-list-item
             v-bind="props"
-            prepend-icon="mdi-text-box"
+            prepend-icon="fas fa-table-list"
             title="Data"
             data-testid="app-nav-drawer-li-data"
           />
@@ -30,6 +31,23 @@ const open = ref([])
           router
           title="Site"
           data-testid="app-nav-drawer-li-sites"
+        />
+      </v-list-group>
+      <v-list-group v-if="hasRoleAdmin" value="Admin">
+        <template #activator="{ props }">
+          <v-list-item
+            v-bind="props"
+            prepend-icon="fas fa-screwdriver-wrench"
+            title="Admin"
+            data-testid="app-nav-drawer-li-admin"
+          />
+        </template>
+        <v-list-item
+          nuxt
+          to="/admin/users"
+          router
+          title="Users"
+          data-testid="app-nav-drawer-li-users"
         />
       </v-list-group>
     </v-list>

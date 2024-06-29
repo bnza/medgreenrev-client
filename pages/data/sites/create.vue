@@ -4,12 +4,12 @@ definePageMeta({
   voters: [ACL_VOTERS.HasRoleAdmin],
 })
 
-const { resourceConfig, getAction, itemLabel } = useResourceSite()
+const {resourceConfig, getAction, itemLabel} = useResourceSite()
 const item = ref({})
 const invalid = ref(false)
 const mode = API_ACTIONS.Create
 
-const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
+const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
   mode,
   getAction,
   resourceConfig.appPath,
@@ -19,7 +19,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
 <template>
   <app-data-card v :title="itemLabel" code="" :mode="mode">
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath" />
+      <navigation-resource-collection-list :path="resourceConfig.appPath"/>
     </template>
     <template #toolbar-append>
       <v-btn
@@ -32,7 +32,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
         :icon="true"
         @click="submit()"
       >
-        <v-icon icon="fas fa-arrow-up-from-bracket" />
+        <v-icon icon="fas fa-arrow-up-from-bracket"/>
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
@@ -41,6 +41,7 @@ const { submit, isSubmitPending, setSubmitFn } = useSubmitResourceRequest(
         v-if="item"
         :item="item"
         :mode="mode"
+        @update:invalid="invalid = $event"
         @validation-ready="setSubmitFn($event)"
       />
     </template>
