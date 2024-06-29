@@ -1,5 +1,4 @@
 import FetchFactory from '~/repository/fetchFactory.js'
-import {updatedDiff} from 'deep-object-diff'
 
 class FetchApiResourceFactory extends FetchFactory {
   constructor(fetcher) {

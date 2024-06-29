@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import DeleteItemAlert from "~/components/DeleteItemAlertRow.vue";
-import DeleteItemAlertRow from "~/components/DeleteItemAlertRow.vue";
+import DeleteItemAlertRow from '~/components/DeleteItemAlertRow.vue'
 
 const route = useRoute()
 
 const id = ref(routeParamIdToString(route.params.id))
-const {resourceConfig, fetchItem, itemLabel, getAction} = useResourceUser()
-const {item, error, code} = await fetchItem(id)
+const { resourceConfig, fetchItem, itemLabel, deleteItem } = useResourceUser()
+const { item, error, code } = await fetchItem(id)
 
+const triggerSubmit = ref(false)
 const mode = API_ACTIONS.Delete
 
-const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
+const { submit, isSubmitPending } = useSubmitResourceRequest(
   mode,
-  getAction,
+  deleteItem,
   resourceConfig.appPath,
 )
 </script>
@@ -37,9 +37,9 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
         rounded="false"
         variant="text"
         :icon="true"
-        @click="submit()"
+        @click="triggerSubmit = true"
       >
-        <v-icon icon="fas fa-arrow-up-from-bracket"/>
+        <v-icon icon="fas fa-arrow-up-from-bracket" />
         <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
       </v-btn>
     </template>
@@ -48,10 +48,12 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
         v-if="item"
         :item="item"
         :mode="mode"
-        @validation-ready="setSubmitFn($event)"
+        :trigger-submit="triggerSubmit"
+        @update:invalid="invalid = $event"
+        @submit-form="submit($event)"
       >
         <template #alert>
-          <delete-item-alert-row/>
+          <delete-item-alert-row />
         </template>
       </lazy-data-item-user-form>
     </template>

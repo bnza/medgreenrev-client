@@ -1,20 +1,10 @@
 import useVuelidate from '@vuelidate/core'
-import {
-  required,
-  maxLength,
-  minLength,
-  email,
-  helpers
-} from '@vuelidate/validators'
-import {FORM_REQUIRED_FIELD} from './messages'
-import {
-  useAsyncUniqueValidator
-} from '~/composables/validation/useAsyncUniqueValidator'
-import {
-  useEmitValidationInvalid
-} from '~/composables/validation/useEmitValidationInvalid'
+import { required, email, helpers } from '@vuelidate/validators'
+import { FORM_REQUIRED_FIELD } from './messages'
+import { useAsyncUniqueValidator } from '~/composables/validation/useAsyncUniqueValidator'
+import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
 
-export function useResourceUserValidation(item, emit) {
+export default function (item, emit) {
   const shallowItem = JSON.parse(JSON.stringify(item?.value))
   const state = reactive(shallowItem)
 
@@ -30,9 +20,5 @@ export function useResourceUserValidation(item, emit) {
 
   useEmitValidationInvalid(v$, emit)
 
-  onMounted(() => {
-    emit('validationReady', {state, v$})
-  })
-
-  return {state, v$}
+  return { state, v$ }
 }

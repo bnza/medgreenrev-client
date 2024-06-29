@@ -1,5 +1,4 @@
-import {STATE_USER_PLAIN_PASSWORD} from "~/lib/constants/stateKeys.js";
-import {generatePassword} from "~/lib/index.js";
+import { STATE_USER_PLAIN_PASSWORD } from '~/lib/constants/stateKeys.js'
 
 export const useUserPlainPasswordState = () => {
   const _plainPassword = useState(STATE_USER_PLAIN_PASSWORD, () => '')
@@ -12,8 +11,6 @@ export const useUserPlainPasswordState = () => {
     _plainPassword.value = ''
   }
 
-  const plainPassword = computed(
-    () => _plainPassword.value
-  )
-  return {plainPassword, set, reset}
+  const plainPassword = computed(() => _plainPassword.value)
+  return { plainPassword, set, reset }
 }

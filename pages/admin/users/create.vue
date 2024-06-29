@@ -1,25 +1,23 @@
 <script setup>
-
-import {generatePassword} from "~/lib/index.js";
-import {
-  useUserPlainPasswordState
-} from "~/composables/states/useUserPlainPasswordState.js";
+import { generatePassword } from '~/lib/index.js'
+import { useUserPlainPasswordState } from '~/composables/states/useUserPlainPasswordState.js'
 
 definePageMeta({
   middleware: ['acl'],
   voters: [ACL_VOTERS.HasRoleAdmin],
 })
 
-const {resourceConfig, getAction, itemLabel} = useResourceUser()
-const {set} = useUserPlainPasswordState()
+const { resourceConfig, postItem, itemLabel } = useResourceUser()
+const { set } = useUserPlainPasswordState()
 
-const item = ref({})
 const invalid = ref(false)
+const item = ref({})
+const triggerSubmit = ref(false)
 const mode = API_ACTIONS.Create
 
-const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
+const { submit, isSubmitPending } = useSubmitResourceRequest(
   mode,
-  getAction,
+  postItem,
   resourceConfig.appPath,
 )
 
@@ -28,11 +26,11 @@ onMounted(() => {
   plainPassword.value = generatePassword(10)
   item.value = {
     plainPassword,
-    roles: ['ROLE_USER']
+    roles: ['ROLE_USER'],
   }
 })
-const submitAndFeedBack = async () => {
-  await submit.value()
+const submitAndFeedBack = async (state) => {
+  await submit.value(state)
   set(plainPassword.value)
 }
 </script>
@@ -40,7 +38,7 @@ const submitAndFeedBack = async () => {
 <template>
   <app-data-card v :title="itemLabel" code="" :mode="mode">
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath"/>
+      <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
     <template #toolbar-append>
       <v-btn
@@ -51,9 +49,9 @@ const submitAndFeedBack = async () => {
         rounded="false"
         variant="text"
         :icon="true"
-        @click="submitAndFeedBack()"
+        @click="triggerSubmit = true"
       >
-        <v-icon icon="fas fa-arrow-up-from-bracket"/>
+        <v-icon icon="fas fa-arrow-up-from-bracket" />
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
@@ -62,8 +60,9 @@ const submitAndFeedBack = async () => {
         v-if="Object.keys(item).length > 0"
         :item="item"
         :mode="mode"
+        :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @validation-ready="setSubmitFn($event)"
+        @submit-form="submitAndFeedBack($event)"
       />
     </template>
   </app-data-card>

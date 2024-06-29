@@ -6,15 +6,18 @@ definePageMeta({
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const {resourceConfig, fetchItem, itemLabel, getAction} = useResourceSite()
-const {item, error, code} = await fetchItem(id)
+const { resourceConfig, fetchItem, itemLabel, patchItem } = useResourceSite()
+const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)
 
+const triggerSubmit = ref(false)
+
 const mode = API_ACTIONS.Update
-const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
+
+const { submit, isSubmitPending } = useSubmitResourceRequest(
   mode,
-  getAction,
+  patchItem,
   resourceConfig.appPath,
 )
 </script>
@@ -39,9 +42,9 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
         rounded="false"
         variant="text"
         :icon="true"
-        @click="submit(item)"
+        @click="triggerSubmit = true"
       >
-        <v-icon icon="fas fa-arrow-up-from-bracket"/>
+        <v-icon icon="fas fa-arrow-up-from-bracket" />
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
@@ -50,8 +53,9 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
         v-if="item"
         :item="item"
         :mode="mode"
+        :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @validation-ready="setSubmitFn($event)"
+        @submit-form="submit($event, item)"
       />
     </template>
   </app-data-card>

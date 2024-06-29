@@ -1,32 +1,36 @@
 <script setup>
-import {dataFormModeProp, dataFormItemProp} from '~/lib/props.js'
-import {
-  useResourceSiteValidation
-} from '~/composables/validation/useResourceSiteValidation.js'
+import { dataFormModeProp, dataFormItemProp } from '~/lib/props.js'
+// import { useResourceSiteValidation } from '~/composables/validation/useResourceSiteValidation.js'
+import useSubmitForm from '~/composables/form/useSubmitForm.js'
 
 const props = defineProps({
+  triggerSubmit: Boolean,
   mode: dataFormModeProp,
   item: dataFormItemProp,
 })
 
-const {readonly} = useDataForm({
+const { readonly } = useDataForm({
   type: props.mode,
 })
 
-const {isAuthenticated} = useAppAuth()
+const { isAuthenticated } = useAppAuth()
 
-const {item} = toRefs(props)
-const _emitUpdateInvalid = defineEmits(['update:invalid', 'validationReady'])
-const {state, v$} = useResourceSiteValidation(item, _emitUpdateInvalid)
+const emit = defineEmits([
+  'update:invalid',
+  'validationReady',
+  'update:triggerSubmit',
+  'submitForm',
+])
+const { state, v$ } = await useSubmitForm('sites', props, emit)
 </script>
 
 <template>
   <v-form :readonly="readonly" @submit.prevent>
     <v-container>
-      <slot name="alert"/>
+      <slot name="alert" />
       <v-row v-if="isAuthenticated" no-gutters justify="end">
         <v-col cols="12" sm="3" class="px-2">
-          <v-checkbox label="public" v-model="state.public"/>
+          <v-checkbox label="public" v-model="state.public" />
         </v-col>
       </v-row>
       <v-row no-gutters>

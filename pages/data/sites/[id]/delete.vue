@@ -1,5 +1,5 @@
 <script setup>
-import DeleteItemAlertRow from "~/components/DeleteItemAlertRow.vue";
+import DeleteItemAlertRow from '~/components/DeleteItemAlertRow.vue'
 
 definePageMeta({
   middleware: ['acl'],
@@ -9,27 +9,24 @@ definePageMeta({
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const {resourceConfig, fetchItem, itemLabel, getAction} = useResourceSite()
-const {item, error, code} = await fetchItem(id)
+const { resourceConfig, fetchItem, itemLabel, deleteItem } = useResourceSite()
+const { item, error, code } = await fetchItem(id)
+
+const invalid = ref(false)
+
+const triggerSubmit = ref(false)
 
 const mode = API_ACTIONS.Delete
 
-const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
+const { submit, isSubmitPending } = useSubmitResourceRequest(
   mode,
-  getAction,
+  deleteItem,
   resourceConfig.appPath,
 )
 </script>
 
 <template>
-  <div v-if="error">
-    <!--    <lazy-fetch-error-alert-->
-    <!--      :error="error"-->
-    <!--      :navigate-to="resourceConfig.appPath"-->
-    <!--      :close-tooltip-text="`Back to ${itemLabel} list`"-->
-    <!--    />-->
-  </div>
-  <app-data-card v-else :title="itemLabel" :code="code" :mode="mode">
+  <app-data-card :title="itemLabel" :code="code" :mode="mode">
     <template #toolbar-prepend>
       <navigation-resource-item-read
         class="ml-3"
@@ -48,9 +45,9 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
         rounded="false"
         variant="text"
         :icon="true"
-        @click="submit()"
+        @click="triggerSubmit = true"
       >
-        <v-icon icon="fas fa-arrow-up-from-bracket"/>
+        <v-icon icon="fas fa-arrow-up-from-bracket" />
         <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
       </v-btn>
     </template>
@@ -59,10 +56,12 @@ const {submit, isSubmitPending, setSubmitFn} = useSubmitResourceRequest(
         v-if="item"
         :item="item"
         :mode="mode"
-        @validation-ready="setSubmitFn($event)"
+        :trigger-submit="triggerSubmit"
+        @update:invalid="invalid = $event"
+        @submit-form="submit($event, item)"
       >
         <template #alert>
-          <delete-item-alert-row/>
+          <delete-item-alert-row />
         </template>
       </lazy-data-item-site-form>
     </template>

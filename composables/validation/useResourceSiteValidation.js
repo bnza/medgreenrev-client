@@ -4,7 +4,7 @@ import { FORM_REQUIRED_FIELD } from './messages'
 import { useAsyncUniqueValidator } from '~/composables/validation/useAsyncUniqueValidator'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
 
-export function useResourceSiteValidation(item, emit) {
+export default function (item, emit) {
   const shallowItem = JSON.parse(JSON.stringify(item?.value))
   const state = reactive(shallowItem)
 
@@ -23,10 +23,6 @@ export function useResourceSiteValidation(item, emit) {
   const v$ = useVuelidate(rules, state)
 
   useEmitValidationInvalid(v$, emit)
-
-  onMounted(() => {
-    emit('validationReady', { state, v$ })
-  })
 
   return { state, v$ }
 }
