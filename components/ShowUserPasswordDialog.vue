@@ -1,7 +1,26 @@
 <script setup>
-const {plainPassword, reset} = useUserPlainPasswordState()
+const { plainPassword, reset } = useUserPlainPasswordState()
+const { show } = useAppSnackbarState()
 const isOpen = computed(() => !!plainPassword.value)
 
+function copyToClipboard() {
+  navigator.clipboard
+    .writeText(unref(plainPassword))
+    .then(() => {
+      show({
+        color: 'success',
+        text: `Copied!`,
+        timeout: 3000,
+      })
+    })
+    .catch((error) => {
+      show({
+        color: 'error',
+        text: `Your browser doesn't support copy to clipboard command. Please do it manually. ${error.message}`,
+        timeout: -1,
+      })
+    })
+}
 </script>
 
 <template>
@@ -12,11 +31,11 @@ const isOpen = computed(() => !!plainPassword.value)
           <v-row class="mx-4 pt-4" justify="center">
             <v-col cols="12" sm="8">
               <div class="text-center">
-                <div id="resetPassword"
-                     class="text-secondary border pa-4 font-weight-bold"
-                >{{
-                    plainPassword
-                  }}
+                <div
+                  id="resetPassword"
+                  class="text-secondary border pa-4 font-weight-bold"
+                >
+                  {{ plainPassword }}
                 </div>
               </div>
             </v-col>
@@ -28,10 +47,27 @@ const isOpen = computed(() => !!plainPassword.value)
         </v-container>
       </v-card-text>
       <v-card-actions>
-        <v-spacer/>
-        <v-btn color="anchor" @click="reset()"
-        >Close
-        </v-btn>
+        <v-tooltip location="bottom" text="Close">
+          <template #activator="{ props }">
+            <v-btn
+              color="anchor"
+              @click="reset()"
+              icon="fas fa-xmark"
+              v-bind="props"
+            />
+          </template>
+        </v-tooltip>
+        <v-spacer />
+        <v-tooltip location="bottom" text="Copy password">
+          <template #activator="{ props }">
+            <v-btn
+              color="secondary"
+              @click="copyToClipboard()"
+              icon="far fa-copy"
+              v-bind="props"
+            />
+          </template>
+        </v-tooltip>
       </v-card-actions>
     </v-card>
   </v-dialog>
