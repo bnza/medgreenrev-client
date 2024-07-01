@@ -1,21 +1,12 @@
 <script setup lang="ts">
-
 const route = useRoute()
 
 const id = ref(routeParamIdToString(route.params.id))
-const {resourceConfig, fetchItem, itemLabel} = useResourceUser()
-const {item, error, code} = await fetchItem(id)
-const {plainPassword, reset} = useUserPlainPasswordState()
-if (plainPassword.value) {
-  onUnmounted(() => {
-    reset()
-  })
-}
-
+const { resourceConfig, fetchItem, itemLabel } = useResourceUser()
+const { item, code } = await fetchItem(id)
 </script>
 
 <template>
-  <lazy-show-user-password-dialog/>
   <app-data-card :title="itemLabel" :code="code">
     <template #toolbar-append>
       <navigation-resource-item-update
@@ -32,7 +23,7 @@ if (plainPassword.value) {
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath"/>
+      <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
     <template #default>
       <lazy-data-item-user-form

@@ -1,5 +1,5 @@
 import usePaginationOptions from '~/composables/resources/usePaginationOptions.js'
-import { updatedDiff } from 'deep-object-diff'
+import { diff } from 'deep-object-diff'
 
 function useResource(options) {
   if (!options.normalizePatchItem) {
@@ -75,10 +75,11 @@ function useResource(options) {
   }
 
   const patchItem = (newItem, oldItem) => {
+    // console.log(diff(unref(oldItem), unref(newItem)))
     const getNormalizePatchItemParams = (newItem, oldItem) => [
       newItem,
       oldItem,
-      { ...updatedDiff(unref(oldItem), unref(newItem)) },
+      { ...diff(unref(oldItem), unref(newItem)) },
     ]
 
     const diffItem = formatJsonLdItem(

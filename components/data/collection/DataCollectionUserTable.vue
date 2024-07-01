@@ -1,11 +1,20 @@
 <script setup>
+import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog.js'
 
-const {fetchCollection, headers, resourceConfig} = useResourceUser()
-const {pending, error, paginationOptions, totalItems, items} =
+const { fetchCollection, headers, resourceConfig, patchItem } =
+  useResourceUser()
+const { pending, error, paginationOptions, totalItems, items } =
   await fetchCollection()
+
+const { resetPasswordUserItem, resetPassword } = useUserPasswordDialog()
 </script>
 
 <template>
+  <lazy-show-user-password-dialog
+    :item="resetPasswordUserItem"
+    @close="resetPasswordUserItem = {}"
+    @reset-password="resetPassword(patchItem, resetPasswordUserItem)"
+  />
   <v-data-table-server
     :items-per-page-options="ITEMS_PER_PAGE_OPTIONS"
     :items-per-page="paginationOptions.itemsPerPage"
@@ -20,11 +29,17 @@ const {pending, error, paginationOptions, totalItems, items} =
     @update:options="Object.assign(paginationOptions, $event)"
   >
     <template #[`item.id`]="{ item }">
-      <navigation-resource-item :resource="resourceConfig" :item="item"/>
+      <navigation-resource-item :resource="resourceConfig" :item="item">
+        <template #prepend>
+          <lazy-navigation-user-reset-password
+            :item="item"
+            @reset-password="resetPasswordUserItem = item"
+          />
+        </template>
+      </navigation-resource-item>
     </template>
     <template #[`item.roles`]="{ item }">
       {{ reduceAppRoles(item.roles) }}
     </template>
-
   </v-data-table-server>
 </template>
