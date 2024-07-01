@@ -6,7 +6,12 @@ function useResource(options) {
     options.normalizePatchItem = (newItem, oldItem, diffItem) => diffItem
   }
 
-  const { resourceKey, defaultHeaders, normalizePatchItem } = options
+  if (!options.formatJsonLdItem) {
+    options.formatJsonLdItem = (item) => item
+  }
+
+  const { resourceKey, defaultHeaders, normalizePatchItem, formatJsonLdItem } =
+    options
 
   if (!resourceKey) {
     throw new Error('Resource key is required!')
@@ -70,41 +75,59 @@ function useResource(options) {
   }
 
   const patchItem = (newItem, oldItem) => {
-    const _getNormalizedPatchItem = (newItem, oldItem) => [
+    const getNormalizePatchItemParams = (newItem, oldItem) => [
       newItem,
       oldItem,
       { ...updatedDiff(unref(oldItem), unref(newItem)) },
     ]
 
-    const diffItem = normalizePatchItem(
-      ..._getNormalizedPatchItem(newItem, oldItem),
+    const diffItem = formatJsonLdItem(
+      normalizePatchItem(...getNormalizePatchItemParams(newItem, oldItem)),
     )
+
     if (Object.keys(diffItem).length === 0) {
       return Promise.resolve()
     }
-    return repository.patchItem(oldItem.id, diffItem)
+    return repository.patchItem(oldItem.id, diffItem).then((response) => {
+      return {
+        response,
+        redirectPath: `${resourceConfig.appPath}/${oldItem.id}`,
+      }
+    })
   }
 
   const postItem = (newItem) => {
-    return repository.postItem(unref(newItem))
+    return repository
+      .postItem(formatJsonLdItem(unref(newItem)))
+      .then((response) => {
+        return {
+          response,
+          redirectPath: `${resourceConfig.appPath}/${response.id}`,
+        }
+      })
   }
 
   const deleteItem = (newItem) => {
-    return repository.deleteItem(unref(newItem))
+    return repository.deleteItem(unref(newItem)).then((response) => {
+      return {
+        response,
+        redirectPath: `${resourceConfig.appPath}`,
+      }
+    })
   }
 
-  const actions = {
-    [API_ACTIONS.Update]: patchItem,
-    [API_ACTIONS.Create]: postItem,
-    [API_ACTIONS.Delete]: deleteItem,
-  }
-
-  const getAction = (type) => {
-    if ((!type) in actions) {
-      throw new Error(`Unsupported action "${type}"`)
-    }
-    return actions[type]
-  }
+  // const actions = {
+  //   [API_ACTIONS.Update]: patchItem,
+  //   [API_ACTIONS.Create]: postItem,
+  //   [API_ACTIONS.Delete]: deleteItem,
+  // }
+  //
+  // const getAction = (type) => {
+  //   if ((!type) in actions) {
+  //     throw new Error(`Unsupported action "${type}"`)
+  //   }
+  //   return actions[type]
+  // }
 
   return {
     collectionLabel,
@@ -116,7 +139,7 @@ function useResource(options) {
     patchItem,
     postItem,
     deleteItem,
-    getAction,
+    // getAction,
   }
 }
 

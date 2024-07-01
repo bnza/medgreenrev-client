@@ -15,11 +15,7 @@ const item = ref({})
 const triggerSubmit = ref(false)
 const mode = API_ACTIONS.Create
 
-const { submit, isSubmitPending } = useSubmitResourceRequest(
-  mode,
-  postItem,
-  resourceConfig.appPath,
-)
+const { submit, isSubmitPending } = useSubmitResourceRequest(mode, postItem)
 
 const plainPassword = ref('')
 onMounted(() => {
@@ -30,7 +26,7 @@ onMounted(() => {
   }
 })
 const submitAndFeedBack = async (state) => {
-  await submit.value(state)
+  await submit(state)
   set(plainPassword.value)
 }
 </script>
@@ -55,7 +51,7 @@ const submitAndFeedBack = async (state) => {
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
-    <template #default>
+    <template #default v-if="!isSubmitPending">
       <lazy-data-item-user-form
         v-if="Object.keys(item).length > 0"
         :item="item"

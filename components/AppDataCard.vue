@@ -14,6 +14,10 @@ const props = defineProps({
     type: String,
     default: API_ACTIONS.Read,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
@@ -25,6 +29,7 @@ const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
       data-testid="app-data-card-toolbar"
       density="compact"
       :color="color"
+      :loading="loading"
     >
       <template #prepend>
         <slot name="toolbar-prepend" />
@@ -45,6 +50,10 @@ const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
         <slot name="toolbar-append" />
       </template>
     </v-toolbar>
-    <slot data-testid="app-data-card-table" />
+    <slot data-testid="app-data-card-table">
+      <div class="d-flex align-center justify-center" style="min-height: 400px">
+        <v-progress-circular indeterminate :size="128" :width="12" />
+      </div>
+    </slot>
   </v-card>
 </template>

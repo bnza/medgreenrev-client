@@ -7,14 +7,11 @@ const id = ref(routeParamIdToString(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, deleteItem } = useResourceUser()
 const { item, error, code } = await fetchItem(id)
 
+const invalid = ref(false)
 const triggerSubmit = ref(false)
 const mode = API_ACTIONS.Delete
 
-const { submit, isSubmitPending } = useSubmitResourceRequest(
-  mode,
-  deleteItem,
-  resourceConfig.appPath,
-)
+const { submit, isSubmitPending } = useSubmitResourceRequest(mode, deleteItem)
 </script>
 
 <template>
@@ -43,7 +40,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(
         <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
       </v-btn>
     </template>
-    <template #default>
+    <template #default v-if="!isSubmitPending">
       <lazy-data-item-user-form
         v-if="item"
         :item="item"

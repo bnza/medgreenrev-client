@@ -10,11 +10,7 @@ const item = ref({})
 const triggerSubmit = ref(false)
 const mode = API_ACTIONS.Create
 
-const { submit, isSubmitPending } = useSubmitResourceRequest(
-  mode,
-  postItem,
-  resourceConfig.appPath,
-)
+const { submit, isSubmitPending } = useSubmitResourceRequest(mode, postItem)
 </script>
 
 <template>
@@ -37,7 +33,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
-    <template #default>
+    <template #default v-if="!isSubmitPending">
       <lazy-data-item-site-form
         v-if="item"
         :item="item"

@@ -7,7 +7,7 @@ const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, patchItem } = useResourceSite()
-const { item, error, code } = await fetchItem(id)
+const { item, pending, code } = await fetchItem(id)
 
 const invalid = ref(false)
 
@@ -15,15 +15,16 @@ const triggerSubmit = ref(false)
 
 const mode = API_ACTIONS.Update
 
-const { submit, isSubmitPending } = useSubmitResourceRequest(
-  mode,
-  patchItem,
-  resourceConfig.appPath,
-)
+const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
 </script>
 
 <template>
-  <app-data-card :title="itemLabel" :code="code" :mode="mode">
+  <app-data-card
+    :title="itemLabel"
+    :code="code"
+    :mode="mode"
+    :loading="pending || isSubmitPending"
+  >
     <template #toolbar-prepend>
       <navigation-resource-item-read
         class="ml-3"
@@ -48,7 +49,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
-    <template #default>
+    <template #default v-if="!isSubmitPending">
       <lazy-data-item-site-form
         v-if="item"
         :item="item"
