@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ResourceNotFound from '~/components/ResourceNotFound.vue'
+
 const route = useRoute()
 
 const id = ref(routeParamIdToString(route.params.id))
@@ -7,7 +9,12 @@ const { item, code } = await fetchItem(id)
 </script>
 
 <template>
-  <app-data-card :title="itemLabel" :code="code">
+  <resource-not-found
+    v-if="error"
+    :path="resourceConfig.appPath"
+    :error="error"
+  />
+  <app-data-card v-if="item" :title="itemLabel" :code="code">
     <template #toolbar-append>
       <navigation-resource-item-update
         class="mr-4"

@@ -6,12 +6,17 @@ definePageMeta({
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const {resourceConfig, fetchItem, itemLabel} = useResourceSite()
-const {item, error, code} = await fetchItem(id)
+const { resourceConfig, fetchItem, itemLabel } = useResourceSite()
+const { item, error, code } = await fetchItem(id)
 </script>
 
 <template>
-  <app-data-card :title="itemLabel" :code="code">
+  <resource-not-found
+    v-if="error"
+    :path="resourceConfig.appPath"
+    :error="error"
+  />
+  <app-data-card v-if="item" :title="itemLabel" :code="code">
     <template #toolbar-append>
       <navigation-resource-item-update
         class="mr-4"
@@ -27,7 +32,7 @@ const {item, error, code} = await fetchItem(id)
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath"/>
+      <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
     <template #default>
       <lazy-data-item-site-form

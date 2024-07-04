@@ -40,7 +40,7 @@ const signInAndFeedback = async ({ email, password }) => {
 
 <template>
   <v-dialog :model-value="true" width="400px" :persistent="true">
-    <v-card variant="flat">
+    <v-card variant="flat" data-testid="login-data-card">
       <v-progress-linear
         color="primary"
         :active="isLoading"

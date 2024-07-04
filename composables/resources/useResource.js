@@ -39,9 +39,9 @@ function useResource(options) {
   )
 
   /** @type string */
-  const itemLabel = resourceConfig.labels[1]
+  const itemLabel = resourceConfig.labels[0]
   /** @type string */
-  const collectionLabel = resourceConfig.labels[0]
+  const collectionLabel = resourceConfig.labels[1]
 
   const repository = useNuxtApp().$api.getRepository(resourceKey)
 

@@ -1,4 +1,6 @@
 <script setup>
+import ResourceNotFound from '~/components/ResourceNotFound.vue'
+
 const route = useRoute()
 const id = ref(routeParamIdToString(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, patchItem } = useResourceUser()
@@ -13,7 +15,12 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
 </script>
 
 <template>
-  <app-data-card :title="itemLabel" :code="code" :mode="mode">
+  <resource-not-found
+    v-if="error"
+    :path="resourceConfig.appPath"
+    :error="error"
+  />
+  <app-data-card v-if="item" :title="itemLabel" :code="code" :mode="mode">
     <template #toolbar-prepend>
       <navigation-resource-item-read
         class="ml-3"

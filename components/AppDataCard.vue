@@ -50,7 +50,7 @@ const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
         <slot name="toolbar-append" />
       </template>
     </v-toolbar>
-    <slot data-testid="app-data-card-table">
+    <slot>
       <div class="d-flex align-center justify-center" style="min-height: 400px">
         <v-progress-circular indeterminate :size="128" :width="12" />
       </div>

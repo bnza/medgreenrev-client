@@ -11,10 +11,10 @@ const props = defineProps({
     default: 'xsmall',
   },
 })
-
+const { userIdentifier } = useAppAuth()
 const { size } = toRefs(props)
 const disabled = computed(() => {
-  return false
+  return userIdentifier.value === props.item.email
 })
 const emit = defineEmits(['resetPassword'])
 </script>

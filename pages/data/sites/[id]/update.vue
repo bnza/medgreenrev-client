@@ -1,4 +1,6 @@
 <script setup>
+import ResourceNotFound from '~/components/ResourceNotFound.vue'
+
 definePageMeta({
   middleware: ['acl'],
   voters: [ACL_VOTERS.HasRoleAdmin],
@@ -7,7 +9,7 @@ const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, patchItem } = useResourceSite()
-const { item, pending, code } = await fetchItem(id)
+const { item, pending, code, error } = await fetchItem(id)
 
 const invalid = ref(false)
 
@@ -19,7 +21,13 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
 </script>
 
 <template>
+  <resource-not-found
+    v-if="error"
+    :path="resourceConfig.appPath"
+    :error="error"
+  />
   <app-data-card
+    v-if="item"
     :title="itemLabel"
     :code="code"
     :mode="mode"

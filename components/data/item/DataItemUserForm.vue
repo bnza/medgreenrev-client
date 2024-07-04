@@ -31,7 +31,8 @@ const role = computed({
   },
 })
 
-const { resetPasswordUserItem, plainPassword } = useUserPasswordDialog()
+const { isResetPasswordDialogOpen, resetPasswordUserItem, plainPassword } =
+  useUserPasswordDialog()
 if (props.mode === API_ACTIONS.Read && plainPassword.value) {
   resetPasswordUserItem.value = state
 }
@@ -40,10 +41,11 @@ if (props.mode === API_ACTIONS.Read && plainPassword.value) {
 <template>
   <lazy-show-user-password-dialog
     v-if="props.mode === API_ACTIONS.Read"
-    :item="resetPasswordUserItem"
-    @close="resetPasswordUserItem = {}"
+    :item="item"
+    :is-open="isResetPasswordDialogOpen"
+    @close="isResetPasswordDialogOpen = false"
   />
-  <v-form :readonly="readonly" @submit.prevent>
+  <v-form :readonly="readonly" @submit.prevent data-testid="app-data-form">
     <v-container>
       <slot name="alert" />
       <v-row no-gutters>

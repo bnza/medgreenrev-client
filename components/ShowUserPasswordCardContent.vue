@@ -20,6 +20,8 @@ function copyToClipboard() {
       })
     })
 }
+
+const emit = defineEmits(['close'])
 </script>
 
 <template>
@@ -48,7 +50,7 @@ function copyToClipboard() {
       <template #activator="{ props }">
         <v-btn
           color="anchor"
-          @click="reset()"
+          @click="emit('close')"
           icon="fas fa-xmark"
           v-bind="props"
         />

@@ -1,3 +1,4 @@
+// @TODO handle concurrent messages
 export const useAppSnackbarState = () => {
   const _default = {
     visible: false,

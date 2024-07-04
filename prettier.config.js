@@ -1,5 +1,7 @@
 /** @type {import("prettier").Config} */
-export default {
+const config = {
   semi: false,
   singleQuote: true,
 }
+
+export default config

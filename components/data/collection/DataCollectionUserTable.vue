@@ -6,13 +6,19 @@ const { fetchCollection, headers, resourceConfig, patchItem } =
 const { pending, error, paginationOptions, totalItems, items } =
   await fetchCollection()
 
-const { resetPasswordUserItem, resetPassword } = useUserPasswordDialog()
+const {
+  openResetPasswordDialog,
+  isResetPasswordDialogOpen,
+  resetPasswordUserItem,
+  resetPassword,
+} = useUserPasswordDialog()
 </script>
 
 <template>
   <lazy-show-user-password-dialog
     :item="resetPasswordUserItem"
-    @close="resetPasswordUserItem = {}"
+    :is-open="isResetPasswordDialogOpen"
+    @close="isResetPasswordDialogOpen = false"
     @reset-password="resetPassword(patchItem, resetPasswordUserItem)"
   />
   <v-data-table-server
@@ -33,7 +39,7 @@ const { resetPasswordUserItem, resetPassword } = useUserPasswordDialog()
         <template #prepend>
           <lazy-navigation-user-reset-password
             :item="item"
-            @reset-password="resetPasswordUserItem = item"
+            @reset-password="openResetPasswordDialog(item)"
           />
         </template>
       </navigation-resource-item>
