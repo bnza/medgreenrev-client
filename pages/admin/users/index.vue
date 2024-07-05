@@ -8,12 +8,11 @@ const { pending, error, paginationOptions, totalItems, items } =
 
 const {
   plainPassword,
-  pending: resetPasswordPending,
+  isResetPasswordPending,
   openResetPasswordDialog,
   isResetPasswordDialogVisible,
   resetPasswordUserItem,
   resetPassword,
-  resetState,
 } = useUserPasswordDialog()
 </script>
 
@@ -24,14 +23,11 @@ const {
   >
     <lazy-user-password-reset-card-content
       v-if="isResetPasswordDialogVisible"
-      :pending="resetPasswordPending"
-      @reset-password="resetPassword(patchItem, resetPasswordUserItem)"
+      :pending="isResetPasswordPending"
+      @reset-password="resetPassword(patchItem)"
       @close="isResetPasswordDialogVisible = false"
     />
-    <lazy-user-password-show-card-content
-      v-else-if="plainPassword"
-      @close="resetState()"
-    />
+    <lazy-user-password-show-card-content v-else-if="plainPassword" />
   </lazy-user-password-dialog>
   <app-data-card :title="collectionLabel">
     <template #toolbar-append>

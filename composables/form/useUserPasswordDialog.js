@@ -1,16 +1,22 @@
 export default function () {
-  const { set, plainPassword, reset } = useUserPlainPasswordState()
+  const { set, plainPassword, clear } = useUserPlainPasswordState()
   const { show } = useAppSnackbarState()
-  const resetPasswordUserItem = ref({})
+  const userItem = ref({})
   const pending = ref(false)
 
   const isResetPasswordDialogVisible = ref(false)
 
-  const resetPassword = async (patchItem, oldItem) => {
+  const resetPassword = async (patchItem) => {
     const newPlainPassword = generatePassword()
     pending.value = true
     try {
-      await patchItem({ ...oldItem, plainPassword: newPlainPassword }, oldItem)
+      await patchItem(
+        {
+          ...userItem.value,
+          plainPassword: newPlainPassword,
+        },
+        userItem.value,
+      )
     } catch (e) {
       show({
         color: 'error',
@@ -25,18 +31,18 @@ export default function () {
   }
 
   const openResetPasswordDialog = (item) => {
-    resetPasswordUserItem.value = Object.assign({}, item || {})
+    userItem.value = Object.assign({}, item || {})
     isResetPasswordDialogVisible.value = true
   }
 
   return {
-    pending,
+    isResetPasswordPending: pending,
     isResetPasswordDialogVisible,
     openResetPasswordDialog,
-    setState: set,
+    setPlainPassword: set,
     plainPassword,
-    resetState: reset,
-    resetPasswordUserItem,
+    clearPlainPassword: clear,
+    resetPasswordUserItem: userItem,
     resetPassword,
   }
 }

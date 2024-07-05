@@ -5,10 +5,10 @@ export const useUserPlainPasswordState = () => {
     _plainPassword.value = password
   }
 
-  function reset() {
+  function clear() {
     _plainPassword.value = ''
   }
 
   const plainPassword = computed(() => _plainPassword.value)
-  return { plainPassword, set, reset }
+  return { plainPassword, set, clear }
 }

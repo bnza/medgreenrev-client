@@ -1,5 +1,5 @@
 <script setup>
-const { plainPassword } = useUserPlainPasswordState()
+const { plainPassword, clear } = useUserPlainPasswordState()
 const { show } = useAppSnackbarState()
 
 function copyToClipboard() {
@@ -31,7 +31,7 @@ const emit = defineEmits(['close'])
         <v-col cols="12" sm="8">
           <div class="text-center">
             <div
-              id="resetPassword"
+              id="plainPassword"
               class="text-secondary border pa-4 font-weight-bold"
             >
               {{ plainPassword }}
@@ -50,7 +50,7 @@ const emit = defineEmits(['close'])
       <template #activator="{ props }">
         <v-btn
           color="anchor"
-          @click="emit('close')"
+          @click="clear()"
           icon="fas fa-xmark"
           v-bind="props"
         />
