@@ -2,9 +2,10 @@
 definePageMeta({
   auth: false,
 })
-const {hasRoleAdmin} = useAppAuth()
-const {resourceConfig, collectionLabel} = useResourceSite()
-const error = ref(null)
+const { hasRoleAdmin } = useAppAuth()
+const { fetchCollection, resourceConfig, collectionLabel } = useResourceSite()
+const { pending, error, paginationOptions, totalItems, items } =
+  await fetchCollection()
 </script>
 
 <template>
@@ -16,7 +17,19 @@ const error = ref(null)
       />
     </template>
     <template #default>
-      <lazy-data-collection-site-table @error="error = $event"/>
+      <resource-not-found
+        v-if="error"
+        path="/"
+        :error="error"
+        tooltip-text="Back to home"
+      />
+      <lazy-data-collection-site-table
+        v-else-if="items"
+        :pending
+        :paginationOptions
+        :totalItems
+        :items
+      />
     </template>
   </app-data-card>
 </template>

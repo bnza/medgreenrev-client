@@ -1,10 +1,11 @@
 <script setup>
 import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog.js'
 
-const { fetchCollection, headers, resourceConfig, patchItem } =
-  useResourceUser()
-const { pending, error, paginationOptions, totalItems, items } =
-  await fetchCollection()
+const tableProps = defineProps(resourceDataTableProps)
+const { items, pending, totalItems } = toRefs(tableProps)
+const paginationOptions = defineModel('paginationOptions')
+
+const { headers, resourceConfig, patchItem } = useResourceUser()
 
 const {
   openResetPasswordDialog,

@@ -8,6 +8,9 @@ defineProps({
     type: String,
     required: true,
   },
+  tooltipText: {
+    type: String,
+  },
 })
 </script>
 
@@ -19,7 +22,7 @@ defineProps({
     data-testid="resource-empty-state"
   >
     <template #actions>
-      <lazy-navigation-resource-collection-list :path="path" />
+      <lazy-navigation-resource-collection-list :path="path" :tooltip-text />
     </template>
   </v-empty-state>
 </template>

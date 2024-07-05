@@ -1,14 +1,9 @@
 <script setup>
-const { fetchCollection, headers, resourceConfig } = useResourceSite()
-const { pending, error, paginationOptions, totalItems, items } =
-  await fetchCollection()
+const tableProps = defineProps(resourceDataTableProps)
+const { items, pending, totalItems } = toRefs(tableProps)
+const paginationOptions = defineModel('paginationOptions')
 
-const emit = defineEmits(['error'])
-watch(error, (error) => {
-  if (error) {
-    emit('error', error)
-  }
-})
+const { headers, resourceConfig } = useResourceSite()
 </script>
 
 <template>

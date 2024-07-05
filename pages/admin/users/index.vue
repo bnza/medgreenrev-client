@@ -1,5 +1,7 @@
 <script setup>
-const {resourceConfig, collectionLabel} = useResourceUser()
+const { fetchCollection, resourceConfig, collectionLabel } = useResourceUser()
+const { pending, error, paginationOptions, totalItems, items } =
+  await fetchCollection()
 </script>
 
 <template>
@@ -10,7 +12,19 @@ const {resourceConfig, collectionLabel} = useResourceUser()
       />
     </template>
     <template #default>
-      <lazy-data-collection-user-table/>
+      <resource-not-found
+        v-if="error"
+        path="/"
+        :error="error"
+        tooltip-text="Back to home"
+      />
+      <lazy-data-collection-user-table
+        v-else-if="items"
+        :pending
+        :paginationOptions
+        :totalItems
+        :items
+      />
     </template>
   </app-data-card>
 </template>

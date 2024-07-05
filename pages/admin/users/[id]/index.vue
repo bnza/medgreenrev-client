@@ -5,7 +5,7 @@ const route = useRoute()
 
 const id = ref(routeParamIdToString(route.params.id))
 const { resourceConfig, fetchItem, itemLabel } = useResourceUser()
-const { item, code } = await fetchItem(id)
+const { item, code, error } = await fetchItem(id)
 </script>
 
 <template>
