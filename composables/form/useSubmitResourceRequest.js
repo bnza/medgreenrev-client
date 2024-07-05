@@ -19,14 +19,25 @@ export default function (mode, submitFn) {
     })
   }
 
+  const showNoChanges = () => {
+    show({
+      color: 'info',
+      text: 'No changes occurred',
+      timeout: 3000,
+    })
+  }
+
   const submit = async (state, oldItem) => {
     isSubmitPending.value = true
     try {
-      const { redirectPath } = await submitFn(state, oldItem)
+      const { response, redirectPath } = await submitFn(state, oldItem)
       await router.replace(redirectPath)
-      showSuccess()
+      mode === API_ACTIONS.Update && response === 'NO__CHANGE'
+        ? showNoChanges()
+        : showSuccess()
     } catch (e) {
       showError(e)
+    } finally {
       isSubmitPending.value = false
     }
   }

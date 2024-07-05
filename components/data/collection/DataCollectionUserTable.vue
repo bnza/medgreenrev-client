@@ -1,27 +1,14 @@
 <script setup>
-import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog.js'
-
 const tableProps = defineProps(resourceDataTableProps)
 const { items, pending, totalItems } = toRefs(tableProps)
 const paginationOptions = defineModel('paginationOptions')
 
-const { headers, resourceConfig, patchItem } = useResourceUser()
+const { headers, resourceConfig } = useResourceUser()
 
-const {
-  openResetPasswordDialog,
-  isResetPasswordDialogOpen,
-  resetPasswordUserItem,
-  resetPassword,
-} = useUserPasswordDialog()
+const emit = defineEmits(['openResetPasswordDialog'])
 </script>
 
 <template>
-  <lazy-show-user-password-dialog
-    :item="resetPasswordUserItem"
-    :is-open="isResetPasswordDialogOpen"
-    @close="isResetPasswordDialogOpen = false"
-    @reset-password="resetPassword(patchItem, resetPasswordUserItem)"
-  />
   <v-data-table-server
     :items-per-page-options="ITEMS_PER_PAGE_OPTIONS"
     :items-per-page="paginationOptions.itemsPerPage"
@@ -40,7 +27,7 @@ const {
         <template #prepend>
           <lazy-navigation-user-reset-password
             :item="item"
-            @reset-password="openResetPasswordDialog(item)"
+            @click="emit('openResetPasswordDialog', item)"
           />
         </template>
       </navigation-resource-item>

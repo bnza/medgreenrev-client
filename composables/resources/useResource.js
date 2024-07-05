@@ -87,7 +87,10 @@ function useResource(options) {
     )
 
     if (Object.keys(diffItem).length === 0) {
-      return Promise.resolve()
+      return Promise.resolve({
+        response: 'NO__CHANGE',
+        redirectPath: `${resourceConfig.appPath}/${oldItem.id}`,
+      })
     }
     return repository.patchItem(oldItem.id, diffItem).then((response) => {
       return {

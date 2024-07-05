@@ -1,5 +1,5 @@
 <script setup>
-const { plainPassword, reset } = useUserPlainPasswordState()
+const { plainPassword } = useUserPlainPasswordState()
 const { show } = useAppSnackbarState()
 
 function copyToClipboard() {

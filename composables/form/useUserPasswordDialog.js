@@ -3,6 +3,9 @@ export default function () {
   const { show } = useAppSnackbarState()
   const resetPasswordUserItem = ref({})
   const pending = ref(false)
+
+  const isResetPasswordDialogVisible = ref(false)
+
   const resetPassword = async (patchItem, oldItem) => {
     const newPlainPassword = generatePassword()
     pending.value = true
@@ -15,39 +18,20 @@ export default function () {
         timeout: -1,
       })
     } finally {
+      isResetPasswordDialogVisible.value = false
       pending.value = false
     }
-
     set(newPlainPassword)
   }
 
-  const isResetPasswordDialogOpen = ref(false)
-
   const openResetPasswordDialog = (item) => {
-    resetPasswordUserItem.value = item
-    isResetPasswordDialogOpen.value = true
+    resetPasswordUserItem.value = Object.assign({}, item || {})
+    isResetPasswordDialogVisible.value = true
   }
-
-  watch(isResetPasswordDialogOpen, (value) => {
-    if (!value) {
-      resetPasswordUserItem.value = {}
-      reset()
-    }
-  })
-
-  onMounted(() => {
-    if (plainPassword.value) {
-      isResetPasswordDialogOpen.value = true
-    }
-  })
-
-  onUnmounted(() => {
-    reset()
-  })
 
   return {
     pending,
-    isResetPasswordDialogOpen,
+    isResetPasswordDialogVisible,
     openResetPasswordDialog,
     setState: set,
     plainPassword,

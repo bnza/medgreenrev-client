@@ -1,10 +1,38 @@
 <script setup>
-const { fetchCollection, resourceConfig, collectionLabel } = useResourceUser()
+import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog.js'
+
+const { fetchCollection, resourceConfig, collectionLabel, patchItem } =
+  useResourceUser()
 const { pending, error, paginationOptions, totalItems, items } =
   await fetchCollection()
+
+const {
+  plainPassword,
+  pending: resetPasswordPending,
+  openResetPasswordDialog,
+  isResetPasswordDialogVisible,
+  resetPasswordUserItem,
+  resetPassword,
+  resetState,
+} = useUserPasswordDialog()
 </script>
 
 <template>
+  <lazy-user-password-dialog
+    :item="resetPasswordUserItem"
+    :visible="isResetPasswordDialogVisible || !!plainPassword"
+  >
+    <lazy-user-password-reset-card-content
+      v-if="isResetPasswordDialogVisible"
+      :pending="resetPasswordPending"
+      @reset-password="resetPassword(patchItem, resetPasswordUserItem)"
+      @close="isResetPasswordDialogVisible = false"
+    />
+    <lazy-user-password-show-card-content
+      v-else-if="plainPassword"
+      @close="resetState()"
+    />
+  </lazy-user-password-dialog>
   <app-data-card :title="collectionLabel">
     <template #toolbar-append>
       <navigation-resource-item-create
@@ -24,6 +52,7 @@ const { pending, error, paginationOptions, totalItems, items } =
         :paginationOptions
         :totalItems
         :items
+        @open-reset-password-dialog="openResetPasswordDialog($event)"
       />
     </template>
   </app-data-card>

@@ -31,20 +31,20 @@ const role = computed({
   },
 })
 
-const { isResetPasswordDialogOpen, resetPasswordUserItem, plainPassword } =
-  useUserPasswordDialog()
-if (props.mode === API_ACTIONS.Read && plainPassword.value) {
-  resetPasswordUserItem.value = state
-}
+// const { isResetPasswordDialogVisible, resetPasswordUserItem, plainPassword } =
+//   useUserPasswordDialog()
+// if (props.mode === API_ACTIONS.Read && plainPassword.value) {
+//   resetPasswordUserItem.value = state
+// }
 </script>
 
 <template>
-  <lazy-show-user-password-dialog
-    v-if="props.mode === API_ACTIONS.Read"
-    :item="item"
-    :is-open="isResetPasswordDialogOpen"
-    @close="isResetPasswordDialogOpen = false"
-  />
+  <!--  <lazy-show-user-password-dialog-->
+  <!--    v-if="props.mode === API_ACTIONS.Read"-->
+  <!--    :item="item"-->
+  <!--    :is-open="isResetPasswordDialogVisible"-->
+  <!--    @close="isResetPasswordDialogVisible = false"-->
+  <!--  />-->
   <v-form :readonly="readonly" @submit.prevent data-testid="app-data-form">
     <v-container>
       <slot name="alert" />
@@ -53,7 +53,7 @@ if (props.mode === API_ACTIONS.Read && plainPassword.value) {
           <v-text-field
             variant="underlined"
             v-model="state.email"
-            label="code"
+            label="email"
             :error-messages="v$.email.$errors.map((e) => e.$message)"
             @input="v$.email.$touch"
             @blur="v$.email.$touch"

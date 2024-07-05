@@ -16,7 +16,7 @@ const { size } = toRefs(props)
 const disabled = computed(() => {
   return userIdentifier.value === props.item.email
 })
-const emit = defineEmits(['resetPassword'])
+const emit = defineEmits(['click'])
 </script>
 
 <template>
@@ -26,7 +26,7 @@ const emit = defineEmits(['resetPassword'])
     :icon="true"
     nuxt
     variant="text"
-    @click="emit('resetPassword')"
+    @click="emit('click')"
   >
     <v-icon color="primary" icon="fas fa-rotate" :size="size" />
     <v-tooltip activator="parent" location="bottom">Reset password</v-tooltip>
