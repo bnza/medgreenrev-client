@@ -37,7 +37,6 @@ export default function (mode, submitFn) {
         : showSuccess()
     } catch (e) {
       showError(e)
-    } finally {
       isSubmitPending.value = false
     }
   }
