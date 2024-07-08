@@ -35,6 +35,7 @@ const color = computed(() => {
     nuxt
     :to="`${resource.appPath}/${item.id}/delete`"
     variant="text"
+    data-testid="delete-item-button"
   >
     <v-icon icon="fas fa-minus" :size="size" />
     <v-tooltip activator="parent" location="bottom">Delete item</v-tooltip>

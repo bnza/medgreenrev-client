@@ -14,7 +14,7 @@ watch(
 <template>
   <v-tooltip text="login">
     <template #activator="{ props }">
-      <NuxtLink to="/login">
+      <NuxtLink to="/login" data-testid="login-button">
         <v-icon class="mr-6" v-bind="props" icon="fas fa-right-to-bracket" />
       </NuxtLink>
     </template>

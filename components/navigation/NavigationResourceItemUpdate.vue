@@ -35,6 +35,7 @@ const color = computed(() => {
     nuxt
     :to="`${resource.appPath}/${item.id}/update`"
     variant="text"
+    data-testid="update-item-button"
   >
     <v-icon icon="fas fa-check" :size="size" />
     <v-tooltip activator="parent" location="bottom">Edit item</v-tooltip>

@@ -26,7 +26,9 @@ const { visible } = toRefs(props)
     <v-card v-if="'email' in item">
       <v-card-title
         >User:
-        <span class="text-secondary">{{ props.item.email }}</span></v-card-title
+        <span class="text-secondary" data-testid="reset-pw-user-identifier">{{
+          props.item.email
+        }}</span></v-card-title
       >
       <slot>
         <v-card-text>

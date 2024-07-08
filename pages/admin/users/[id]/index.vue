@@ -5,14 +5,15 @@ import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog'
 const route = useRoute()
 
 const id = ref(routeParamIdToString(route.params.id))
-const { resourceConfig, fetchItem, itemLabel } = useResourceUser()
+const { resourceConfig, fetchItem, itemLabel, patchItem } = useResourceUser()
 const { item, code, error } = await fetchItem(id)
 
 const {
+  isResetPasswordPending,
   isResetPasswordDialogVisible,
   resetPasswordUserItem,
   plainPassword,
-  resetState,
+  resetPassword,
 } = useUserPasswordDialog()
 resetPasswordUserItem.value = Object.assign({}, item.value || {})
 </script>
@@ -23,18 +24,29 @@ resetPasswordUserItem.value = Object.assign({}, item.value || {})
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <lazy-user-password-dialog
-    :item="resetPasswordUserItem"
-    :visible="isResetPasswordDialogVisible || !!plainPassword"
-  >
-    <user-password-reset-card-content v-if="isResetPasswordDialogVisible" />
-    <lazy-user-password-show-card-content
-      v-else-if="plainPassword"
-      @close="resetState()"
-    />
-  </lazy-user-password-dialog>
+  <ClientOnly>
+    <!-- @see https://github.com/nuxt/nuxt/issues/25164#issuecomment-2123347413-->
+    <lazy-user-password-dialog
+      :item="resetPasswordUserItem"
+      :visible="isResetPasswordDialogVisible || !!plainPassword"
+    >
+      <lazy-user-password-reset-card-content
+        v-if="isResetPasswordDialogVisible"
+        :pending="isResetPasswordPending"
+        @reset-password="resetPassword(patchItem)"
+        @close="isResetPasswordDialogVisible = false"
+      />
+      <lazy-user-password-show-card-content v-else-if="plainPassword" />
+    </lazy-user-password-dialog>
+  </ClientOnly>
   <app-data-card v-if="item" :title="itemLabel" :code="code">
     <template #toolbar-append>
+      <navigation-user-reset-password
+        class="mr-4"
+        :item="item"
+        size="large"
+        @click="isResetPasswordDialogVisible = true"
+      />
       <navigation-resource-item-update
         class="mr-4"
         :item="item"

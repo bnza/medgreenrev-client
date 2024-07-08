@@ -2,7 +2,6 @@
 import { dataFormModeProp, dataFormItemProp } from '~/lib/props.js'
 import { reduceAppRoles } from '~/lib/index.js'
 import useSubmitForm from '~/composables/form/useSubmitForm.js'
-import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog.js'
 
 const props = defineProps({
   triggerSubmit: Boolean,
@@ -30,27 +29,16 @@ const role = computed({
     state.roles = mergeRole(value, state.roles)
   },
 })
-
-// const { isResetPasswordDialogVisible, resetPasswordUserItem, plainPassword } =
-//   useUserPasswordDialog()
-// if (props.mode === API_ACTIONS.Read && plainPassword.value) {
-//   resetPasswordUserItem.value = state
-// }
 </script>
 
 <template>
-  <!--  <lazy-show-user-password-dialog-->
-  <!--    v-if="props.mode === API_ACTIONS.Read"-->
-  <!--    :item="item"-->
-  <!--    :is-open="isResetPasswordDialogVisible"-->
-  <!--    @close="isResetPasswordDialogVisible = false"-->
-  <!--  />-->
   <v-form :readonly="readonly" @submit.prevent data-testid="app-data-form">
     <v-container>
       <slot name="alert" />
       <v-row no-gutters>
         <v-col cols="12" xs="6" sm="6" class="px-2">
           <v-text-field
+            :readonly="readonly || mode === API_ACTIONS.Update"
             variant="underlined"
             v-model="state.email"
             label="email"

@@ -27,6 +27,7 @@ const emit = defineEmits(['click'])
     nuxt
     variant="text"
     @click="emit('click')"
+    data-testid="reset-pw-button"
   >
     <v-icon color="primary" icon="fas fa-rotate" :size="size" />
     <v-tooltip activator="parent" location="bottom">Reset password</v-tooltip>

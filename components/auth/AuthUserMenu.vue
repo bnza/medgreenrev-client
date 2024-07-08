@@ -1,8 +1,8 @@
 <script setup>
-import {mergeProps} from 'vue'
+import { mergeProps } from 'vue'
 
 const isLogoutDialogOpen = ref(false)
-const {userIdentifier, roleColor} = useAppAuth()
+const { userIdentifier, roleColor } = useAppAuth()
 </script>
 
 <template>
@@ -14,16 +14,15 @@ const {userIdentifier, roleColor} = useAppAuth()
             :color="roleColor"
             v-bind="mergeProps(menu, tooltip)"
             icon="fas fa-user"
+            data-testid="auth-user-button"
           />
         </template>
         <span>{{ userIdentifier }}</span>
       </v-tooltip>
     </template>
     <v-list>
-      <v-list-item
-        :title="userIdentifier"
-      />
-      <v-divider/>
+      <v-list-item :title="userIdentifier" />
+      <v-divider />
       <v-list-item
         prepend-icon="fas fa-right-from-bracket"
         @click="isLogoutDialogOpen = true"
@@ -31,5 +30,5 @@ const {userIdentifier, roleColor} = useAppAuth()
       />
     </v-list>
   </v-menu>
-  <auth-logout-confirmation-dialog v-model:is-open="isLogoutDialogOpen"/>
+  <auth-logout-confirmation-dialog v-model:is-open="isLogoutDialogOpen" />
 </template>
