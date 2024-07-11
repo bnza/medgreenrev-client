@@ -59,12 +59,7 @@ const signInAndFeedback = async ({ email, password }) => {
       </v-form>
       <v-card-actions>
         <NuxtLink to="/">
-          <v-btn
-            color="anchor"
-            :disabled="isLoading"
-            :flat="true"
-            @click="$router.replace('/')"
-          >
+          <v-btn color="anchor" :disabled="isLoading" :flat="true">
             cancel
           </v-btn>
         </NuxtLink>

@@ -134,6 +134,7 @@ function useResource(options) {
   // }
 
   return {
+    repository,
     collectionLabel,
     headers,
     itemLabel,

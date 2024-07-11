@@ -21,12 +21,12 @@ const { visible } = toRefs(props)
     :model-value="visible"
     width="400px"
     :persistent="true"
-    data-testid="user-reset-password-dialog"
+    data-testid="user-password-dialog"
   >
     <v-card v-if="'email' in item">
       <v-card-title
         >User:
-        <span class="text-secondary" data-testid="reset-pw-user-identifier">{{
+        <span class="text-secondary" data-testid="user-pw-identifier">{{
           props.item.email
         }}</span></v-card-title
       >
