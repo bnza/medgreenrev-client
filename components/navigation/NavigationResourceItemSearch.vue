@@ -8,13 +8,11 @@ defineProps({
 </script>
 
 <template>
-  <v-tooltip location="bottom" text="create new resource">
+  <v-tooltip location="bottom" text="search">
     <template #activator="{ props }">
       <NuxtLink :to="path">
-        <v-icon class="mx-4" icon="fas fa-plus" v-bind="props" />
+        <v-icon class="mx-4" icon="fas fa-magnifying-glass" v-bind="props" />
       </NuxtLink>
     </template>
   </v-tooltip>
 </template>
-
-<style scoped></style>

@@ -5,8 +5,8 @@
     </template>
   </app-bar>
   <app-navigation-drawer />
-  <v-main class="d-flex align-center justify-center">
+  <NuxtLayout name="empty">
     <slot />
-  </v-main>
+  </NuxtLayout>
   <app-snackbar />
 </template>

@@ -6,11 +6,15 @@ definePageMeta({
 })
 defineOptions({ name: 'DataWrapper' })
 const { mode } = useDataUiModeState()
+const route = useRoute()
+const layout = computed(() =>
+  /search$/.test(route.path) ? 'empty' : 'default',
+)
 </script>
 
 <template>
-  <NuxtLayout name="default">
-    <template #app-bar-center>
+  <NuxtLayout :name="layout">
+    <template #app-bar-center v-if="layout === 'default'">
       <ui-mode-switcher />
     </template>
     <KeepAlive>
