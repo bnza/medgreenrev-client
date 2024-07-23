@@ -4,8 +4,14 @@ definePageMeta({
 })
 const { hasRoleAdmin } = useAppAuth()
 const { fetchCollection, resourceConfig, collectionLabel } = useResourceSite()
-const { pending, error, paginationOptions, totalItems, items } =
-  await fetchCollection()
+const {
+  pending,
+  error,
+  paginationOptions,
+  resourceFilterParams,
+  totalItems,
+  items,
+} = await fetchCollection()
 </script>
 
 <template>

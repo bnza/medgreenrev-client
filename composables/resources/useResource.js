@@ -1,7 +1,20 @@
 import usePaginationOptions from '~/composables/resources/usePaginationOptions.js'
 import { diff } from 'deep-object-diff'
+import { useAppFiltersState } from '~/composables/states/useAppFiltersState.js'
+import { useResourceFiltersState } from '~/composables/index.js'
 
 function useResource(options) {
+  if (!options.resourceKey) {
+    throw new Error('Resource key is required!')
+  }
+  if (!options.routeName) {
+    options.routeName = options.resourceKey
+  }
+
+  if (!options.defaultHeaders) {
+    throw new Error('Default headers are required!')
+  }
+
   if (!options.normalizePatchItem) {
     options.normalizePatchItem = (newItem, oldItem, diffItem) => diffItem
   }
@@ -10,16 +23,13 @@ function useResource(options) {
     options.formatJsonLdItem = (item) => item
   }
 
-  const { resourceKey, defaultHeaders, normalizePatchItem, formatJsonLdItem } =
-    options
-
-  if (!resourceKey) {
-    throw new Error('Resource key is required!')
-  }
-
-  if (!defaultHeaders) {
-    throw new Error('Default headers are required!')
-  }
+  const {
+    routeName,
+    resourceKey,
+    defaultHeaders,
+    normalizePatchItem,
+    formatJsonLdItem,
+  } = options
 
   const protectedFields =
     'protectedFields' in options ? options.protectedFields : []
@@ -47,9 +57,15 @@ function useResource(options) {
 
   const { paginationOptions, queryPaginationOptionsParams } =
     usePaginationOptions(resourceKey)
+
+  const { resourceFilterParams } = useResourceFiltersState(routeName)
   const fetchCollection = async () => {
     const params = computed(() =>
-      Object.assign({}, queryPaginationOptionsParams.value),
+      Object.assign(
+        {},
+        queryPaginationOptionsParams.value,
+        resourceFilterParams.value,
+      ),
     )
     const { data, pending, error } = await repository.fetchCollection(
       {
@@ -59,7 +75,15 @@ function useResource(options) {
     )
     const items = computed(() => data.value?.['hydra:member'])
     const totalItems = computed(() => data.value?.['hydra:totalItems'] || 0)
-    return { data, pending, error, items, totalItems, paginationOptions }
+    return {
+      data,
+      pending,
+      error,
+      items,
+      totalItems,
+      paginationOptions,
+      resourceFilterParams,
+    }
   }
 
   const fetchItem = async (id) => {

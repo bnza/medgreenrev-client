@@ -1,6 +1,6 @@
 import useResource from './useResource'
 
-export default function () {
+export default function (routeName = '') {
   const defaultHeaders = [
     {
       key: 'id',
@@ -35,10 +35,16 @@ export default function () {
     },
   ]
 
+  if (!routeName) {
+    const route = useRoute()
+    routeName = route.name
+  }
+
   const protectedFields = ['public']
 
   return useResource({
     resourceKey: 'sites',
+    routeName,
     defaultHeaders,
     protectedFields,
   })

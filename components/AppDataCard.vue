@@ -55,5 +55,10 @@ const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
         <v-progress-circular indeterminate :size="128" :width="12" />
       </div>
     </slot>
+    <template #actions>
+      <v-card-actions>
+        <slot name="actions" />
+      </v-card-actions>
+    </template>
   </v-card>
 </template>
