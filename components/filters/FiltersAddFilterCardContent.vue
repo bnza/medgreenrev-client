@@ -1,9 +1,12 @@
 <script setup>
 const property = ref(null)
 const operator = ref(null)
+const operands = ref([])
+
 const operandsComponentsMap = {
   Single: resolveComponent('FiltersSingleOperand'),
 }
+
 const operandsComponent = computed(() => {
   const operatorId = operator.value
   if (!operatorId) {
@@ -13,7 +16,6 @@ const operandsComponent = computed(() => {
   const operandsKey = operatorObject.operandsComponent
   return operandsComponentsMap[operandsKey]
 })
-const operands = ref([])
 
 const props = defineProps({
   triggerSubmit: {
@@ -21,8 +23,11 @@ const props = defineProps({
     required: true,
   },
 })
+
 const emit = defineEmits(['addFilter'])
+
 const { triggerSubmit } = toRefs(props)
+
 watch(triggerSubmit, async (trigger) => {
   if (trigger) {
     // emit('update:triggerSubmit', false)
@@ -35,6 +40,17 @@ watch(triggerSubmit, async (trigger) => {
     })
     // }
   }
+})
+
+watch(property, () => {
+  operator.value = null
+})
+
+watch(operator, (_, oldOperator) => {
+  if (!oldOperator) {
+    return
+  }
+  operands.value = []
 })
 </script>
 

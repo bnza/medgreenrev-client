@@ -56,9 +56,7 @@ const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
       </div>
     </slot>
     <template #actions>
-      <v-card-actions>
-        <slot name="actions" />
-      </v-card-actions>
+      <slot name="actions" />
     </template>
   </v-card>
 </template>

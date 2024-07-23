@@ -1,17 +1,21 @@
-import { ResourceFiltersMap } from '~/lib/filters/ResourceFiltersMap.js'
-import { AppFilterMap } from '~/lib/filters/AppFilterMap.js'
-
 export const useAppFiltersState = () => {
-  const state = useState(STATE_APP_FILTER, () => new AppFilterMap())
+  const state = useState(STATE_APP_FILTER, () => new Object())
   const initResourceFilters = (routeName) => {
-    state.value.set(routeName, new ResourceFiltersMap(routeName))
+    state.value[routeName] = {
+      routeName,
+      filters: [],
+    }
+    // state.value.set(routeName, new ResourceFiltersMap(routeName))
   }
-  const getResourceFilters = (routeName) => {
-    if (!state.value.has(routeName)) {
+  const getResourceFiltersByRouteName = (routeName) => {
+    if (!(routeName in state.value)) {
       initResourceFilters(routeName)
     }
-    return state.value.get(routeName)
+    return state.value[routeName]
   }
+
+  const getResourceFilters = (routeName) =>
+    computed(() => getResourceFiltersByRouteName(routeName))
 
   return { getResourceFilters }
 }

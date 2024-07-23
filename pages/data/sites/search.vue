@@ -10,14 +10,14 @@ const isAddFilterDialogOpen = ref(false)
 const resourceFilterState = useResourceFiltersState('data-sites')
 provide('resourceFiltersState', resourceFilterState)
 
-// const { setFilter, setFilters, state } = useResourceFiltersState('data-sites')
-const setFilterAndCloseDialog = (rawFilter) => {
-  resourceFilterState.setFilter(rawFilter)
+const { setFilter, persistFilters } = resourceFilterState
+const setFilterAndCloseDialog = (filter) => {
+  setFilter(filter)
   isAddFilterDialogOpen.value = false
 }
 const router = useRouter()
 const setFiltersAndClose = () => {
-  resourceFilterState.setFilters()
+  persistFilters()
   router.replace(resourceConfig.appPath)
 }
 </script>
@@ -37,7 +37,7 @@ const setFiltersAndClose = () => {
         @click="isAddFilterDialogOpen = true"
       />
     </template>
-    <filters-list :map="resourceFilterState.state._filters" />
+    <filters-list />
     <template #actions>
       <v-tooltip location="bottom" text="Close">
         <template #activator="{ props }">
@@ -61,7 +61,7 @@ const setFiltersAndClose = () => {
         @click="setFiltersAndClose()"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket" />
-        <v-tooltip activator="parent" location="bottom">Add filter</v-tooltip>
+        <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
   </lazy-app-data-card>

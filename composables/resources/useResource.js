@@ -1,6 +1,5 @@
 import usePaginationOptions from '~/composables/resources/usePaginationOptions.js'
 import { diff } from 'deep-object-diff'
-import { useAppFiltersState } from '~/composables/states/useAppFiltersState.js'
 import { useResourceFiltersState } from '~/composables/index.js'
 
 function useResource(options) {

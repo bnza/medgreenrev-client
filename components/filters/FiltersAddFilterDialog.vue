@@ -4,7 +4,11 @@ const props = defineProps({
 })
 const modelValue = defineModel({ required: true })
 const triggerSubmit = ref(false)
-defineEmits(['addFilter'])
+const emit = defineEmits(['addFilter'])
+const addFilter = (filter) => {
+  triggerSubmit.value = false
+  emit('addFilter', filter)
+}
 </script>
 
 <template>
@@ -17,7 +21,7 @@ defineEmits(['addFilter'])
       <v-card-title>{{ !!props.filter ? 'Edit' : 'Add' }} filter</v-card-title>
       <lazy-filters-add-filter-card-content
         :trigger-submit
-        @add-filter="$emit('addFilter', $event)"
+        @add-filter="addFilter($event)"
       />
       <v-card-actions>
         <v-tooltip location="bottom" text="Close">
