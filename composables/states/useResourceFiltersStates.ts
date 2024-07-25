@@ -4,6 +4,7 @@ import {
 } from '~/composables/states/useAppFiltersState'
 import { getAvailableOperators, getAvailableProps } from '~/lib/filters'
 import type { Filter } from '~/lib/constants/filters'
+import type { MaybeRef } from 'vue'
 
 export const useResourceFiltersState = (routeName = '') => {
   if (!routeName) {
@@ -23,8 +24,8 @@ export const useResourceFiltersState = (routeName = '') => {
 
   const availableProps = computed(() => getAvailableProps(workData))
 
-  const getAvailableOperatorsByProp = (prop: string) =>
-    computed(() => getAvailableOperators(workData, prop))
+  const getAvailableOperatorsByProp = (prop: MaybeRef<string>) =>
+    computed(() => getAvailableOperators(workData, unref(prop)))
 
   const filters = computed(() => workData.filters)
 

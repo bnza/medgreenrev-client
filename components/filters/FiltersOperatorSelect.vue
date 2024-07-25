@@ -8,7 +8,7 @@ const props = defineProps({
 
 const { property } = toRefs(props)
 const { getAvailableOperatorsByProp } = inject('resourceFiltersState')
-const availableOperators = getAvailableOperatorsByProp(property.value)
+const availableOperators = getAvailableOperatorsByProp(property)
 const operator = defineModel('operator')
 </script>
 
