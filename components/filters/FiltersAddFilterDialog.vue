@@ -20,7 +20,7 @@ const addFilter = (filter) => {
     <v-card>
       <v-card-title>{{ !!props.filter ? 'Edit' : 'Add' }} filter</v-card-title>
       <lazy-filters-add-filter-card-content
-        :trigger-submit
+        v-model:trigger-submit="triggerSubmit"
         @add-filter="addFilter($event)"
       />
       <v-card-actions>

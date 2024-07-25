@@ -4,7 +4,17 @@ const { availableProps } = inject('resourceFiltersState')
 </script>
 
 <template>
-  <v-select v-model="property" :items="availableProps" label="property" />
+  <Suspense>
+    <v-select
+      v-bind="$attrs"
+      v-model="property"
+      :items="availableProps"
+      label="property"
+    />
+    <template #fallback>
+      <v-skeleton-loader type="text" />
+    </template>
+  </Suspense>
 </template>
 
 <style scoped></style>

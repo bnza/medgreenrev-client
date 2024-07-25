@@ -13,13 +13,19 @@ const operator = defineModel('operator')
 </script>
 
 <template>
-  <v-select
-    v-model="operator"
-    :items="availableOperators"
-    item-value="id"
-    item-title="label"
-    label="operator"
-  />
+  <Suspense>
+    <v-select
+      v-bind="$attrs"
+      v-model="operator"
+      :items="availableOperators"
+      item-value="id"
+      item-title="label"
+      label="operator"
+    />
+    <template #fallback>
+      <v-skeleton-loader type="text" />
+    </template>
+  </Suspense>
 </template>
 
 <style scoped></style>

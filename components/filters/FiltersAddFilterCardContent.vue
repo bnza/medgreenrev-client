@@ -1,17 +1,20 @@
 <script setup>
 import { generateId } from '~/lib/index.js'
+import useFilterValidation from '~/composables/validation/filters/useFilterValidation.js'
 
-const id = ref('')
-const property = ref(null)
-const filter = ref(null)
-const operands = ref([])
+const filter = reactive({
+  id: '',
+  property: '',
+  filter: '',
+  operands: [],
+})
 
 const operandsComponentsMap = {
   Single: resolveComponent('FiltersSingleOperand'),
 }
 
 const operandsComponent = computed(() => {
-  const operatorId = filter.value
+  const operatorId = filter.filter
   if (!operatorId) {
     return ''
   }
@@ -20,42 +23,41 @@ const operandsComponent = computed(() => {
   return operandsComponentsMap[operandsKey]
 })
 
-const props = defineProps({
-  triggerSubmit: {
-    type: Boolean,
-    required: true,
-  },
-})
+const emit = defineEmits(['addFilter', 'update:invalid'])
 
-const emit = defineEmits(['addFilter'])
-
-const { triggerSubmit } = toRefs(props)
+const triggerSubmit = defineModel('triggerSubmit', { required: true })
 
 watch(triggerSubmit, async (trigger) => {
   if (trigger) {
-    // emit('update:triggerSubmit', false)
-    // const valid = await v$.value.$validate()
-    // if (valid) {
-    emit('addFilter', {
-      id: id.value ? toRaw(id.value) : generateId(),
-      property: toRaw(property.value),
-      filter: toRaw(filter.value),
-      operands: toRaw(operands.value),
-    })
-    // }
+    triggerSubmit.value = false
+    if (!filter.id) {
+      filter.id = generateId()
+    }
+    const valid = await v$.value.$validate()
+    if (valid) {
+      emit('addFilter', toRaw(filter))
+    }
   }
 })
 
-watch(property, () => {
-  filter.value = null
-})
+watch(
+  () => filter.property,
+  () => {
+    filter.filter = null
+  },
+)
 
-watch(filter, (_, oldFilter) => {
-  if (!oldFilter) {
-    return
-  }
-  operands.value = []
-})
+watch(
+  () => filter.filter,
+  (_, oldFilter) => {
+    if (!oldFilter) {
+      return
+    }
+    filter.operands = []
+  },
+)
+
+const { v$ } = useFilterValidation(filter, emit)
 </script>
 
 <template>
@@ -63,20 +65,25 @@ watch(filter, (_, oldFilter) => {
     <v-container>
       <v-row>
         <v-col>
-          <lazy-filters-property-select v-model:property="property" />
+          <lazy-filters-property-select
+            v-model:property="filter.property"
+            :error-messages="v$.property.$errors.map((e) => e.$message)"
+          />
         </v-col>
         <v-col>
           <lazy-filters-operator-select
-            v-if="property"
-            :property="property"
-            v-model:operator="filter"
+            v-if="filter.property"
+            :property="filter.property"
+            v-model:operator="filter.filter"
+            :error-messages="v$.filter.$errors.map((e) => e.$message)"
           />
         </v-col>
         <v-col>
           <component
             v-if="operandsComponent"
             :is="operandsComponent"
-            v-model:operands="operands"
+            v-model:operands="filter.operands"
+            :error-messages="v$.operands.$errors.map((e) => e.$message)"
           />
         </v-col>
       </v-row>

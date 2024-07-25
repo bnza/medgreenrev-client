@@ -14,7 +14,12 @@ const operand = computed({
 </script>
 
 <template>
-  <v-text-field label="value" v-model="operand" />
+  <Suspense>
+    <v-text-field v-bind="$attrs" label="value" v-model="operand" />
+    <template #fallback>
+      <v-skeleton-loader type="text" />
+    </template>
+  </Suspense>
 </template>
 
 <style scoped></style>
