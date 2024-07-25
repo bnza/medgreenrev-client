@@ -1,6 +1,9 @@
 <script setup>
+import { generateId } from '~/lib/index.js'
+
+const id = ref('')
 const property = ref(null)
-const operator = ref(null)
+const filter = ref(null)
 const operands = ref([])
 
 const operandsComponentsMap = {
@@ -8,7 +11,7 @@ const operandsComponentsMap = {
 }
 
 const operandsComponent = computed(() => {
-  const operatorId = operator.value
+  const operatorId = filter.value
   if (!operatorId) {
     return ''
   }
@@ -34,8 +37,9 @@ watch(triggerSubmit, async (trigger) => {
     // const valid = await v$.value.$validate()
     // if (valid) {
     emit('addFilter', {
+      id: id.value ? toRaw(id.value) : generateId(),
       property: toRaw(property.value),
-      operator: toRaw(operator.value),
+      filter: toRaw(filter.value),
       operands: toRaw(operands.value),
     })
     // }
@@ -43,11 +47,11 @@ watch(triggerSubmit, async (trigger) => {
 })
 
 watch(property, () => {
-  operator.value = null
+  filter.value = null
 })
 
-watch(operator, (_, oldOperator) => {
-  if (!oldOperator) {
+watch(filter, (_, oldFilter) => {
+  if (!oldFilter) {
     return
   }
   operands.value = []
@@ -65,7 +69,7 @@ watch(operator, (_, oldOperator) => {
           <lazy-filters-operator-select
             v-if="property"
             :property="property"
-            v-model:operator="operator"
+            v-model:operator="filter"
           />
         </v-col>
         <v-col>

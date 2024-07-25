@@ -6,7 +6,7 @@ defineEmits(['removeFilter'])
 </script>
 
 <template>
-  <v-list-item :key="filter.key">
+  <v-list-item :key="filter.id">
     <v-container>
       <v-row align-content="space-evenly">
         <v-col cols="1">
@@ -29,7 +29,7 @@ defineEmits(['removeFilter'])
         <v-col>
           <v-text-field
             :readonly="true"
-            :model-value="API_FILTERS[filter.operator].label"
+            :model-value="API_FILTERS[filter.filter].label"
           />
         </v-col>
         <v-col>

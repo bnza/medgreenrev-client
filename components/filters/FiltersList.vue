@@ -1,7 +1,5 @@
 <script setup>
-const { filters, getFilterKey, isEmpty, removeFilter } = inject(
-  'resourceFiltersState',
-)
+const { filters, isEmpty, removeFilter } = inject('resourceFiltersState')
 </script>
 
 <template>
@@ -14,7 +12,7 @@ const { filters, getFilterKey, isEmpty, removeFilter } = inject(
   <v-list v-else>
     <lazy-filters-list-item
       v-for="filter in filters"
-      :key="getFilterKey(filter)"
+      :key="filter.id"
       :filter
       @remove-filter="removeFilter($event)"
     />
