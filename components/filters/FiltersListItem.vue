@@ -6,7 +6,7 @@ defineEmits(['removeFilter'])
 </script>
 
 <template>
-  <v-list-item :key="filter.id">
+  <v-list-item :key="filter.id" data-testid="filters-list-item">
     <v-container>
       <v-row align-content="space-evenly">
         <v-col cols="1">

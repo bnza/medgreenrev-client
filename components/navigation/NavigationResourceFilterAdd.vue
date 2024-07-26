@@ -16,7 +16,7 @@ const emit = defineEmits(['click'])
     :icon="true"
     variant="text"
     @click="emit('click')"
-    data-testid="add-filter-btn"
+    data-testid="add-filter-button"
   >
     <v-icon icon="fas fa-plus" :size="size" />
     <v-tooltip activator="parent" location="bottom">Add filter</v-tooltip>

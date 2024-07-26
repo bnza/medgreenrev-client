@@ -9,7 +9,7 @@ const { filters, isEmpty, removeFilter } = inject('resourceFiltersState')
     title="No filter selected"
     text="No filter selected yet. Please add new filters clicking the plus button in the top right corner"
   />
-  <v-list v-else>
+  <v-list v-else data-testid="filters-list">
     <lazy-filters-list-item
       v-for="filter in filters"
       :key="filter.id"

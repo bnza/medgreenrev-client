@@ -15,10 +15,12 @@ const addFilter = (filter) => {
   <v-dialog
     v-model="modelValue"
     :persistent="true"
-    data-testid="filter-add-dialog"
+    data-testid="filter-edit-dialog"
   >
     <v-card>
-      <v-card-title>{{ !!props.filter ? 'Edit' : 'Add' }} filter</v-card-title>
+      <v-card-title data-testid="filter-edit-title">
+        {{ !!props.filter ? 'Edit' : 'Add' }} filter
+      </v-card-title>
       <lazy-filters-add-filter-card-content
         v-model:trigger-submit="triggerSubmit"
         @add-filter="addFilter($event)"
@@ -37,6 +39,7 @@ const addFilter = (filter) => {
         </v-tooltip>
         <v-spacer />
         <v-btn
+          data-testid="submit-button"
           class="mx-4"
           color="anchor"
           rounded="false"

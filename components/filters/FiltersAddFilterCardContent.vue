@@ -61,7 +61,7 @@ const { v$ } = useFilterValidation(filter, emit)
 </script>
 
 <template>
-  <v-card-text class="h-75">
+  <v-card-text class="h-75" data-testid="filter-edit-content">
     <v-container>
       <v-row>
         <v-col>

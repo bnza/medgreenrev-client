@@ -39,23 +39,22 @@ const setFiltersAndClose = () => {
     </template>
     <filters-list />
     <template #actions>
-      <v-tooltip location="bottom" text="Close">
-        <template #activator="{ props }">
-          <v-btn
-            nuxt
-            data-testid="close-button"
-            color="anchor"
-            :to="resourceConfig.appPath"
-            icon="fas fa-xmark"
-            v-bind="props"
-          />
-        </template>
-      </v-tooltip>
+      <v-btn
+        :icon="true"
+        variant="text"
+        nuxt
+        data-testid="close-button"
+        color="anchor"
+        :to="resourceConfig.appPath"
+      >
+        <v-icon icon="fas fa-xmark" size="large" />
+        <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
+      </v-btn>
       <v-spacer />
       <v-btn
+        data-testid="submit-button"
         class="mx-4"
         color="anchor"
-        rounded="false"
         variant="text"
         :icon="true"
         @click="setFiltersAndClose()"
