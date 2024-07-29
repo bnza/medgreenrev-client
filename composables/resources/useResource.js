@@ -14,12 +14,13 @@ function useResource(options) {
     throw new Error('Default headers are required!')
   }
 
-  if (!options.normalizePatchItem) {
-    options.normalizePatchItem = (newItem, oldItem, diffItem) => diffItem
-  }
-
   if (!options.formatJsonLdItem) {
     options.formatJsonLdItem = (item) => item
+  }
+
+  if (!options.normalizePatchItem) {
+    options.normalizePatchItem = (newItem, oldItem, diffItem) =>
+      options.formatJsonLdItem(diffItem)
   }
 
   const {
@@ -55,13 +56,15 @@ function useResource(options) {
   const repository = useNuxtApp().$api.getRepository(resourceKey)
 
   const { paginationOptions, queryPaginationOptionsParams } =
-    usePaginationOptions(resourceKey)
+    usePaginationOptions(routeName)
 
   const { resourceFilterParams } = useResourceFiltersState(routeName)
-  const fetchCollection = async () => {
+  const fetchCollection = async (parent) => {
+    parent = parent || {}
     const params = computed(() =>
       Object.assign(
         {},
+        parent,
         queryPaginationOptionsParams.value,
         resourceFilterParams.value,
       ),

@@ -12,11 +12,19 @@ export default function (item, emit) {
     code: {
       required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
       maxLength: maxLength(3),
-      unique: useAsyncUniqueValidator('unique', 'code', 'site/code', item),
+      unique: useAsyncUniqueValidator({
+        prop: 'code',
+        path: 'sites/code',
+        item,
+      }),
     },
     name: {
       required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
-      unique: useAsyncUniqueValidator('unique', 'name', 'site/name', item),
+      unique: useAsyncUniqueValidator({
+        prop: 'name',
+        path: 'sites/name',
+        item,
+      }),
     },
   }
 

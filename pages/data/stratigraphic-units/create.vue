@@ -1,41 +1,17 @@
 <script setup>
-const route = useRoute()
-
-const id = ref(routeParamIdToInt(route.params.id))
-const { resourceConfig, fetchItem, itemLabel, patchItem } =
-  useResourceStratigraphicUnit()
-const { item, pending, code, error } = await fetchItem(id)
-
+const { resourceConfig, postItem, itemLabel } = useResourceStratigraphicUnit()
 const invalid = ref(false)
-
+const item = ref({})
 const triggerSubmit = ref(false)
+const mode = API_ACTIONS.Create
 
-const mode = API_ACTIONS.Update
-
-const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
+const { submit, isSubmitPending } = useSubmitResourceRequest(mode, postItem)
 </script>
 
 <template>
-  <resource-not-found
-    v-if="error"
-    :path="resourceConfig.appPath"
-    :error="error"
-  />
-  <app-data-card
-    v-if="item"
-    :title="itemLabel"
-    :code="code"
-    :mode="mode"
-    :loading="pending || isSubmitPending"
-  >
+  <app-data-card v :title="itemLabel" code="" :mode="mode">
     <template #toolbar-prepend>
-      <navigation-resource-item-read
-        class="ml-3"
-        :resource="resourceConfig"
-        :item="item"
-        :back="true"
-        size="default"
-      />
+      <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
     <template #toolbar-append>
       <v-btn
@@ -59,7 +35,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
         :mode="mode"
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit($event, item)"
+        @submit-form="submit($event)"
       />
     </template>
   </app-data-card>

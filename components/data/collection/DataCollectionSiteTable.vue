@@ -1,13 +1,24 @@
 <script setup>
-const tableProps = defineProps(resourceDataTableProps)
-const { items, pending, totalItems } = toRefs(tableProps)
-const paginationOptions = defineModel('paginationOptions')
-
-const { headers, resourceConfig } = useResourceSite()
+const props = defineProps({
+  parent: {
+    type: Object,
+    default: () => new Object(),
+  },
+})
+const { fetchCollection, headers, resourceConfig } = useResourceSite()
+const { pending, error, paginationOptions, items, totalItems } =
+  await fetchCollection(props.parent)
 </script>
 
 <template>
+  <resource-not-found
+    v-if="error"
+    path="/"
+    :error
+    tooltip-text="Back to home"
+  />
   <v-data-table-server
+    v-else
     :items-per-page-options="ITEMS_PER_PAGE_OPTIONS"
     :items-per-page="paginationOptions.itemsPerPage"
     :headers="headers"

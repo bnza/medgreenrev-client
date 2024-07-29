@@ -1,4 +1,4 @@
-import { getResourceValidation } from '~/lib/resources/index.js'
+import { getResourceValidation } from '~/lib/resources/index.ts'
 
 export default async function (resourceKey, props, emit) {
   if (!('triggerSubmit' in props)) {

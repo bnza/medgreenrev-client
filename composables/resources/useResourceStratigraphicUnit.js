@@ -1,6 +1,9 @@
 import useResource from './useResource'
+import { getResourceIri } from '~/lib/index.js'
 
 export default function (routeName = '') {
+  const config = useRuntimeConfig()
+  const baseURL = config.public.apiBaseURL
   const defaultHeaders = [
     {
       key: 'id',
@@ -54,10 +57,24 @@ export default function (routeName = '') {
 
   const protectedFields = ['public']
 
+  const formatJsonLdItem = (item) => {
+    if (item?.site?.id) {
+      item.site = getResourceIri(baseURL, 'sites', item.site.id)
+    }
+    if (item?.year) {
+      item.year = Number(item.year)
+    }
+    if (item?.number) {
+      item.number = Number(item.number)
+    }
+    return item
+  }
+
   return useResource({
     resourceKey: 'stratigraphicUnits',
     routeName,
     defaultHeaders,
     protectedFields,
+    formatJsonLdItem,
   })
 }

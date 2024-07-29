@@ -1,13 +1,28 @@
 <script setup>
-const tableProps = defineProps(resourceDataTableProps)
-const { items, pending, totalItems } = toRefs(tableProps)
-const paginationOptions = defineModel('paginationOptions')
-
-const { headers, resourceConfig } = useResourceStratigraphicUnit()
+const props = defineProps({
+  parent: {
+    type: Object,
+    default: () => new Object(),
+  },
+  routeName: {
+    type: String,
+  },
+})
+const { fetchCollection, headers, resourceConfig } =
+  useResourceStratigraphicUnit(props.routeName)
+const { pending, error, paginationOptions, items, totalItems } =
+  await fetchCollection(props.parent)
 </script>
 
 <template>
+  <resource-not-found
+    v-if="error"
+    path="/"
+    :error
+    tooltip-text="Back to home"
+  />
   <v-data-table-server
+    v-else
     :items-per-page-options="ITEMS_PER_PAGE_OPTIONS"
     :items-per-page="paginationOptions.itemsPerPage"
     :headers="headers"

@@ -1,7 +1,9 @@
 <script setup>
 defineProps({
   path: {
-    type: String,
+    validator(value) {
+      return 'string' === typeof value || value?.constructor === Object
+    },
     required: true,
   },
 })

@@ -12,7 +12,11 @@ export default function (item, emit) {
     email: {
       required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
       email: email,
-      unique: useAsyncUniqueValidator('unique', 'email', 'user/email', item),
+      unique: useAsyncUniqueValidator({
+        prop: 'email',
+        path: 'users/email',
+        item,
+      }),
     },
   }
 
