@@ -1,5 +1,6 @@
 import { stringify } from 'qs'
 import SitesModule from '~/repository/modules/sites.js'
+import StratigraphicUnitsModule from '~/repository/modules/stratigraphic-units.js'
 import UsersModule from '~/repository/modules/users.js'
 import ApiValidator from '~/repository/validator.js'
 
@@ -42,6 +43,7 @@ export default defineNuxtPlugin(() => {
 
   const modules = {
     sites: new SitesModule(apiFetcher),
+    stratigraphicUnits: new StratigraphicUnitsModule(apiFetcher),
     users: new UsersModule(apiFetcher),
   }
 

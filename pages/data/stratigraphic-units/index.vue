@@ -2,8 +2,8 @@
 definePageMeta({
   auth: false,
 })
-const { hasRoleAdmin } = useAppAuth()
-const { fetchCollection, resourceConfig, collectionLabel } = useResourceSite()
+const { fetchCollection, resourceConfig, collectionLabel } =
+  useResourceStratigraphicUnit()
 const { pending, error, paginationOptions, items, totalItems } =
   await fetchCollection()
 </script>
@@ -11,10 +11,10 @@ const { pending, error, paginationOptions, items, totalItems } =
 <template>
   <app-data-card :title="collectionLabel">
     <template #toolbar-append>
-      <lazy-navigation-resource-item-create
-        v-if="hasRoleAdmin"
-        :path="`${resourceConfig.appPath}/create`"
-      />
+      <!--      <lazy-navigation-resource-item-create-->
+      <!--        v-if="hasRoleAdmin"-->
+      <!--        :path="`${resourceConfig.appPath}/create`"-->
+      <!--      />-->
       <lazy-navigation-resource-item-search
         :path="`${resourceConfig.appPath}/search`"
       />
@@ -26,7 +26,7 @@ const { pending, error, paginationOptions, items, totalItems } =
         :error="error"
         tooltip-text="Back to home"
       />
-      <lazy-data-collection-site-table
+      <lazy-data-collection-stratigraphic-units-table
         v-else-if="items"
         :pending
         :paginationOptions

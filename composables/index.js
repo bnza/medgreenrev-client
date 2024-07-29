@@ -6,6 +6,7 @@ export { useFetchCollectionOptionsState } from './states/useFetchCollectionOptio
 export { useUserPlainPasswordState } from '~/composables/states/useUserPlainPasswordState'
 
 export { default as useResourceSite } from './resources/useResourceSite'
+export { default as useResourceStratigraphicUnit } from './resources/useResourceStratigraphicUnit.js'
 export { default as useResourceUser } from './resources/useResourceUser'
 
 export { default as useDataForm } from './form/useDataForm'

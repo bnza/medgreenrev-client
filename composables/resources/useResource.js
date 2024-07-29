@@ -143,19 +143,6 @@ function useResource(options) {
     })
   }
 
-  // const actions = {
-  //   [API_ACTIONS.Update]: patchItem,
-  //   [API_ACTIONS.Create]: postItem,
-  //   [API_ACTIONS.Delete]: deleteItem,
-  // }
-  //
-  // const getAction = (type) => {
-  //   if ((!type) in actions) {
-  //     throw new Error(`Unsupported action "${type}"`)
-  //   }
-  //   return actions[type]
-  // }
-
   return {
     repository,
     collectionLabel,

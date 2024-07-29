@@ -1,8 +1,8 @@
 <script setup>
-const {visible} = useAppNavigationDrawerVisibleState()
+const { visible } = useAppNavigationDrawerVisibleState()
 
 const open = ref([])
-const {hasRoleAdmin} = useAppAuth()
+const { hasRoleAdmin } = useAppAuth()
 </script>
 
 <template>
@@ -31,6 +31,13 @@ const {hasRoleAdmin} = useAppAuth()
           router
           title="Site"
           data-testid="app-nav-drawer-li-sites"
+        />
+        <v-list-item
+          nuxt
+          to="/data/stratigraphic-units"
+          router
+          title="Stratigraphic Unit"
+          data-testid="app-nav-drawer-li-sus"
         />
       </v-list-group>
       <v-list-group v-if="hasRoleAdmin" value="Admin">
