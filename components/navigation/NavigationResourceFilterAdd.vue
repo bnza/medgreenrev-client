@@ -1,12 +1,14 @@
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
   size: {
     type: String,
     default: 'xsmall',
   },
 })
-const { size } = toRefs(props)
-const emit = defineEmits(['click'])
+
+const { isAddFilterDialogOpen } = inject('resourceFiltersState')
+// const { size } = toRefs(props)
+// const emit = defineEmits(['click'])
 </script>
 
 <template>
@@ -15,7 +17,7 @@ const emit = defineEmits(['click'])
     density="compact"
     :icon="true"
     variant="text"
-    @click="emit('click')"
+    @click="isAddFilterDialogOpen = true"
     data-testid="add-filter-button"
   >
     <v-icon icon="fas fa-plus" :size="size" />

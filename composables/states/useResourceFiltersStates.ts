@@ -6,11 +6,19 @@ import { getAvailableOperators, getAvailableProps } from '~/lib/filters'
 import type { Filter } from '~/lib/constants/filters'
 import type { MaybeRef } from 'vue'
 
-export const useResourceFiltersState = (routeName = '') => {
+export const useResourceFiltersState = ({
+  routeName = '',
+  resourceConfig = {},
+}: {
+  routeName: string
+  resourceConfig: Record<string, any>
+}) => {
   if (!routeName) {
     console.error('route name is required')
     return {}
   }
+
+  const isAddFilterDialogOpen = ref(false)
 
   const { getResourceFilters } = useAppFiltersState()
 
@@ -30,7 +38,7 @@ export const useResourceFiltersState = (routeName = '') => {
   const filters = computed(() => workData.filters)
 
   const setFilter = (filter: Filter) => {
-    filter = structuredClone(filter)
+    filter = structuredClone(toRaw(filter))
     const index = workData.filters.findIndex(
       (currFilter) => currFilter.id === filter.id,
     )
@@ -61,12 +69,25 @@ export const useResourceFiltersState = (routeName = '') => {
     return obj
   })
 
+  const setFilterAndCloseDialog = (filter: Filter) => {
+    setFilter(filter)
+    isAddFilterDialogOpen.value = false
+  }
+
+  const router = useRouter()
+  const setFiltersAndClose = () => {
+    persistFilters()
+    router.replace(resourceConfig.appPath)
+  }
   return {
     filters,
+    isAddFilterDialogOpen,
     getAvailableOperatorsByProp,
     removeFilter,
     setFilter,
+    setFilterAndCloseDialog,
     persistFilters,
+    setFiltersAndClose,
     isEmpty,
     availableProps,
     resourceFilterParams,

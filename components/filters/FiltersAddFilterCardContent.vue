@@ -27,6 +27,8 @@ const emit = defineEmits(['addFilter', 'update:invalid'])
 
 const triggerSubmit = defineModel('triggerSubmit', { required: true })
 
+const { setFilterAndCloseDialog } = inject('resourceFiltersState')
+
 watch(triggerSubmit, async (trigger) => {
   if (trigger) {
     triggerSubmit.value = false
@@ -35,7 +37,7 @@ watch(triggerSubmit, async (trigger) => {
     }
     const valid = await v$.value.$validate()
     if (valid) {
-      emit('addFilter', toRaw(filter))
+      setFilterAndCloseDialog(filter)
     }
   }
 })

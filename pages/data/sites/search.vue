@@ -5,37 +5,25 @@ definePageMeta({
   auth: false,
 })
 const { resourceConfig } = useResourceSite('data-sites')
-const isAddFilterDialogOpen = ref(false)
 
-const resourceFilterState = useResourceFiltersState('data-sites')
+const resourceFilterState = useResourceFiltersState({
+  routeName: 'data-sites',
+  resourceConfig,
+})
 provide('resourceFiltersState', resourceFilterState)
 
-const { setFilter, persistFilters } = resourceFilterState
-const setFilterAndCloseDialog = (filter) => {
-  setFilter(filter)
-  isAddFilterDialogOpen.value = false
-}
-const router = useRouter()
-const setFiltersAndClose = () => {
-  persistFilters()
-  router.replace(resourceConfig.appPath)
-}
+const { isAddFilterDialogOpen, setFilterAndCloseDialog, setFiltersAndClose } =
+  resourceFilterState
 </script>
 
 <template>
-  <lazy-filters-add-filter-dialog
-    v-model="isAddFilterDialogOpen"
-    @add-filter="setFilterAndCloseDialog($event)"
-  />
+  <lazy-filters-add-filter-dialog />
   <lazy-app-data-card title="Search (Sites)">
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
     <template #toolbar-append>
-      <lazy-navigation-resource-filter-add
-        size="large"
-        @click="isAddFilterDialogOpen = true"
-      />
+      <lazy-navigation-resource-filter-add size="large" />
     </template>
     <filters-list />
     <template #actions>
@@ -57,7 +45,7 @@ const setFiltersAndClose = () => {
         color="anchor"
         variant="text"
         :icon="true"
-        @click="setFiltersAndClose()"
+        @click="setFiltersAndClose(resourceConfig)"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket" />
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>

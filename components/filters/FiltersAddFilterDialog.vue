@@ -2,18 +2,14 @@
 const props = defineProps({
   filter: Object,
 })
-const modelValue = defineModel({ required: true })
+
+const { isAddFilterDialogOpen } = inject('resourceFiltersState')
 const triggerSubmit = ref(false)
-const emit = defineEmits(['addFilter'])
-const addFilter = (filter) => {
-  triggerSubmit.value = false
-  emit('addFilter', filter)
-}
 </script>
 
 <template>
   <v-dialog
-    v-model="modelValue"
+    :model-value="isAddFilterDialogOpen"
     :persistent="true"
     data-testid="filter-edit-dialog"
   >
@@ -23,7 +19,6 @@ const addFilter = (filter) => {
       </v-card-title>
       <lazy-filters-add-filter-card-content
         v-model:trigger-submit="triggerSubmit"
-        @add-filter="addFilter($event)"
       />
       <v-card-actions>
         <v-tooltip location="bottom" text="Close">
@@ -31,7 +26,7 @@ const addFilter = (filter) => {
             <v-btn
               data-testid="close-button"
               color="anchor"
-              @click="modelValue = false"
+              @click="isAddFilterDialogOpen = false"
               icon="fas fa-xmark"
               v-bind="props"
             />

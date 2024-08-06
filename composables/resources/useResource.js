@@ -58,7 +58,10 @@ function useResource(options) {
   const { paginationOptions, queryPaginationOptionsParams } =
     usePaginationOptions(routeName)
 
-  const { resourceFilterParams } = useResourceFiltersState(routeName)
+  const { resourceFilterParams } = useResourceFiltersState({
+    routeName,
+    resourceConfig,
+  })
   const fetchCollection = async (parent) => {
     parent = parent || {}
     const params = computed(() =>
