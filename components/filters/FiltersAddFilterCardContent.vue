@@ -11,6 +11,7 @@ const filter = reactive({
 
 const operandsComponentsMap = {
   Single: resolveComponent('FiltersSingleOperand'),
+  SiteAutocomplete: resolveComponent('FiltersSiteAutocompleteOperand'),
 }
 
 const operandsComponent = computed(() => {

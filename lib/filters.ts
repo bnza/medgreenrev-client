@@ -42,8 +42,8 @@ export const getAvailableProps = (
           filterDefinition.multiple ||
           !resourceFilters.some((currFilterState) => {
             return (
-              prop === currFilterState.property &&
-              filterDefinition.id === currFilterState.filter
+              prop === currFilterState.property // &&
+              //filterDefinition.id === currFilterState.filter
             )
           }),
       ),
@@ -55,6 +55,7 @@ export const getAvailableProps = (
         title: resourcePropFilterDefinition.propertyLabel || prop,
       }
     })
+    .sort((a, b) => a.value.localeCompare(b.value))
 }
 
 export const getAvailableOperators = (

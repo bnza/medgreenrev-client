@@ -53,6 +53,10 @@ function useResource(options) {
   /** @type string */
   const collectionLabel = resourceConfig.labels[1]
 
+  const config = useRuntimeConfig()
+  const baseURL = config.public.apiBaseURL
+  const getIri = (id) => `${baseURL}${resourceConfig.apiPath}/${id}`
+
   const repository = useNuxtApp().$api.getRepository(resourceKey)
 
   const { paginationOptions, queryPaginationOptionsParams } =
@@ -160,7 +164,7 @@ function useResource(options) {
     patchItem,
     postItem,
     deleteItem,
-    // getAction,
+    getIri,
   }
 }
 
