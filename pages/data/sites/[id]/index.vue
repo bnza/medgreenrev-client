@@ -10,6 +10,8 @@ const { resourceConfig, fetchItem, itemLabel } = useResourceSite()
 const { item, error, code } = await fetchItem(id)
 
 const tab = ref(null)
+
+const { isAuthenticated } = useAppAuth()
 </script>
 
 <template>
@@ -59,13 +61,17 @@ const tab = ref(null)
               <v-toolbar density="compact">
                 <template #append>
                   <lazy-navigation-resource-item-create
+                    v-if="isAuthenticated"
                     :path="{
                       path: `${getResourceConfig('stratigraphicUnits').appPath}/create`,
                       query: { parent: { 'site.id': id } },
                     }"
                   />
                   <lazy-navigation-resource-item-search
-                    :path="`${getResourceConfig('stratigraphicUnits').appPath}/search`"
+                    :path="{
+                      path: `${getResourceConfig('stratigraphicUnits').appPath}/search`,
+                      query: { parent: { 'site.id': id } },
+                    }"
                   />
                 </template>
               </v-toolbar>

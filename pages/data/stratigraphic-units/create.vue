@@ -9,7 +9,15 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, postItem)
 </script>
 
 <template>
-  <app-data-card v :title="itemLabel" code="" :mode="mode">
+  <app-data-card
+    v
+    :title="itemLabel"
+    code=""
+    :color="DATA_API_ACTIONS_BAR_COLOR[mode]"
+  >
+    <template #title-append>
+      <lazy-data-toolbar-title-append :text="mode" />
+    </template>
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>

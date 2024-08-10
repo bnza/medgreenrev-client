@@ -159,6 +159,7 @@ function useResource(options) {
     headers,
     itemLabel,
     resourceConfig,
+    routeName,
     fetchCollection,
     fetchItem,
     patchItem,

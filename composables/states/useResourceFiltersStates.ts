@@ -29,6 +29,10 @@ export const useResourceFiltersState = ({
     structuredClone(toRaw(resourceFiltersState.value)),
   )
 
+  const isFiltered = computed(() =>
+    Boolean(resourceFiltersState.value.filters.length),
+  )
+
   const isEmpty = computed(() => workData.filters.length === 0)
 
   const availableProps = computed(() => getAvailableProps(workData))
@@ -100,6 +104,7 @@ export const useResourceFiltersState = ({
     setFiltersAndClose,
     isEmpty,
     isChanged,
+    isFiltered,
     clearFilters,
     availableProps,
     resourceFilterParams,

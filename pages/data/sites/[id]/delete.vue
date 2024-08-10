@@ -1,7 +1,4 @@
 <script setup>
-import DeleteItemAlertRow from '~/components/DeleteItemAlertRow.vue'
-import ResourceNotFound from '~/components/ResourceNotFound.vue'
-
 definePageMeta({
   middleware: ['acl'],
   voters: [ACL_VOTERS.HasRoleAdmin],
@@ -28,7 +25,15 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, deleteItem)
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <app-data-card v-if="item" :title="itemLabel" :code="code" :mode="mode">
+  <app-data-card
+    v-if="item"
+    :title="itemLabel"
+    :code="code"
+    :color="DATA_API_ACTIONS_BAR_COLOR[mode]"
+  >
+    <template #title-append>
+      <lazy-data-toolbar-title-append :text="mode" />
+    </template>
     <template #toolbar-prepend>
       <navigation-resource-item-read
         class="ml-3"

@@ -1,10 +1,7 @@
-<script setup>
-defineProps({
-  path: {
-    type: String,
-    required: true,
-  },
-})
+<script setup lang="ts">
+import type { RouteLocation } from '#vue-router'
+
+defineProps<{ path: string | RouteLocation }>()
 </script>
 
 <template>

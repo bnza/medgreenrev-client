@@ -10,17 +10,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  mode: {
+  color: {
     type: String,
-    default: API_ACTIONS.Read,
   },
   loading: {
     type: Boolean,
     default: false,
   },
 })
-
-const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
 </script>
 
 <template>
@@ -36,12 +33,7 @@ const color = computed(() => DATA_API_ACTIONS_BAR_COLOR[props.mode])
       </template>
       <template #title
         >{{ title }}
-        <span
-          v-if="mode !== API_ACTIONS.Read"
-          style="font-size: small; text-transform: uppercase"
-        >
-          ({{ mode }})</span
-        >
+        <slot name="title-append" />
         <span v-if="code" class="font-weight-bold text-secondary pl-6"
           >{{ code }}
         </span>
