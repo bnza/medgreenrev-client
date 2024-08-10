@@ -13,8 +13,6 @@ const resourceFilterState = useResourceFiltersState({
   resourceConfig,
 })
 provide('resourceFiltersState', resourceFilterState)
-
-const { setFiltersAndClose } = resourceFilterState
 </script>
 
 <template>
@@ -28,31 +26,7 @@ const { setFiltersAndClose } = resourceFilterState
     </template>
     <filters-list />
     <template #actions>
-      <v-btn
-        :icon="true"
-        variant="text"
-        nuxt
-        data-testid="close-button"
-        color="anchor"
-        :to="resourceConfig.appPath"
-      >
-        <v-icon icon="fas fa-xmark" size="large" />
-        <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
-      </v-btn>
-      <v-spacer />
-      <v-btn
-        data-testid="submit-button"
-        class="mx-4"
-        color="anchor"
-        variant="text"
-        :icon="true"
-        @click="setFiltersAndClose(resourceConfig)"
-      >
-        <v-icon icon="fas fa-arrow-up-from-bracket" />
-        <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
-      </v-btn>
+      <lazy-filters-list-actions :back-path="resourceConfig.appPath" />
     </template>
   </lazy-app-data-card>
 </template>
-
-<style scoped></style>

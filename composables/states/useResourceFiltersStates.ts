@@ -35,7 +35,6 @@ export const useResourceFiltersState = ({
 
   const isChanged = computed(() => {
     const diffObj = diff(filters.value, resourceFiltersState.value.filters)
-    console.log(diffObj)
     return !Boolean(Object.keys(diffObj).length === 0)
   })
 
@@ -74,7 +73,7 @@ export const useResourceFiltersState = ({
 
   const resourceFilterParams = computed(() => {
     const obj = {}
-    for (const filter of unref(resourceFiltersState).filters) {
+    for (const filter of resourceFiltersState.value.filters) {
       API_FILTERS[filter.filter].addToObject(obj, filter)
     }
     return obj
