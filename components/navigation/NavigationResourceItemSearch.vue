@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { RouteLocation } from '#vue-router'
-
-defineProps<{ path: string | RouteLocation }>()
+defineProps<{ path: string | { path: string; query: Record<string, any> } }>()
 </script>
 
 <template>

@@ -26,7 +26,10 @@ export const useAppFiltersState = () => {
   }
 
   const getResourceFilters = (routeName: string) =>
-    computed(() => getResourceFiltersByRouteName(routeName))
+    computed(() => {
+      console.log(routeName)
+      return getResourceFiltersByRouteName(routeName)
+    })
 
   return { getResourceFilters }
 }

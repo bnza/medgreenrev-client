@@ -1,6 +1,7 @@
 import useResource from './useResource'
+import useResourceRouteName from '~/composables/resources/useResourceRouteName.ts'
 
-export default function () {
+export default function (routeName = '', parent) {
   const defaultHeaders = [
     {
       key: 'id',
@@ -21,9 +22,11 @@ export default function () {
       value: 'roles',
       title: 'roles',
       sortable: false,
-    }
+    },
   ]
 
+  const { routeName: _routeName } = useResourceRouteName(routeName, parent)
+  routeName = _routeName
   const normalizePatchItem = (newItem, oldItem, diffItem) => {
     if (diffItem.roles) {
       diffItem.roles = newItem.roles
@@ -33,7 +36,8 @@ export default function () {
 
   return useResource({
     resourceKey: 'users',
+    routeName,
     defaultHeaders,
-    normalizePatchItem
+    normalizePatchItem,
   })
 }

@@ -4,12 +4,9 @@ const props = defineProps({
     type: Object,
     default: () => new Object(),
   },
-  routeName: {
-    type: String,
-  },
 })
 const { fetchCollection, headers, resourceConfig } =
-  useResourceStratigraphicUnit(props.routeName)
+  useResourceStratigraphicUnit('data-stratigraphic-units', props.parent)
 const { pending, error, paginationOptions, items, totalItems } =
   await fetchCollection(props.parent)
 </script>

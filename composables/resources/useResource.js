@@ -7,7 +7,8 @@ function useResource(options) {
     throw new Error('Resource key is required!')
   }
   if (!options.routeName) {
-    options.routeName = options.resourceKey
+    // options.routeName = options.resourceKey
+    throw new Error('Resource key is required!')
   }
 
   if (!options.defaultHeaders) {

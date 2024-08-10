@@ -91,7 +91,10 @@ export const useResourceFiltersState = ({
   const router = useRouter()
   const setFiltersAndClose = () => {
     persistFilters()
-    router.replace(resourceConfig.appPath)
+    if (history.state.back) {
+      return router.replace(history.state.back)
+    }
+    return router.replace(resourceConfig.appPath)
   }
   return {
     filters,

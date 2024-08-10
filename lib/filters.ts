@@ -2,6 +2,9 @@ import type { ResourceFiltersState } from '~/composables/states/useAppFiltersSta
 import type { FilterDefinitionObject } from '~/lib/constants/filters'
 
 const getResourceKey = (routeName: string) => {
+  routeName = toRaw(routeName)
+
+  routeName = routeName.split('/')[0]
   const resourceKey = ROUTE_NAMES_RESOURCES_MAP[routeName]
   if (!resourceKey) {
     console.error(`Invalid route name "${routeName}"`)

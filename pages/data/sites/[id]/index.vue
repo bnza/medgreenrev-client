@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useResourceFiltersState } from '~/composables'
+
 definePageMeta({
   auth: false,
 })
@@ -12,6 +14,15 @@ const { item, error, code } = await fetchItem(id)
 const tab = ref(null)
 
 const { isAuthenticated } = useAppAuth()
+
+const parent = { 'site.id': id.value }
+const { resourceConfig: suResourceConfig, routeName: suRouteName } =
+  useResourceStratigraphicUnit('data-stratigraphic-units', parent)
+
+const { isFiltered } = useResourceFiltersState({
+  routeName: suRouteName,
+  resourceConfig: suResourceConfig,
+})
 </script>
 
 <template>
@@ -56,9 +67,19 @@ const { isAuthenticated } = useAppAuth()
               :mode="API_ACTIONS.Read"
             />
           </v-tabs-window-item>
-          <v-tabs-window-item value="sus">
+          <v-tabs-window-item
+            value="sus"
+            data-testid="tabs-window-stratigraphic-units"
+          >
             <v-card :rounded="false">
               <v-toolbar density="compact">
+                <template #title>
+                  <lazy-data-toolbar-title-append
+                    v-if="isFiltered"
+                    text="filtered"
+                    :color="COLORS['secondary']"
+                  />
+                </template>
                 <template #append>
                   <lazy-navigation-resource-item-create
                     v-if="isAuthenticated"
@@ -76,6 +97,7 @@ const { isAuthenticated } = useAppAuth()
                 </template>
               </v-toolbar>
               <lazy-data-collection-stratigraphic-units-table
+                data-testid="children-collection-table"
                 :parent="{ 'site.id': id }"
                 route-name="data-sites-id-stratigraphicUnits"
               />

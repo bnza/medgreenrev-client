@@ -1,4 +1,5 @@
 import useResource from './useResource'
+import useResourceRouteName from '~/composables/resources/useResourceRouteName.ts'
 
 export default function (routeName = '') {
   const defaultHeaders = [
@@ -35,10 +36,8 @@ export default function (routeName = '') {
     },
   ]
 
-  if (!routeName) {
-    const route = useRoute()
-    routeName = route.name
-  }
+  const { routeName: _routeName } = useResourceRouteName(routeName)
+  routeName = _routeName
 
   const protectedFields = ['public']
 

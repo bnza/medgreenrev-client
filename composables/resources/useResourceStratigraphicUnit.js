@@ -1,7 +1,8 @@
 import useResource from './useResource'
 import { getResourceIri } from '~/lib/index.js'
+import useResourceRouteName from '~/composables/resources/useResourceRouteName.ts'
 
-export default function (routeName = '') {
+export default function (routeName = '', parent) {
   const config = useRuntimeConfig()
   const baseURL = config.public.apiBaseURL
   const defaultHeaders = [
@@ -50,10 +51,8 @@ export default function (routeName = '') {
     },
   ]
 
-  if (!routeName) {
-    const route = useRoute()
-    routeName = route.name
-  }
+  const { routeName: _routeName } = useResourceRouteName(routeName, parent)
+  routeName = _routeName
 
   const protectedFields = ['public']
 
