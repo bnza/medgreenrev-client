@@ -1,36 +1,34 @@
 import {
-  type ResourceFiltersState,
-  useAppFiltersState,
-} from '~/composables/states/useAppFiltersState'
+  type ResourcePageState,
+  useAppResourcePageState,
+} from '~/composables/states/useAppResourcePageState'
 import { getAvailableOperators, getAvailableProps } from '~/lib/filters'
 import type { Filter } from '~/lib/constants/filters'
 import type { MaybeRef } from 'vue'
 import { diff } from 'deep-object-diff'
 
 export const useResourceFiltersState = ({
-  routeName = '',
+  resourcePageKey = '',
   resourceConfig = {},
 }: {
-  routeName: string
+  resourcePageKey: string
   resourceConfig: Record<string, any>
 }) => {
-  if (!routeName) {
+  if (!resourcePageKey) {
     console.error('route name is required')
     return {}
   }
 
   const isAddFilterDialogOpen = ref(false)
 
-  const { getResourceFilters } = useAppFiltersState()
+  const { resourcePageState } = useAppResourcePageState(resourcePageKey)
 
-  const resourceFiltersState = getResourceFilters(routeName)
-
-  const workData: ResourceFiltersState = reactive(
-    structuredClone(toRaw(resourceFiltersState.value)),
+  const workData: ResourcePageState = reactive(
+    structuredClone(toRaw(resourcePageState.value)),
   )
 
   const isFiltered = computed(() =>
-    Boolean(resourceFiltersState.value.filters.length),
+    Boolean(resourcePageState.value.filters.length),
   )
 
   const isEmpty = computed(() => workData.filters.length === 0)
@@ -38,7 +36,7 @@ export const useResourceFiltersState = ({
   const availableProps = computed(() => getAvailableProps(workData))
 
   const isChanged = computed(() => {
-    const diffObj = diff(filters.value, resourceFiltersState.value.filters)
+    const diffObj = diff(filters.value, resourcePageState.value.filters)
     return !Boolean(Object.keys(diffObj).length === 0)
   })
 
@@ -70,14 +68,14 @@ export const useResourceFiltersState = ({
   }
 
   const persistFilters = () => {
-    resourceFiltersState.value.filters = structuredClone(
+    resourcePageState.value.filters = structuredClone(
       toRaw(workData.filters.map(toRaw)),
     )
   }
 
   const resourceFilterParams = computed(() => {
     const obj = {}
-    for (const filter of resourceFiltersState.value.filters) {
+    for (const filter of resourcePageState.value.filters) {
       API_FILTERS[filter.filter].addToObject(obj, filter)
     }
     return obj

@@ -7,7 +7,7 @@ definePageMeta({
 const { resourceConfig } = useResourceSite('data-sites')
 
 const resourceFilterState = useResourceFiltersState({
-  routeName: 'data-sites',
+  resourcePageKey: 'data-sites',
   resourceConfig,
 })
 provide('resourceFiltersState', resourceFilterState)

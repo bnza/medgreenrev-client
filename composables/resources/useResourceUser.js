@@ -25,8 +25,7 @@ export default function (routeName = '', parent) {
     },
   ]
 
-  const { routeName: _routeName } = useResourceRouteName(routeName, parent)
-  routeName = _routeName
+  const { routeName: resourcePageKey } = useResourceRouteName(routeName, parent)
   const normalizePatchItem = (newItem, oldItem, diffItem) => {
     if (diffItem.roles) {
       diffItem.roles = newItem.roles
@@ -36,7 +35,7 @@ export default function (routeName = '', parent) {
 
   return useResource({
     resourceKey: 'users',
-    routeName,
+    resourcePageKey,
     defaultHeaders,
     normalizePatchItem,
   })

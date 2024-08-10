@@ -1,19 +1,17 @@
-import type { ResourceFiltersState } from '~/composables/states/useAppFiltersState'
+import type { ResourcePageState } from '~/composables/states/useAppResourcePageState'
 import type { FilterDefinitionObject } from '~/lib/constants/filters'
 
-const getResourceKey = (routeName: string) => {
-  routeName = toRaw(routeName)
-
-  routeName = routeName.split('/')[0]
-  const resourceKey = ROUTE_NAMES_RESOURCES_MAP[routeName]
+const getResourceKey = (resourcePageKey: string) => {
+  resourcePageKey = resourcePageKey.split('/')[0]
+  const resourceKey = RESOURCE_PAGES_KEY_TO_RESOURCE_KEY_MAP[resourcePageKey]
   if (!resourceKey) {
-    console.error(`Invalid route name "${routeName}"`)
+    console.error(`Invalid route name "${resourcePageKey}"`)
   }
   return resourceKey || ''
 }
 const getResourceFiltersDefinitions = (routeNameOrResourceKey: string) => {
   const key = getResourceKey(routeNameOrResourceKey) || routeNameOrResourceKey
-  const resourceFiltersDefinitions = RESOURCES_FILTERS[key]
+  const resourceFiltersDefinitions = RESOURCE_PAGES_STATE[key]
   if (!resourceFiltersDefinitions) {
     console.error(`Invalid key provided: "${routeNameOrResourceKey}", "${key}"`)
   }
@@ -21,7 +19,7 @@ const getResourceFiltersDefinitions = (routeNameOrResourceKey: string) => {
 }
 
 const getResourceFiltersDefinitionsByFilterObject = (
-  resourceFiltersState: ResourceFiltersState,
+  resourceFiltersState: ResourcePageState,
 ) => {
   if (!('routeName' in resourceFiltersState)) {
     console.error('Invalid filtersObject provided')
@@ -31,7 +29,7 @@ const getResourceFiltersDefinitionsByFilterObject = (
 }
 
 export const getAvailableProps = (
-  resourceFiltersState: ResourceFiltersState,
+  resourceFiltersState: ResourcePageState,
 ): Array<{ value: string; title: string }> => {
   const resourceFiltersDefinitionObject =
     getResourceFiltersDefinitionsByFilterObject(resourceFiltersState)
@@ -62,7 +60,7 @@ export const getAvailableProps = (
 }
 
 export const getAvailableOperators = (
-  resourceFiltersState: ResourceFiltersState,
+  resourceFiltersState: ResourcePageState,
   prop: string,
 ): Array<FilterDefinitionObject> => {
   const resourceFiltersDefinitionObject =

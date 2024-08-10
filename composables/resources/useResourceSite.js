@@ -1,7 +1,7 @@
 import useResource from './useResource'
 import useResourceRouteName from '~/composables/resources/useResourceRouteName.ts'
 
-export default function (routeName = '') {
+export default function (routeName = '', parent) {
   const defaultHeaders = [
     {
       key: 'id',
@@ -36,14 +36,13 @@ export default function (routeName = '') {
     },
   ]
 
-  const { routeName: _routeName } = useResourceRouteName(routeName)
-  routeName = _routeName
+  const { routeName: resourcePageKey } = useResourceRouteName(routeName, parent)
 
   const protectedFields = ['public']
 
   return useResource({
     resourceKey: 'sites',
-    routeName,
+    resourcePageKey,
     defaultHeaders,
     protectedFields,
   })

@@ -6,8 +6,8 @@ function useResource(options) {
   if (!options.resourceKey) {
     throw new Error('Resource key is required!')
   }
-  if (!options.routeName) {
-    // options.routeName = options.resourceKey
+  if (!options.resourcePageKey) {
+    // options.resourcePageKey = options.resourceKey
     throw new Error('Resource key is required!')
   }
 
@@ -25,7 +25,7 @@ function useResource(options) {
   }
 
   const {
-    routeName,
+    resourcePageKey,
     resourceKey,
     defaultHeaders,
     normalizePatchItem,
@@ -61,10 +61,10 @@ function useResource(options) {
   const repository = useNuxtApp().$api.getRepository(resourceKey)
 
   const { paginationOptions, queryPaginationOptionsParams } =
-    usePaginationOptions(routeName)
+    usePaginationOptions(resourcePageKey)
 
   const { resourceFilterParams } = useResourceFiltersState({
-    routeName,
+    resourcePageKey,
     resourceConfig,
   })
   const fetchCollection = async (parent) => {
@@ -160,7 +160,7 @@ function useResource(options) {
     headers,
     itemLabel,
     resourceConfig,
-    routeName,
+    resourcePageKey,
     fetchCollection,
     fetchItem,
     patchItem,

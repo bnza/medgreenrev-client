@@ -4,12 +4,12 @@ import { useResourceFiltersState } from '~/composables'
 definePageMeta({
   auth: false,
 })
-const { resourceConfig, routeName } = useResourceStratigraphicUnit(
+const { resourceConfig, resourcePageKey } = useResourceStratigraphicUnit(
   'data-stratigraphic-units',
 )
 
 const resourceFilterState = useResourceFiltersState({
-  routeName,
+  resourcePageKey,
   resourceConfig,
 })
 provide('resourceFiltersState', resourceFilterState)

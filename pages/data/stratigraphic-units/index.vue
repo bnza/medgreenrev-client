@@ -5,10 +5,10 @@ definePageMeta({
   auth: false,
 })
 const { hasRoleAdmin } = useAppAuth()
-const { resourceConfig, collectionLabel, routeName } =
+const { resourcePageKey, resourceConfig, collectionLabel } =
   useResourceStratigraphicUnit()
 const { isFiltered } = useResourceFiltersState({
-  routeName,
+  resourcePageKey,
   resourceConfig,
 })
 </script>

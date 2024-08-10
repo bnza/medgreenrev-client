@@ -51,8 +51,7 @@ export default function (routeName = '', parent) {
     },
   ]
 
-  const { routeName: _routeName } = useResourceRouteName(routeName, parent)
-  routeName = _routeName
+  const { routeName: resourcePageKey } = useResourceRouteName(routeName, parent)
 
   const protectedFields = ['public']
 
@@ -71,7 +70,7 @@ export default function (routeName = '', parent) {
 
   return useResource({
     resourceKey: 'stratigraphicUnits',
-    routeName,
+    resourcePageKey,
     defaultHeaders,
     protectedFields,
     formatJsonLdItem,

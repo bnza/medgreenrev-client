@@ -212,15 +212,15 @@ const stratigraphicUnits: Readonly<ResourceFiltersDefinitionObject> = {
     propertyLabel: 'site',
   },
 }
-export const RESOURCES_FILTERS: Readonly<
+export const RESOURCE_PAGES_STATE: Readonly<
   Record<string, ResourceFiltersDefinitionObject>
 > = {
   sites,
   stratigraphicUnits,
 }
 
-export const ROUTE_NAMES_RESOURCES_MAP: Readonly<
-  Record<string, keyof typeof RESOURCES_FILTERS>
+export const RESOURCE_PAGES_KEY_TO_RESOURCE_KEY_MAP: Readonly<
+  Record<string, keyof typeof RESOURCE_PAGES_STATE>
 > = {
   'data-sites': 'sites',
   'data-stratigraphic-units': 'stratigraphicUnits',

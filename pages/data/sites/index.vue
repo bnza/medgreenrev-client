@@ -5,9 +5,9 @@ definePageMeta({
   auth: false,
 })
 const { hasRoleAdmin } = useAppAuth()
-const { routeName, resourceConfig, collectionLabel } = useResourceSite()
+const { resourcePageKey, resourceConfig, collectionLabel } = useResourceSite()
 const { isFiltered } = useResourceFiltersState({
-  routeName,
+  resourcePageKey,
   resourceConfig,
 })
 </script>

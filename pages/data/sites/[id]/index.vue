@@ -16,11 +16,11 @@ const tab = ref(null)
 const { isAuthenticated } = useAppAuth()
 
 const parent = { 'site.id': id.value }
-const { resourceConfig: suResourceConfig, routeName: suRouteName } =
+const { resourceConfig: suResourceConfig, resourcePageKey: suRouteName } =
   useResourceStratigraphicUnit('data-stratigraphic-units', parent)
 
 const { isFiltered } = useResourceFiltersState({
-  routeName: suRouteName,
+  resourcePageKey: suRouteName,
   resourceConfig: suResourceConfig,
 })
 </script>
