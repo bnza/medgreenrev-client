@@ -5,6 +5,7 @@ import {
 import { getAvailableOperators, getAvailableProps } from '~/lib/filters'
 import type { Filter } from '~/lib/constants/filters'
 import type { MaybeRef } from 'vue'
+import { diff } from 'deep-object-diff'
 
 export const useResourceFiltersState = ({
   routeName = '',
@@ -32,6 +33,12 @@ export const useResourceFiltersState = ({
 
   const availableProps = computed(() => getAvailableProps(workData))
 
+  const isChanged = computed(() => {
+    const diffObj = diff(filters.value, resourceFiltersState.value.filters)
+    console.log(diffObj)
+    return !Boolean(Object.keys(diffObj).length === 0)
+  })
+
   const getAvailableOperatorsByProp = (prop: MaybeRef<string>) =>
     computed(() => getAvailableOperators(workData, unref(prop)))
 
@@ -53,6 +60,10 @@ export const useResourceFiltersState = ({
     workData.filters = reactive(
       workData.filters.filter((currFilter) => filter.id !== currFilter.id),
     )
+  }
+
+  const clearFilters = () => {
+    workData.filters = []
   }
 
   const persistFilters = () => {
@@ -89,6 +100,8 @@ export const useResourceFiltersState = ({
     persistFilters,
     setFiltersAndClose,
     isEmpty,
+    isChanged,
+    clearFilters,
     availableProps,
     resourceFilterParams,
   }

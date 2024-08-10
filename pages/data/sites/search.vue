@@ -12,7 +12,7 @@ const resourceFilterState = useResourceFiltersState({
 })
 provide('resourceFiltersState', resourceFilterState)
 
-const { isAddFilterDialogOpen, setFilterAndCloseDialog, setFiltersAndClose } =
+const { clearFilters, isChanged, isEmpty, setFiltersAndClose } =
   resourceFilterState
 </script>
 
@@ -27,6 +27,7 @@ const { isAddFilterDialogOpen, setFilterAndCloseDialog, setFiltersAndClose } =
     </template>
     <filters-list />
     <template #actions>
+      <v-spacer />
       <v-btn
         :icon="true"
         variant="text"
@@ -38,20 +39,31 @@ const { isAddFilterDialogOpen, setFilterAndCloseDialog, setFiltersAndClose } =
         <v-icon icon="fas fa-xmark" size="large" />
         <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
       </v-btn>
+      <v-btn
+        :icon="true"
+        variant="text"
+        :disabled="isEmpty"
+        data-testid="clear-button"
+        color="anchor"
+        @click="clearFilters()"
+      >
+        <v-icon icon="fa fa-file" size="large" />
+        <v-tooltip activator="parent" location="bottom">Clear</v-tooltip>
+      </v-btn>
       <v-spacer />
       <v-btn
         data-testid="submit-button"
         class="mx-4"
         color="anchor"
         variant="text"
+        :disabled="!isChanged"
         :icon="true"
         @click="setFiltersAndClose(resourceConfig)"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket" />
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
+      <v-spacer />
     </template>
   </lazy-app-data-card>
 </template>
-
-<style scoped></style>

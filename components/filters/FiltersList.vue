@@ -1,15 +1,22 @@
 <script setup>
-const { filters, isEmpty, removeFilter } = inject('resourceFiltersState')
+const { filters, isEmpty, isChanged, removeFilter } = inject(
+  'resourceFiltersState',
+)
+const text = computed(() =>
+  isChanged.value
+    ? 'All filters have been removed.'
+    : 'No filter selected yet. Please add new filters clicking the plus button in the top right corner',
+)
 </script>
 
 <template>
   <v-empty-state
     v-if="isEmpty"
-    height="v-100"
+    min-height="400px"
     title="No filter selected"
-    text="No filter selected yet. Please add new filters clicking the plus button in the top right corner"
+    :text
   />
-  <v-list v-else data-testid="filters-list">
+  <v-list v-else min-height="400px" data-testid="filters-list">
     <lazy-filters-list-item
       v-for="filter in filters"
       :key="filter.id"
