@@ -3,7 +3,8 @@ import ResourceNotFound from '~/components/ResourceNotFound.vue'
 
 const route = useRoute()
 const id = ref(routeParamIdToString(route.params.id))
-const { resourceConfig, fetchItem, itemLabel, patchItem } = useResourceUser()
+const { resourceConfig, fetchItem, itemLabel, patchItem } =
+  await useResource('users')
 const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)

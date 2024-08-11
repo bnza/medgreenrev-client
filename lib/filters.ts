@@ -1,19 +1,22 @@
 import type { ResourcePageState } from '~/composables/states/useAppResourcePageState'
 import type { FilterDefinitionObject } from '~/lib/constants/filters'
 
-const getResourceKey = (resourcePageKey: string) => {
-  resourcePageKey = resourcePageKey.split('/')[0]
-  const resourceKey = RESOURCE_PAGES_KEY_TO_RESOURCE_KEY_MAP[resourcePageKey]
-  if (!resourceKey) {
-    console.error(`Invalid route name "${resourcePageKey}"`)
-  }
-  return resourceKey || ''
-}
+// const getResourceKey = (resourcePageKey: string) => {
+//   resourcePageKey = resourcePageKey.split('/')[0]
+//   const resourceKey = RESOURCE_PAGES_KEY_TO_RESOURCE_KEY_MAP[resourcePageKey]
+//   if (!resourceKey) {
+//     console.error(`Invalid route name "${resourcePageKey}"`)
+//   }
+//   return resourceKey || ''
+// }
 const getResourceFiltersDefinitions = (routeNameOrResourceKey: string) => {
-  const key = getResourceKey(routeNameOrResourceKey) || routeNameOrResourceKey
+  //const key = getResourceKey(routeNameOrResourceKey) || routeNameOrResourceKey
+  const key = getResourcePageRootKey(routeNameOrResourceKey)
   const resourceFiltersDefinitions = RESOURCE_PAGES_STATE[key]
   if (!resourceFiltersDefinitions) {
-    console.error(`Invalid key provided: "${routeNameOrResourceKey}", "${key}"`)
+    console.error(
+      `No resource filter definition found: keys "${routeNameOrResourceKey}", "${key}"`,
+    )
   }
   return resourceFiltersDefinitions || {}
 }

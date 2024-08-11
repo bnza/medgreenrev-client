@@ -3,7 +3,7 @@ const tableProps = defineProps(resourceDataTableProps)
 const { items, pending, totalItems } = toRefs(tableProps)
 const paginationOptions = defineModel('paginationOptions')
 
-const { headers, resourceConfig } = useResourceUser()
+const { headers, resourceConfig } = await useResource('users')
 
 const emit = defineEmits(['openResetPasswordDialog'])
 </script>

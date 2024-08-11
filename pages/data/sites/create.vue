@@ -4,7 +4,7 @@ definePageMeta({
   voters: [ACL_VOTERS.HasRoleAdmin],
 })
 
-const { resourceConfig, postItem, itemLabel } = useResourceSite()
+const { resourceConfig, postItem, itemLabel } = await useResource('sites')
 const invalid = ref(false)
 const item = ref({})
 const triggerSubmit = ref(false)

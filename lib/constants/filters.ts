@@ -220,10 +220,3 @@ export const RESOURCE_PAGES_STATE: Readonly<
   sites,
   stratigraphicUnits,
 }
-
-export const RESOURCE_PAGES_KEY_TO_RESOURCE_KEY_MAP: Readonly<
-  Record<string, keyof typeof RESOURCE_PAGES_STATE>
-> = {
-  'data-sites': 'sites',
-  'data-stratigraphic-units': 'stratigraphicUnits',
-}

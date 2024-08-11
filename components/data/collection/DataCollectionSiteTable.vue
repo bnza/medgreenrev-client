@@ -5,7 +5,7 @@ const props = defineProps({
     default: () => new Object(),
   },
 })
-const { fetchCollection, headers, resourceConfig } = useResourceSite()
+const { fetchCollection, headers, resourceConfig } = await useResource('sites')
 const { pending, error, paginationOptions, items, totalItems } =
   await fetchCollection(props.parent)
 </script>

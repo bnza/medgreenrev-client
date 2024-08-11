@@ -1,43 +1,43 @@
-import usePaginationOptionsState from '~/composables/states/usePaginationOptionsState.ts'
+import usePaginationOptionsState from '~/composables/states/usePaginationOptionsState'
 import { diff } from 'deep-object-diff'
 import { useResourceFiltersState } from '~/composables/index.js'
+import { type ResourceKey, type UseResourceTypeOptions } from '~/lib/resources'
 
-function useResource(options) {
-  if (!options.resourceKey) {
-    throw new Error('Resource key is required!')
-  }
-  if (!options.resourcePageKey) {
-    // options.resourcePageKey = options.resourceKey
-    throw new Error('Resource key is required!')
-  }
+const _identity1 = (item: Record<string, any>) => item
+const _identity3 = (
+  newItem: Record<string, any>,
+  oldItem: Record<string, any>,
+  diffItem: Record<string, any>,
+) => diffItem
 
-  if (!options.defaultHeaders) {
-    throw new Error('Default headers are required!')
-  }
+const getUseResourceType = async (
+  resourceKey: ResourceKey,
+): Promise<() => UseResourceTypeOptions> => {
+  return (await import(`~/composables/resources/types/${resourceKey}.ts`))
+    .default
+}
 
-  if (!options.formatJsonLdItem) {
-    options.formatJsonLdItem = (item) => item
-  }
-
-  if (!options.normalizePatchItem) {
-    options.normalizePatchItem = (newItem, oldItem, diffItem) =>
-      options.formatJsonLdItem(diffItem)
-  }
-
-  const {
-    resourcePageKey,
-    resourceKey,
-    defaultHeaders,
-    normalizePatchItem,
-    formatJsonLdItem,
-  } = options
-
-  const protectedFields =
-    'protectedFields' in options ? options.protectedFields : []
+async function useResource(
+  resourceKey: ResourceKey,
+  parent?: Record<string, any>,
+) {
+  const resourcePageKey: string =
+    parent && Object.keys(parent).length > 0
+      ? resourceKey.concat('/' + Object.keys(parent)[0])
+      : resourceKey
 
   const resourceConfig = getResourceConfig(resourceKey)
 
   const { isAuthenticated } = useAppAuth()
+
+  const useResourceType = await getUseResourceType(resourceKey)
+
+  const {
+    defaultHeaders,
+    protectedFields = [],
+    normalizePatchItem = _identity3,
+    formatJsonLdItem = _identity1,
+  } = useResourceType()
 
   const headers = computed(() =>
     isAuthenticated.value
@@ -49,14 +49,13 @@ function useResource(options) {
         ),
   )
 
-  /** @type string */
   const itemLabel = resourceConfig.labels[0]
-  /** @type string */
   const collectionLabel = resourceConfig.labels[1]
 
   const config = useRuntimeConfig()
   const baseURL = config.public.apiBaseURL
-  const getIri = (id) => `${baseURL}${resourceConfig.apiPath}/${id}`
+  const getIri = (id: string | number) =>
+    `${baseURL}${resourceConfig.apiPath}/${id}`
 
   const repository = useNuxtApp().$api.getRepository(resourceKey)
 
@@ -67,7 +66,7 @@ function useResource(options) {
     resourcePageKey,
     resourceConfig,
   })
-  const fetchCollection = async (parent) => {
+  const fetchCollection = async (parent: Record<string, string | number>) => {
     parent = parent || {}
     const params = computed(() =>
       Object.assign(
@@ -96,7 +95,7 @@ function useResource(options) {
     }
   }
 
-  const fetchItem = async (id) => {
+  const fetchItem = async (id: string | number) => {
     const { data, pending, error } = await repository.fetchItem(
       id,
       {},
@@ -108,16 +107,21 @@ function useResource(options) {
     return { item: data, pending, error, code }
   }
 
-  const patchItem = (newItem, oldItem) => {
-    // console.log(diff(unref(oldItem), unref(newItem)))
-    const getNormalizePatchItemParams = (newItem, oldItem) => [
+  const patchItem = (
+    newItem: Record<string, any>,
+    oldItem: Record<string, any>,
+  ) => {
+    const getNormalizePatchItemParams = (
+      newItem: Record<string, any>,
+      oldItem: Record<string, any>,
+    ) => [newItem, oldItem, { ...diff(unref(oldItem), unref(newItem)) }]
+
+    const [_newItem, _oldItem, _diffItem] = getNormalizePatchItemParams(
       newItem,
       oldItem,
-      { ...diff(unref(oldItem), unref(newItem)) },
-    ]
-
+    )
     const diffItem = formatJsonLdItem(
-      normalizePatchItem(...getNormalizePatchItemParams(newItem, oldItem)),
+      normalizePatchItem(_newItem, _oldItem, _diffItem),
     )
 
     if (Object.keys(diffItem).length === 0) {
@@ -134,7 +138,7 @@ function useResource(options) {
     })
   }
 
-  const postItem = (newItem) => {
+  const postItem = (newItem: Record<string, any>) => {
     return repository
       .postItem(formatJsonLdItem(unref(newItem)))
       .then((response) => {

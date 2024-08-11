@@ -1,12 +1,12 @@
 <script setup>
-import { useResourceFiltersState } from '~/composables/index.js'
+import { useResourceFiltersState } from '~/composables/index.ts'
 
 definePageMeta({
   auth: false,
 })
 const { hasRoleAdmin } = useAppAuth()
 const { resourcePageKey, resourceConfig, collectionLabel } =
-  useResourceStratigraphicUnit()
+  await useResource('stratigraphicUnits')
 const { isFiltered } = useResourceFiltersState({
   resourcePageKey,
   resourceConfig,

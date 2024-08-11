@@ -10,13 +10,6 @@ export const useAppResourcePageState = (resourcePageKey: string) => {
     () => new Object(),
   )
 
-  const getResourcePageRootKey = (resourcePageKey: string) => {
-    const resourcePageRootKey = resourcePageKey.split('/')[0]
-    if (!(resourcePageRootKey in RESOURCE_PAGES_KEY_TO_RESOURCE_KEY_MAP)) {
-      console.error(`No such "${resourcePageRootKey}" key`)
-    }
-    return resourcePageRootKey
-  }
   const initResourcePageState = (resourcePageKey: string) => {
     state.value[resourcePageKey] = {
       routeName: resourcePageKey,

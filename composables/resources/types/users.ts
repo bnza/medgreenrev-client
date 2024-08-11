@@ -1,8 +1,8 @@
-import useResource from './useResource'
-import useResourceRouteName from '~/composables/resources/useResourceRouteName.ts'
+import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
+import type { UseResourceTypeOptions } from '~/lib/resources'
 
-export default function (routeName = '', parent) {
-  const defaultHeaders = [
+export default function (): UseResourceTypeOptions {
+  const defaultHeaders: ReadonlyHeaders = [
     {
       key: 'id',
       value: 'id',
@@ -25,7 +25,6 @@ export default function (routeName = '', parent) {
     },
   ]
 
-  const { routeName: resourcePageKey } = useResourceRouteName(routeName, parent)
   const normalizePatchItem = (newItem, oldItem, diffItem) => {
     if (diffItem.roles) {
       diffItem.roles = newItem.roles
@@ -33,10 +32,8 @@ export default function (routeName = '', parent) {
     return diffItem
   }
 
-  return useResource({
-    resourceKey: 'users',
-    resourcePageKey,
+  return {
     defaultHeaders,
     normalizePatchItem,
-  })
+  }
 }

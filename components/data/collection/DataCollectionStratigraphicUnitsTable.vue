@@ -5,8 +5,10 @@ const props = defineProps({
     default: () => new Object(),
   },
 })
-const { fetchCollection, headers, resourceConfig } =
-  useResourceStratigraphicUnit('data-stratigraphic-units', props.parent)
+const { fetchCollection, headers, resourceConfig } = await useResource(
+  'stratigraphicUnits',
+  props.parent,
+)
 const { pending, error, paginationOptions, items, totalItems } =
   await fetchCollection(props.parent)
 </script>

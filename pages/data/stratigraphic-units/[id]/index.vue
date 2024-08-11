@@ -5,7 +5,8 @@ definePageMeta({
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const { resourceConfig, fetchItem, itemLabel } = useResourceStratigraphicUnit()
+const { resourceConfig, fetchItem, itemLabel } =
+  await useResource('stratigraphicUnits')
 const { item, error, code } = await fetchItem(id)
 
 const tab = ref(null)

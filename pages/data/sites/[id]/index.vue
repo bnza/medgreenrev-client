@@ -8,7 +8,7 @@ definePageMeta({
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const { resourceConfig, fetchItem, itemLabel } = useResourceSite()
+const { resourceConfig, fetchItem, itemLabel } = await useResource('sites')
 const { item, error, code } = await fetchItem(id)
 
 const tab = ref(null)
@@ -17,7 +17,7 @@ const { isAuthenticated } = useAppAuth()
 
 const parent = { 'site.id': id.value }
 const { resourceConfig: suResourceConfig, resourcePageKey: suRouteName } =
-  useResourceStratigraphicUnit('data-stratigraphic-units', parent)
+  await useResource('stratigraphicUnits', parent)
 
 const { isFiltered } = useResourceFiltersState({
   resourcePageKey: suRouteName,

@@ -7,7 +7,7 @@ definePageMeta({
   voters: [ACL_VOTERS.HasRoleAdmin],
 })
 
-const { resourceConfig, postItem, itemLabel } = useResourceUser()
+const { resourceConfig, postItem, itemLabel } = await useResource('users')
 const { set } = useUserPlainPasswordState()
 
 const invalid = ref(false)

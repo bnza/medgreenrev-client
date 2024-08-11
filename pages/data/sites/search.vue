@@ -4,10 +4,10 @@ import { useResourceFiltersState } from '~/composables'
 definePageMeta({
   auth: false,
 })
-const { resourceConfig } = useResourceSite('data-sites')
+const { resourcePageKey, resourceConfig } = await useResource('sites')
 
 const resourceFilterState = useResourceFiltersState({
-  resourcePageKey: 'data-sites',
+  resourcePageKey,
   resourceConfig,
 })
 provide('resourceFiltersState', resourceFilterState)

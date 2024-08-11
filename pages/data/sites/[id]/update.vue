@@ -6,7 +6,8 @@ definePageMeta({
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const { resourceConfig, fetchItem, itemLabel, patchItem } = useResourceSite()
+const { resourceConfig, fetchItem, itemLabel, patchItem } =
+  await useResource('sites')
 const { item, pending, code, error } = await fetchItem(id)
 
 const invalid = ref(false)

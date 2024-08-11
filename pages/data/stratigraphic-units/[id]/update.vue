@@ -3,7 +3,7 @@ const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, patchItem } =
-  useResourceStratigraphicUnit()
+  await useResource('stratigraphicUnits')
 const { item, pending, code, error } = await fetchItem(id)
 
 const invalid = ref(false)

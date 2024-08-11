@@ -5,7 +5,8 @@ import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog'
 const route = useRoute()
 
 const id = ref(routeParamIdToString(route.params.id))
-const { resourceConfig, fetchItem, itemLabel, patchItem } = useResourceUser()
+const { resourceConfig, fetchItem, itemLabel, patchItem } =
+  await useResource('users')
 const { item, code, error } = await fetchItem(id)
 
 const {

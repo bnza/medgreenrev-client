@@ -1,12 +1,9 @@
 <script setup>
-import DeleteItemAlertRow from '~/components/DeleteItemAlertRow.vue'
-import ResourceNotFound from '~/components/ResourceNotFound.vue'
-
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, deleteItem } =
-  useResourceStratigraphicUnit()
+  await useResource('stratigraphicUnits')
 const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)

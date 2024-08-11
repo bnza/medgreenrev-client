@@ -21,7 +21,7 @@ const emit = defineEmits([
   'submitForm',
 ])
 const { state, v$ } = await useSubmitForm('stratigraphicUnits', props, emit)
-const { resourceConfig } = useResourceStratigraphicUnit()
+const { resourceConfig } = await useResource('stratigraphicUnits')
 
 if (!('site' in state)) {
   state.site = {}

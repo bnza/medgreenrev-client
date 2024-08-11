@@ -1,11 +1,11 @@
-import useResource from './useResource'
 import { getResourceIri } from '~/lib/index.js'
-import useResourceRouteName from '~/composables/resources/useResourceRouteName.ts'
+import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
+import type { UseResourceTypeOptions } from '~/lib/resources'
 
-export default function (routeName = '', parent) {
+export default function (): UseResourceTypeOptions {
   const config = useRuntimeConfig()
   const baseURL = config.public.apiBaseURL
-  const defaultHeaders = [
+  const defaultHeaders: ReadonlyHeaders = [
     {
       key: 'id',
       value: 'id',
@@ -51,11 +51,9 @@ export default function (routeName = '', parent) {
     },
   ]
 
-  const { routeName: resourcePageKey } = useResourceRouteName(routeName, parent)
-
   const protectedFields = ['public']
 
-  const formatJsonLdItem = (item) => {
+  const formatJsonLdItem = (item: Record<string, any>) => {
     if (item?.site?.id) {
       item.site = getResourceIri(baseURL, 'sites', item.site.id)
     }
@@ -68,11 +66,9 @@ export default function (routeName = '', parent) {
     return item
   }
 
-  return useResource({
-    resourceKey: 'stratigraphicUnits',
-    resourcePageKey,
+  return {
     defaultHeaders,
     protectedFields,
     formatJsonLdItem,
-  })
+  }
 }

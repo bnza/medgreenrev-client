@@ -1,6 +1,7 @@
 import sites from './sites.js'
 import stratigraphicUnits from './stratigraphic-units.js'
 import users from './users.js'
+import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
 
 export type ResourceKey = 'sites' | 'users' | 'stratigraphicUnits'
 
@@ -12,11 +13,29 @@ export type ResourceConfig = {
   getCodeFn: (item: Record<string, any>) => () => string
 }
 
+export type UseResourceType = {
+  defaultHeaders: ReadonlyHeaders
+}
+
 const resources: Record<ResourceKey, ResourceConfig> = {
   sites,
   users,
   stratigraphicUnits,
 }
+
+export type UseResourceTypeOptions = {
+  defaultHeaders: ReadonlyHeaders
+  formatJsonLdItem?: (item: Record<string, any>) => Record<string, any>
+  normalizePatchItem?: (
+    newItem: Record<string, any>,
+    oldItem: Record<string, any>,
+    diffItem: Record<string, any>,
+  ) => Record<string, any>
+  protectedFields?: ReadonlyArray<string>
+}
+
+export const isResourceKey = (key: string): key is ResourceKey =>
+  key in resources
 
 const validations: Record<ResourceKey, string> = {
   sites: 'useResourceSiteValidation',

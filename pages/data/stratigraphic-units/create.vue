@@ -1,5 +1,6 @@
 <script setup>
-const { resourceConfig, postItem, itemLabel } = useResourceStratigraphicUnit()
+const { resourceConfig, postItem, itemLabel } =
+  await useResource('stratigraphicUnits')
 const invalid = ref(false)
 const item = ref({})
 const triggerSubmit = ref(false)
