@@ -1,4 +1,4 @@
-import usePaginationOptions from '~/composables/resources/usePaginationOptions.js'
+import usePaginationOptionsState from '~/composables/states/usePaginationOptionsState.ts'
 import { diff } from 'deep-object-diff'
 import { useResourceFiltersState } from '~/composables/index.js'
 
@@ -61,7 +61,7 @@ function useResource(options) {
   const repository = useNuxtApp().$api.getRepository(resourceKey)
 
   const { paginationOptions, queryPaginationOptionsParams } =
-    usePaginationOptions(resourcePageKey)
+    usePaginationOptionsState(resourcePageKey)
 
   const { resourceFilterParams } = useResourceFiltersState({
     resourcePageKey,

@@ -1,13 +1,15 @@
-export default function (key) {
-  const { getPaginationOptions } = useFetchCollectionOptionsState(key)
+import { useAppResourcePageState } from '~/composables/states/useAppResourcePageState'
 
-  const paginationOptions = getPaginationOptions()
-
+export default function (resourcePageKey: string) {
+  const { resourcePageState } = useAppResourcePageState(resourcePageKey)
+  const paginationOptions = reactive(resourcePageState.value.pagination)
   const queryPaginationOptionsParams = computed(() =>
     vuetifyPaginationOptionToQsObject(paginationOptions),
   )
 
-  const vuetifyPaginationOptionToQsObject = (componentPaginationOptions) => {
+  const vuetifyPaginationOptionToQsObject = (
+    componentPaginationOptions: PaginationOptionsState,
+  ) => {
     if (componentPaginationOptions.itemsPerPage === -1) {
       delete componentPaginationOptions.itemsPerPage
     }

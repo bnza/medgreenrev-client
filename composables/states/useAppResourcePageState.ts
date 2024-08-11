@@ -1,8 +1,7 @@
-import type { Filter } from '~/lib/constants/filters'
-
 export type ResourcePageState = {
   routeName: string
   filters: Array<Filter>
+  pagination: PaginationOptionsState
 }
 type AppResourcePagesState = Record<string, ResourcePageState> | {}
 export const useAppResourcePageState = (resourcePageKey: string) => {
@@ -22,6 +21,7 @@ export const useAppResourcePageState = (resourcePageKey: string) => {
     state.value[resourcePageKey] = {
       routeName: resourcePageKey,
       filters: [],
+      pagination: structuredClone(defaultPaginationOptions),
     }
   }
   const getResourcePageState = (): ResourcePageState => {
