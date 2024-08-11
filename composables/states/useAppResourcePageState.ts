@@ -7,7 +7,7 @@ export type ResourcePageState = {
 type AppResourcePagesState = Record<string, ResourcePageState> | {}
 export const useAppResourcePageState = (resourcePageKey: string) => {
   const state: Ref<AppResourcePagesState> = useState(
-    STATE_APP_FILTER,
+    STATE_APP_RESOURCE_PAGES,
     () => new Object(),
   )
 

@@ -1,3 +1,5 @@
+import type { ResourceKey } from '~/lib/resources'
+
 export type Filter = {
   id: string
   property: string
@@ -213,7 +215,7 @@ const stratigraphicUnits: Readonly<ResourceFiltersDefinitionObject> = {
   },
 }
 export const RESOURCE_PAGES_STATE: Readonly<
-  Record<string, ResourceFiltersDefinitionObject>
+  Partial<Record<ResourceKey, ResourceFiltersDefinitionObject>>
 > = {
   sites,
   stratigraphicUnits,
