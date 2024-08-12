@@ -21,9 +21,14 @@ const { isFiltered } = useResourceFiltersState({
 })
 
 const collectionTableComponentsMap: Partial<
-  Record<ResourceKey, ReturnType<typeof resolveComponent>>
+  Record<ResourceKey, ReturnType<typeof defineAsyncComponent>>
 > = {
-  stratigraphicUnits: resolveComponent('DataCollectionStratigraphicUnitsTable'),
+  stratigraphicUnits: defineAsyncComponent(
+    () =>
+      import(
+        '~/components/data/collection/DataCollectionStratigraphicUnitsTable.vue'
+      ),
+  ),
 }
 
 const collectionTableComponent = computed(
