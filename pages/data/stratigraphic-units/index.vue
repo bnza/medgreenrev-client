@@ -14,7 +14,7 @@ const { isFiltered } = useResourceFiltersState({
 </script>
 
 <template>
-  <app-data-card :title="collectionLabel">
+  <data-card :title="collectionLabel">
     <template #title-append>
       <lazy-data-toolbar-title-append
         v-if="isFiltered"
@@ -34,5 +34,5 @@ const { isFiltered } = useResourceFiltersState({
     <template #default>
       <lazy-data-collection-stratigraphic-units-table />
     </template>
-  </app-data-card>
+  </data-card>
 </template>

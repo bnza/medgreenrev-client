@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useResourceFiltersState } from '~/composables'
-
 definePageMeta({
   auth: false,
 })
@@ -12,17 +10,6 @@ const { resourceConfig, fetchItem, itemLabel } = await useResource('sites')
 const { item, error, code } = await fetchItem(id)
 
 const tab = ref(null)
-
-const { isAuthenticated } = useAppAuth()
-
-const parent = { 'site.id': id.value }
-const { resourceConfig: suResourceConfig, resourcePageKey: suRouteName } =
-  await useResource('stratigraphicUnits', parent)
-
-const { isFiltered } = useResourceFiltersState({
-  resourcePageKey: suRouteName,
-  resourceConfig: suResourceConfig,
-})
 </script>
 
 <template>
@@ -31,7 +18,7 @@ const { isFiltered } = useResourceFiltersState({
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <app-data-card v-if="item" :title="itemLabel" :code="code">
+  <data-card v-if="item" :title="itemLabel" :code="code">
     <template #toolbar-append>
       <navigation-resource-item-update
         class="mr-4"
@@ -71,40 +58,13 @@ const { isFiltered } = useResourceFiltersState({
             value="sus"
             data-testid="tabs-window-stratigraphic-units"
           >
-            <v-card :rounded="false">
-              <v-toolbar density="compact">
-                <template #title>
-                  <lazy-data-toolbar-title-append
-                    v-if="isFiltered"
-                    text="filtered"
-                    :color="COLORS['secondary']"
-                  />
-                </template>
-                <template #append>
-                  <lazy-navigation-resource-item-create
-                    v-if="isAuthenticated"
-                    :path="{
-                      path: `${getResourceConfig('stratigraphicUnits').appPath}/create`,
-                      query: { parent: { 'site.id': id } },
-                    }"
-                  />
-                  <lazy-navigation-resource-item-search
-                    :path="{
-                      path: `${getResourceConfig('stratigraphicUnits').appPath}/search`,
-                      query: { parent: { 'site.id': id } },
-                    }"
-                  />
-                </template>
-              </v-toolbar>
-              <lazy-data-collection-stratigraphic-units-table
-                data-testid="children-collection-table"
-                :parent="{ 'site.id': id }"
-                route-name="data-sites-id-stratigraphicUnits"
-              />
-            </v-card>
+            <lazy-data-collection-child-card
+              :parent="{ 'site.id': id }"
+              resource-key="stratigraphicUnits"
+            />
           </v-tabs-window-item>
         </v-tabs-window>
       </div>
     </template>
-  </app-data-card>
+  </data-card>
 </template>

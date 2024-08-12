@@ -26,7 +26,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, deleteItem)
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <app-data-card
+  <data-card
     v-if="item"
     :title="itemLabel"
     :code="code"
@@ -73,5 +73,5 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, deleteItem)
         </template>
       </lazy-data-item-site-form>
     </template>
-  </app-data-card>
+  </data-card>
 </template>

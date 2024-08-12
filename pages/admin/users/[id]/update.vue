@@ -21,7 +21,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <app-data-card v-if="item" :title="itemLabel" :code="code" :mode="mode">
+  <data-card v-if="item" :title="itemLabel" :code="code" :mode="mode">
     <template #toolbar-prepend>
       <navigation-resource-item-read
         class="ml-3"
@@ -56,7 +56,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
         @submit-form="submit($event, item)"
       />
     </template>
-  </app-data-card>
+  </data-card>
 </template>
 
 <style scoped></style>

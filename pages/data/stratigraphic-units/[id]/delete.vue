@@ -21,7 +21,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, deleteItem)
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <app-data-card
+  <data-card
     v
     :title="itemLabel"
     code=""
@@ -68,5 +68,5 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, deleteItem)
         </template>
       </lazy-data-item-stratigraphic-unit-form>
     </template>
-  </app-data-card>
+  </data-card>
 </template>

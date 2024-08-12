@@ -14,7 +14,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, postItem)
 </script>
 
 <template>
-  <app-data-card
+  <data-card
     v
     :title="itemLabel"
     code=""
@@ -51,5 +51,5 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, postItem)
         @submit-form="submit($event)"
       />
     </template>
-  </app-data-card>
+  </data-card>
 </template>

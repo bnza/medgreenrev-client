@@ -15,7 +15,7 @@ provide('resourceFiltersState', resourceFilterState)
 
 <template>
   <lazy-filters-add-filter-dialog />
-  <lazy-app-data-card title="Search (Sites)">
+  <lazy-data-card title="Search (Sites)">
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
@@ -26,5 +26,5 @@ provide('resourceFiltersState', resourceFilterState)
     <template #actions>
       <lazy-filters-list-actions :back-path="resourceConfig.appPath" />
     </template>
-  </lazy-app-data-card>
+  </lazy-data-card>
 </template>

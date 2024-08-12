@@ -29,7 +29,7 @@ const {
     />
     <lazy-user-password-show-card-content v-else-if="plainPassword" />
   </lazy-user-password-dialog>
-  <app-data-card :title="collectionLabel">
+  <data-card :title="collectionLabel">
     <template #toolbar-append>
       <navigation-resource-item-create
         :path="`${resourceConfig.appPath}/create`"
@@ -51,5 +51,5 @@ const {
         @open-reset-password-dialog="openResetPasswordDialog($event)"
       />
     </template>
-  </app-data-card>
+  </data-card>
 </template>

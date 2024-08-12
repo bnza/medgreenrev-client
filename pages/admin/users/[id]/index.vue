@@ -40,7 +40,7 @@ resetPasswordUserItem.value = Object.assign({}, item.value || {})
       <lazy-user-password-show-card-content v-else-if="plainPassword" />
     </lazy-user-password-dialog>
   </ClientOnly>
-  <app-data-card v-if="item" :title="itemLabel" :code="code">
+  <data-card v-if="item" :title="itemLabel" :code="code">
     <template #toolbar-append>
       <navigation-user-reset-password
         class="mr-4"
@@ -71,5 +71,5 @@ resetPasswordUserItem.value = Object.assign({}, item.value || {})
         :mode="API_ACTIONS.Read"
       />
     </template>
-  </app-data-card>
+  </data-card>
 </template>

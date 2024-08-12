@@ -1,29 +1,21 @@
-<script setup>
-import { DATA_API_ACTIONS_BAR_COLOR } from '~/lib/constants/enums.js'
-
-const props = defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  code: {
-    type: String,
-    default: '',
-  },
-  color: {
-    type: String,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-})
+<script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    title: string
+    code?: string
+    color?: string
+    loading?: boolean
+  }>(),
+  { code: '', loading: false },
+)
+const cardTestId = computed(() => (props.title ? 'app-data-card' : 'data-card'))
+const toolbarTestId = computed(() => cardTestId.value + '-toolbar')
 </script>
 
 <template>
-  <v-card data-testid="app-data-card" :rounded="false" class="w-100 h-100">
+  <v-card :data-testid="cardTestId" :rounded="false" class="w-100 h-100">
     <v-toolbar
-      data-testid="app-data-card-toolbar"
+      :data-testid="toolbarTestId"
       density="compact"
       :color="color"
       :loading="loading"

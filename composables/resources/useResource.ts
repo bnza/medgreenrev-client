@@ -95,7 +95,7 @@ async function useResource(
     }
   }
 
-  const fetchItem = async (id: string | number) => {
+  const fetchItem = async (id: Ref<string | number>) => {
     const { data, pending, error } = await repository.fetchItem(
       id,
       {},

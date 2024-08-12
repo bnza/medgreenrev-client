@@ -28,7 +28,7 @@ const submitAndFeedback = async (state) => {
 </script>
 
 <template>
-  <app-data-card
+  <data-card
     v-if="status === 'authenticated'"
     title="Current user:"
     :code="data.email"
@@ -48,7 +48,7 @@ const submitAndFeedback = async (state) => {
       />
     </template>
     <lazy-data-item-user-form :mode="API_ACTIONS.Read" :item="data" />
-  </app-data-card>
+  </data-card>
   <resource-not-found
     v-else-if="status === 'unauthenticated'"
     :error="new Error('unauthenticated user')"

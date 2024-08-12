@@ -25,7 +25,7 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <app-data-card
+  <data-card
     v-if="item"
     :title="itemLabel"
     :code="code"
@@ -69,5 +69,5 @@ const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
         @submit-form="submit($event, item)"
       />
     </template>
-  </app-data-card>
+  </data-card>
 </template>

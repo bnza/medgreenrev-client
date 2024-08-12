@@ -18,7 +18,7 @@ const tab = ref(null)
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <app-data-card v-if="item" :title="itemLabel" :code="code">
+  <data-card v-if="item" :title="itemLabel" :code="code">
     <template #toolbar-append>
       <navigation-resource-item-update
         class="mr-4"
@@ -78,7 +78,7 @@ const tab = ref(null)
         </v-tabs-window>
       </div>
     </template>
-  </app-data-card>
+  </data-card>
 </template>
 
 <style scoped></style>

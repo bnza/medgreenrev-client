@@ -32,7 +32,7 @@ const submitAndFeedBack = async (state) => {
 </script>
 
 <template>
-  <app-data-card v :title="itemLabel" code="" :mode="mode">
+  <data-card v :title="itemLabel" code="" :mode="mode">
     <template #toolbar-prepend>
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
@@ -61,5 +61,5 @@ const submitAndFeedBack = async (state) => {
         @submit-form="submitAndFeedBack($event)"
       />
     </template>
-  </app-data-card>
+  </data-card>
 </template>
