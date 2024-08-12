@@ -6,7 +6,11 @@ const { hasRoleAdmin } = useAppAuth()
 </script>
 
 <template>
-  <v-navigation-drawer :model-value="visible" :permanent="true">
+  <v-navigation-drawer
+    :model-value="visible"
+    :permanent="true"
+    data-testid="app-navigation-drawer"
+  >
     <v-list v-model:opened="open">
       <v-list-item
         nuxt
