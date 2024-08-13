@@ -1,9 +1,14 @@
 import sites from './sites.js'
+import sitesUsers from './sites-users'
 import stratigraphicUnits from './stratigraphic-units.js'
 import users from './users.js'
 import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
 
-export type ResourceKey = 'sites' | 'users' | 'stratigraphicUnits'
+export type ResourceKey =
+  | 'sites'
+  | 'users'
+  | 'stratigraphicUnits'
+  | 'sitesUsers'
 
 export type ResourceConfig = {
   apiPath: string
@@ -19,6 +24,7 @@ export type UseResourceType = {
 
 const resources: Record<ResourceKey, ResourceConfig> = {
   sites,
+  sitesUsers,
   users,
   stratigraphicUnits,
 }
@@ -39,6 +45,7 @@ export const isResourceKey = (key: string): key is ResourceKey =>
 
 const validations: Record<ResourceKey, string> = {
   sites: 'useResourceSiteValidation',
+  sitesUsers: 'useResourceSitesUsersValidation',
   users: 'useResourceUserValidation',
   stratigraphicUnits: 'useResourceStratigraphicUnitValidation',
 }
@@ -68,10 +75,6 @@ export const getResourceIri = (
 }
 
 export const getResourceValidation = async (key: ResourceKey, options = {}) => {
-  checkResourceKey(key)
-  if (!Object.keys(validations).includes(key)) {
-    throw new Error(`Unsupported validation key "${key}"`)
-  }
   if (typeof validations[key] === 'string') {
     validations[key] = (
       await import(`~/composables/validation/${validations[key]}.js`)

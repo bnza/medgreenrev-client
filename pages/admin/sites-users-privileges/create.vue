@@ -4,52 +4,39 @@ definePageMeta({
   voters: [ACL_VOTERS.HasRoleAdmin],
 })
 
-const route = useRoute()
-
-const id = ref(routeParamIdToInt(route.params.id))
-const { resourceConfig, fetchItem, itemLabel, deleteItem } =
-  await useResource('sites')
-const { item, error, code } = await fetchItem(id)
-
+const { resourceConfig, postItem, itemLabel } = await useResource('sitesUsers')
 const invalid = ref(false)
-
-const mode = API_ACTIONS.Delete
+const item = ref({
+  privileges: 0,
+})
+const mode = API_ACTIONS.Create
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,
-  deleteItem,
+  postItem,
 )
+
+const route = useRoute()
+const parent = ref(route.query?.parent)
 </script>
 
 <template>
-  <resource-not-found
-    v-if="error"
-    :path="resourceConfig.appPath"
-    :error="error"
-  />
   <data-card
-    v-if="item"
     :title="itemLabel"
-    :code="code"
+    code=""
     :color="DATA_API_ACTIONS_BAR_COLOR[mode]"
   >
     <template #title-append>
       <lazy-data-toolbar-title-append :text="mode" />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-item-read
-        class="ml-3"
-        :resource="resourceConfig"
-        :item="item"
-        :back="true"
-        size="default"
-      />
+      <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
     <template #toolbar-append>
       <v-btn
         v-if="item"
         class="mx-4"
-        :disabled="isSubmitPending"
+        :disabled="invalid || isSubmitPending"
         color="anchor"
         rounded="false"
         variant="text"
@@ -57,22 +44,19 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
         @click="triggerSubmit = true"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket" />
-        <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
+        <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
-    <template #default v-if="!isSubmitPending">
-      <lazy-data-item-site-form
+    <template #default v-show="!isSubmitPending">
+      <lazy-data-item-sites-users-form
+        v-show="!isSubmitPending"
         v-if="item"
         :item="item"
         :mode="mode"
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit($event, item)"
-      >
-        <template #alert>
-          <delete-item-alert-row />
-        </template>
-      </lazy-data-item-site-form>
+        @submit-form="submit($event, true)"
+      />
     </template>
   </data-card>
 </template>

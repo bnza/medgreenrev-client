@@ -1,6 +1,5 @@
 import { helpers } from '@vuelidate/validators'
-import type { MaybeRef } from 'vue'
-import { diff } from 'deep-object-diff'
+import type { Reactive } from 'vue'
 
 const { withMessage, withAsync } = helpers
 type AsyncValidationType = 'unique'
@@ -19,25 +18,24 @@ const isChanged = (oldValues: Array<any>, values: Array<any>) =>
   values.reduce((acc, value, i) => acc || value != oldValues[i], false)
 
 export function useAsyncUniqueValidator({
-  type,
+  type = 'unique',
   prop,
   path,
   item,
   message,
+  watch,
 }: {
   type?: AsyncValidationType
   prop: string | Array<string>
   path: string
   item?: Record<string, any>
   message?: string
+  watch?: ComputedRef<Array<string | number>>
 }) {
-  type = type || 'unique'
-
-  function validate(value, state: MaybeRef<Record<string, any>>) {
+  function validate(value, state: Reactive<Record<string, any>>) {
     if (Array.isArray(prop)) {
       value = prop.map(getValues(state))
       const oldValue = prop.map(getValues(item))
-      const _diff = diff(oldValue, value)
 
       if (!isChanged(oldValue, value)) {
         return true
@@ -52,8 +50,10 @@ export function useAsyncUniqueValidator({
     return validator.validate(type, path, value)
   }
 
+  console.log(watch)
+
   return withMessage(
-    message ?? `Duplicate ${String(prop)}`,
-    withAsync(validate),
+    () => message ?? `Duplicate [] tuple`,
+    withAsync(validate, watch),
   )
 }

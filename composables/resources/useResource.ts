@@ -110,6 +110,7 @@ async function useResource(
   const patchItem = (
     newItem: Record<string, any>,
     oldItem: Record<string, any>,
+    redirectToCollection = false,
   ) => {
     const getNormalizePatchItemParams = (
       newItem: Record<string, any>,
@@ -131,20 +132,29 @@ async function useResource(
       })
     }
     return repository.patchItem(oldItem.id, diffItem).then((response) => {
+      const redirectPath = redirectToCollection
+        ? resourceConfig.appPath
+        : `${resourceConfig.appPath}/${oldItem.id}`
       return {
         response,
-        redirectPath: `${resourceConfig.appPath}/${oldItem.id}`,
+        redirectPath,
       }
     })
   }
 
-  const postItem = (newItem: Record<string, any>) => {
+  const postItem = (
+    newItem: Record<string, any>,
+    redirectToCollection = false,
+  ) => {
     return repository
       .postItem(formatJsonLdItem(unref(newItem)))
       .then((response) => {
+        const redirectPath = redirectToCollection
+          ? resourceConfig.appPath
+          : `${resourceConfig.appPath}/${response.id}`
         return {
           response,
-          redirectPath: `${resourceConfig.appPath}/${response.id}`,
+          redirectPath,
         }
       })
   }

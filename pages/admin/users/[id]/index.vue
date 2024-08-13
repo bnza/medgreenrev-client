@@ -17,6 +17,8 @@ const {
   resetPassword,
 } = useUserPasswordDialog()
 resetPasswordUserItem.value = Object.assign({}, item.value || {})
+
+const tab = ref(null)
 </script>
 
 <template>
@@ -65,11 +67,29 @@ resetPasswordUserItem.value = Object.assign({}, item.value || {})
       <navigation-resource-collection-list :path="resourceConfig.appPath" />
     </template>
     <template #default>
-      <lazy-data-item-user-form
-        v-if="item"
-        :item="item"
-        :mode="API_ACTIONS.Read"
-      />
+      <v-tabs
+        v-model="tab"
+        color="anchor"
+        :bg-color="DATA_API_ACTIONS_BAR_COLOR[API_ACTIONS.Read]"
+      >
+        <v-tab value="data">data</v-tab>
+        <v-tab value="sites">sites</v-tab>
+      </v-tabs>
+      <v-tabs-window v-model="tab">
+        <v-tabs-window-item value="data">
+          <lazy-data-item-user-form
+            v-if="item"
+            :item="item"
+            :mode="API_ACTIONS.Read"
+          />
+        </v-tabs-window-item>
+        <v-tabs-window-item value="sites" data-testid="tabs-window-sites-users">
+          <lazy-data-collection-child-card
+            :parent="{ 'user.id': id }"
+            resource-key="sitesUsers"
+          />
+        </v-tabs-window-item>
+      </v-tabs-window>
     </template>
   </data-card>
 </template>

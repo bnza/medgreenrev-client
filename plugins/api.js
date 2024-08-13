@@ -4,6 +4,7 @@ import StratigraphicUnitsModule from '~/repository/modules/stratigraphic-units.j
 import UsersModule from '~/repository/modules/users.js'
 import ApiValidator from '~/repository/validator.js'
 import ApiAutocomplete from '~/repository/autocomplete.ts'
+import SitesUsersModule from '~/repository/modules/sitesUsers.js'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
@@ -44,6 +45,7 @@ export default defineNuxtPlugin(() => {
 
   const modules = {
     sites: new SitesModule(apiFetcher),
+    sitesUsers: new SitesUsersModule(apiFetcher),
     stratigraphicUnits: new StratigraphicUnitsModule(apiFetcher),
     users: new UsersModule(apiFetcher),
   }

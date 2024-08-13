@@ -27,19 +27,26 @@ export default function (mode, submitFn) {
     })
   }
 
-  const submit = async (state, oldItem) => {
+  const triggerSubmit = ref(false)
+  const submit = async (state, oldItem, redirectToCollection = false) => {
     isSubmitPending.value = true
     try {
-      const { response, redirectPath } = await submitFn(state, oldItem)
+      const { response, redirectPath } = await submitFn(
+        state,
+        oldItem,
+        redirectToCollection,
+      )
       await router.replace(redirectPath)
       mode === API_ACTIONS.Update && response === 'NO__CHANGE'
         ? showNoChanges()
         : showSuccess()
     } catch (e) {
-      showError(e)
       isSubmitPending.value = false
+      showError(e)
+    } finally {
+      triggerSubmit.value = false
     }
   }
 
-  return { submit, isSubmitPending }
+  return { submit, triggerSubmit, isSubmitPending }
 }

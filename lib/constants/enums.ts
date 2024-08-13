@@ -1,8 +1,15 @@
-export const ROLES = Object.freeze({
+export type Roles = 'ROLE_USER' | 'ROLE_EDITOR' | 'ROLE_ADMIN'
+export const ROLES: Readonly<Record<string, Roles>> = {
   Admin: 'ROLE_ADMIN',
   Editor: 'ROLE_EDITOR',
   User: 'ROLE_USER',
-})
+}
+export type SitesRoles = 'ROLE_SITE_USER' | 'ROLE_SITE_EDITOR'
+export type SitesGrantableRoles = Exclude<SitesRoles, 'ROLE_SITE_USER'>
+export const rolesBitmasksMap: Readonly<Record<SitesRoles, number>> = {
+  ROLE_SITE_EDITOR: 0b1,
+  ROLE_SITE_USER: 0b0,
+}
 
 export const COLORS = Object.freeze({
   primary: '#2c549d',
@@ -23,11 +30,17 @@ export const COLORS = Object.freeze({
   'secondary-darken-1': '#334b16',
 })
 
-export const ROLE_HIERARCHY_VALUES = Object.freeze({
-  [ROLES.Admin]: 1000,
-  [ROLES.Editor]: 100,
-  [ROLES.User]: 10,
-})
+export const ROLE_HIERARCHY_VALUES: Readonly<Record<Roles, number>> =
+  Object.freeze({
+    ROLE_ADMIN: 1000,
+    ROLE_EDITOR: 100,
+    ROLE_USER: 10,
+  })
+
+export const SITES_ROLE_COLORS: Readonly<Record<SitesRoles, string>> = {
+  ROLE_SITE_USER: COLORS.success,
+  ROLE_SITE_EDITOR: COLORS.warning,
+}
 
 export const ROLE_COLORS = Object.freeze({
   [ROLES.Admin]: COLORS.error,

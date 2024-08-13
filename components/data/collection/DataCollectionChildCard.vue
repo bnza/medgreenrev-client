@@ -29,6 +29,10 @@ const collectionTableComponentsMap: Partial<
         '~/components/data/collection/DataCollectionStratigraphicUnitsTable.vue'
       ),
   ),
+  sitesUsers: defineAsyncComponent(
+    () =>
+      import('~/components/data/collection/DataCollectionSitesUsersTable.vue'),
+  ),
 }
 
 const collectionTableComponent = computed(

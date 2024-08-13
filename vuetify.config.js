@@ -1,8 +1,6 @@
-import {md3} from 'vuetify/blueprints'
-import {
-  defineVuetifyConfiguration
-} from 'vuetify-nuxt-module/custom-configuration'
-import {COLORS} from "./lib/constants/enums.js";
+import { md3 } from 'vuetify/blueprints'
+import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
+import { COLORS } from './lib/constants/enums.ts'
 
 const darkTheme = {
   dark: true,
@@ -22,7 +20,7 @@ export default defineVuetifyConfiguration({
   theme: {
     defaultTheme: 'dark',
     themes: {
-      light: {colors: {}},
+      light: { colors: {} },
       dark: darkTheme,
     },
   },

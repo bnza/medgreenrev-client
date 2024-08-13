@@ -12,11 +12,12 @@ const { item, pending, code, error } = await fetchItem(id)
 
 const invalid = ref(false)
 
-const triggerSubmit = ref(false)
-
 const mode = API_ACTIONS.Update
 
-const { submit, isSubmitPending } = useSubmitResourceRequest(mode, patchItem)
+const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
+  mode,
+  patchItem,
+)
 </script>
 
 <template>

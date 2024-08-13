@@ -8,11 +8,12 @@ const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)
 
-const triggerSubmit = ref(false)
-
 const mode = API_ACTIONS.Delete
 
-const { submit, isSubmitPending } = useSubmitResourceRequest(mode, deleteItem)
+const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
+  mode,
+  deleteItem,
+)
 </script>
 
 <template>

@@ -3,10 +3,12 @@ const { resourceConfig, postItem, itemLabel } =
   await useResource('stratigraphicUnits')
 const invalid = ref(false)
 const item = ref({})
-const triggerSubmit = ref(false)
 const mode = API_ACTIONS.Create
 
-const { submit, isSubmitPending } = useSubmitResourceRequest(mode, postItem)
+const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
+  mode,
+  postItem,
+)
 </script>
 
 <template>

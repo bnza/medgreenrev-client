@@ -1,18 +1,12 @@
-<script setup>
-definePageMeta({
-  middleware: ['acl'],
-  voters: [ACL_VOTERS.HasRoleAdmin],
-})
-
+<script setup lang="ts">
 const route = useRoute()
 
-const id = ref(routeParamIdToInt(route.params.id))
+const id = ref(routeParamIdToString(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, deleteItem } =
-  await useResource('sites')
+  await useResource('sitesUsers')
 const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)
-
 const mode = API_ACTIONS.Delete
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
@@ -27,15 +21,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <data-card
-    v-if="item"
-    :title="itemLabel"
-    :code="code"
-    :color="DATA_API_ACTIONS_BAR_COLOR[mode]"
-  >
-    <template #title-append>
-      <lazy-data-toolbar-title-append :text="mode" />
-    </template>
+  <data-card v-if="item" :title="itemLabel" :code="code" :mode="mode">
     <template #toolbar-prepend>
       <navigation-resource-item-read
         class="ml-3"
@@ -61,18 +47,18 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
       </v-btn>
     </template>
     <template #default v-if="!isSubmitPending">
-      <lazy-data-item-site-form
+      <lazy-data-item-sites-users-form
         v-if="item"
         :item="item"
         :mode="mode"
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit($event, item)"
+        @submit-form="submit($event)"
       >
         <template #alert>
           <delete-item-alert-row />
         </template>
-      </lazy-data-item-site-form>
+      </lazy-data-item-sites-users-form>
     </template>
   </data-card>
 </template>

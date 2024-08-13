@@ -23,6 +23,7 @@ const props = defineProps({
     type: String,
     validator: propsValidator,
   },
+  // errorMessages: Array<string>,
 })
 
 const model = defineModel()
@@ -102,6 +103,7 @@ const propsValidator = (_: any, props: Record<string, any>) => {
   <v-autocomplete
     :label
     :items
+    :model-value="model"
     @update:search="value = $event"
     @update:modelValue="model = $event"
     :itemValue

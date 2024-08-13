@@ -1,8 +1,8 @@
-import {ROLES} from '~/lib/constants/enums.js'
-import {reduceAppRoles} from "~/lib/index.js";
+import { ROLES } from '~/lib/constants/enums.ts'
+import { reduceAppRoles } from '~/lib/index.js'
 
 export function useAppAuth() {
-  const {data, status} = useAuth()
+  const { data, status } = useAuth()
   const isAuthenticated = computed(() => unref(status) === 'authenticated')
   const isLoading = computed(() => unref(status) === 'loading')
   const userIdentifier = computed(() =>
@@ -22,13 +22,15 @@ export function useAppAuth() {
 
   const hasRole = computed(() => _hasRole)
   const hasRoleAdmin = computed(() => _hasRole(ROLES.Admin))
-  const roleColor = computed(() => ROLE_COLORS[reduceAppRoles(roles.value)] || '#FFF')
+  const roleColor = computed(
+    () => ROLE_COLORS[reduceAppRoles(roles.value)] || '#FFF',
+  )
   return {
     isAuthenticated,
     isLoading,
     userIdentifier,
     hasRoleAdmin,
     hasRole,
-    roleColor
+    roleColor,
   }
 }

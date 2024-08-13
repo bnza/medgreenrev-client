@@ -1,4 +1,5 @@
 import { isResourceKey, type ResourceKey } from '~/lib/resources'
+import type { Roles } from '~/lib/constants/enums'
 
 export { useAppNavigationDrawerVisibleState } from './states/useAppNavigationDrawerVisibleState'
 export { useAppSnackbarState } from './states/useAppSnackbarState'
@@ -13,6 +14,12 @@ export { default as useDataFormCode } from './form/useDataFormCode'
 export { default as useSubmitResourceRequest } from './form/useSubmitResourceRequest'
 export { useResourceFiltersState } from '~/composables/states/useResourceFiltersStates'
 
+export type SessionData = {
+  id: string
+  email: string
+  roles: Array<Roles>
+  privileges: Record<number, number>
+}
 export const getResourcePageRootKey = (
   resourcePageKey: string,
 ): ResourceKey => {

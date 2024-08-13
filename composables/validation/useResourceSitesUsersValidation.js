@@ -1,5 +1,5 @@
 import useVuelidate from '@vuelidate/core'
-import { required, maxLength, helpers } from '@vuelidate/validators'
+import { required, integer, helpers } from '@vuelidate/validators'
 import { FORM_REQUIRED_FIELD } from './messages'
 import { useAsyncUniqueValidator } from '~/composables/validation/useAsyncUniqueValidator'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
@@ -9,28 +9,35 @@ export default function (item, emit) {
   const state = reactive(shallowItem)
 
   const rules = {
-    code: {
+    site: {
       required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
-      maxLength: maxLength(3),
       unique: useAsyncUniqueValidator({
-        prop: 'code',
-        path: 'sites/code',
-        message: 'Duplicate code',
+        path: 'sites_users',
+        message: 'Duplicate (site, user) tuple',
+        prop: ['site.id', 'user.id'],
         item,
+        watch: () => [state.user?.id],
       }),
     },
-    name: {
+    user: {
       required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
       unique: useAsyncUniqueValidator({
-        prop: 'name',
-        path: 'sites/name',
+        path: 'sites_users',
+        message: 'Duplicate (site, user) tuple',
+        prop: ['site.id', 'user.id'],
         item,
-        message: 'Duplicate name',
+        watch: () => [state.site?.id],
       }),
+    },
+    privileges: {
+      required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
+      integer,
     },
   }
 
-  const v$ = useVuelidate(rules, state)
+  const v$ = useVuelidate(rules, state, {
+    $autoDirty: true,
+  })
 
   useEmitValidationInvalid(v$, emit)
 

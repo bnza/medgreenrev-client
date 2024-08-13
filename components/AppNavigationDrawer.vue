@@ -60,6 +60,13 @@ const { hasRoleAdmin } = useAppAuth()
           title="Users"
           data-testid="app-nav-drawer-li-users"
         />
+        <v-list-item
+          nuxt
+          to="/admin/sites-users-privileges"
+          router
+          title="Sites/Users Privileges"
+          data-testid="app-nav-drawer-li-sites-users-privileges"
+        />
       </v-list-group>
     </v-list>
   </v-navigation-drawer>

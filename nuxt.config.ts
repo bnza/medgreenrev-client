@@ -12,19 +12,25 @@ export default defineNuxtConfig({
     provider: {
       type: 'local',
       endpoints: {
-        getSession: { path: '/users/me', method: 'get' },
+        // From @sidebase/nuxt-auth 0.8 Endpoints requires NOT to have the trailing slash
+        // in ordet to use baseURL
+        // @see joinPathToApiURL function
+        signIn: { path: 'login', method: 'post' },
+        signOut: { path: 'logout', method: 'post' },
+        getSession: { path: 'users/me', method: 'get' },
       },
       pages: {
         login: '/login',
       },
     },
-    session: {
+    sessionRefresh: {
       // Whether to refresh the session every time the browser window is refocused.
-      enableRefreshOnWindowFocus: true,
+      enableOnWindowFocus: true,
 
       // Whether to refresh the session every `X` milliseconds. Set this to `false` to turn it off. The session will only be refreshed if a session already exists.
-      enableRefreshPeriodically: false,
+      enablePeriodically: false,
     },
+    // disableServerSideAuth: true,
     globalAppMiddleware: true,
     baseURL: process.env.API_BASE_URL || 'http://localhost:8000/api',
   },

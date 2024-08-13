@@ -1,0 +1,30 @@
+<script setup>
+import { useResourceFiltersState } from '~/composables'
+
+const { resourcePageKey, resourceConfig, collectionLabel } =
+  await useResource('sitesUsers')
+const { isFiltered } = useResourceFiltersState({
+  resourcePageKey,
+  resourceConfig,
+})
+</script>
+
+<template>
+  <data-card :title="collectionLabel">
+    <template #title-append>
+      <lazy-data-toolbar-title-append
+        v-if="isFiltered"
+        text="filtered"
+        :color="COLORS['secondary']"
+      />
+    </template>
+    <template #toolbar-append>
+      <lazy-navigation-resource-item-create
+        :path="`${resourceConfig.appPath}/create`"
+      />
+    </template>
+    <template #default>
+      <lazy-data-collection-sites-users-table />
+    </template>
+  </data-card>
+</template>

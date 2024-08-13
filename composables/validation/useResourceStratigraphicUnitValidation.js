@@ -1,7 +1,6 @@
 import useVuelidate from '@vuelidate/core'
 import {
   required,
-  maxLength,
   integer,
   helpers,
   minValue,
@@ -16,26 +15,7 @@ export default function (item, emit) {
   const state = reactive(shallowItem)
   const currentYear = new Date().getFullYear()
 
-  // const validateCode = (item) =>
-  //   computed(() => {
-  //     if (
-  //       typeof item.site?.id !== 'undefined' &&
-  //       typeof item.year !== 'undefined' &&
-  //       typeof item.number !== 'undefined'
-  //     ) {
-  //       return useAsyncUniqueValidator(
-  //         'unique',
-  //         'code',
-  //         'stratigraphic-units',
-  //         [item.site.id, item.year, item.number],
-  //       )
-  //     }
-  //     return 1
-  //   })
   const rules = {
-    // code: {
-    //   unique: validateCode(state),
-    // },
     number: {
       required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
       integer,
@@ -44,6 +24,7 @@ export default function (item, emit) {
         message: 'Duplicate (site, year, number) tuple',
         prop: ['site.id', 'year', 'number'],
         item,
+        watch: () => [state.site?.id, state.number],
       }),
     },
     year: {
@@ -56,6 +37,7 @@ export default function (item, emit) {
         message: 'Duplicate (site, year, number) tuple',
         prop: ['site.id', 'year', 'number'],
         item,
+        watch: () => [state.site?.id, state.number],
       }),
     },
     site: {
@@ -65,6 +47,7 @@ export default function (item, emit) {
         message: 'Duplicate (site, year, number) tuple',
         prop: ['site.id', 'year', 'number'],
         item,
+        watch: () => [state.number, state.year],
       }),
     },
   }

@@ -1,6 +1,5 @@
 <script setup>
 import { dataFormModeProp, dataFormItemProp } from '~/lib/props.js'
-// import { useResourceSiteValidation } from '~/composables/validation/useResourceSiteValidation.js'
 import useSubmitForm from '~/composables/form/useSubmitForm.js'
 
 const props = defineProps({
