@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useResourceTabState } from '~/composables/states/useResourceTabState'
+
 definePageMeta({
   auth: false,
 })
@@ -11,7 +13,7 @@ const { item, error, code } = await fetchItem(id)
 
 const { hasRoleAdmin } = useAppAuth()
 
-const tab = ref(null)
+const { tab } = useResourceTabState('sites')
 </script>
 
 <template>

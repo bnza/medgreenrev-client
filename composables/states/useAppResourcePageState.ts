@@ -2,6 +2,7 @@ export type ResourcePageState = {
   routeName: string
   filters: Array<Filter>
   pagination: PaginationOptionsState
+  tab: string | null
 }
 type AppResourcePagesState = Record<string, ResourcePageState> | {}
 export const useAppResourcePageState = (resourcePageKey: string) => {
@@ -15,6 +16,7 @@ export const useAppResourcePageState = (resourcePageKey: string) => {
       routeName: resourcePageKey,
       filters: [],
       pagination: structuredClone(defaultPaginationOptions),
+      tab: null,
     }
   }
   const getResourcePageState = (): ResourcePageState => {
