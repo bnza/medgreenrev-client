@@ -42,30 +42,30 @@ const collectionTableComponent = computed(
 
 <template>
   <data-card :rounded="false" title="">
-    <v-toolbar density="compact">
-      <template #title>
-        <lazy-data-toolbar-title-append
-          v-if="isFiltered"
-          text="filtered"
-          :color="COLORS['secondary']"
-        />
-      </template>
-      <template #append>
-        <lazy-navigation-resource-item-create
-          v-if="isAuthenticated"
-          :path="{
-            path: `${resourceConfig.appPath}/create`,
-            query: { parent },
-          }"
-        />
-        <lazy-navigation-resource-item-search
-          :path="{
-            path: `${resourceConfig.appPath}/search`,
-            query: { parent },
-          }"
-        />
-      </template>
-    </v-toolbar>
+    <!--    <v-toolbar density="compact">-->
+    <template #title-append>
+      <lazy-data-toolbar-title-append
+        v-if="isFiltered"
+        text="filtered"
+        :color="COLORS['secondary']"
+      />
+    </template>
+    <template #toolbar-append>
+      <lazy-navigation-resource-item-create
+        v-if="isAuthenticated"
+        :path="{
+          path: `${resourceConfig.appPath}/create`,
+          query: { parent },
+        }"
+      />
+      <lazy-navigation-resource-item-search
+        :path="{
+          path: `${resourceConfig.appPath}/search`,
+          query: { parent },
+        }"
+      />
+    </template>
+    <!--    </v-toolbar>-->
     <component
       :is="collectionTableComponent"
       data-testid="children-collection-table"
