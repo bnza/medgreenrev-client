@@ -12,7 +12,7 @@ const { readonly } = useDataForm({
   type: props.mode,
 })
 
-const { isAuthenticated } = useAppAuth()
+const { isAuthenticated, hasSitePrivilegeEditor, hasRoleAdmin } = useAppAuth()
 
 const emit = defineEmits([
   'update:invalid',
@@ -26,6 +26,19 @@ const { resourceConfig } = await useResource('stratigraphicUnits')
 if (!('site' in state)) {
   state.site = {}
 }
+
+const canEditCode = computed(() => {
+  if (readonly.value) {
+    return false
+  }
+  // if (hasRoleAdmin.value) {
+  //   return true
+  // }
+  if (props.mode === API_ACTIONS.Create) {
+    return true
+  }
+  return hasSitePrivilegeEditor(props.item.site.id)
+})
 </script>
 
 <template>
@@ -39,15 +52,8 @@ if (!('site' in state)) {
       </v-row>
       <v-row no-gutters>
         <v-col cols="12" xs="6" sm="2" class="px-2">
-          <v-text-field
-            v-if="mode !== API_ACTIONS.Create"
-            class="text-input-secondary"
-            variant="underlined"
-            :model-value="resourceConfig.getCodeFn(item)()"
-            label="code"
-          />
           <autocomplete-api
-            v-else
+            v-if="canEditCode"
             label="site"
             path="sites"
             order-by="code"
@@ -55,9 +61,18 @@ if (!('site' in state)) {
             item-subtitle="name"
             v-model="state.site"
           />
+          <v-text-field
+            v-else
+            readonly
+            class="text-input-secondary"
+            variant="underlined"
+            :model-value="resourceConfig.getCodeFn(item)()"
+            label="code"
+          />
         </v-col>
         <v-col cols="12" xs="12" sm="5" class="px-2">
           <v-text-field
+            :readonly="!canEditCode"
             variant="underlined"
             v-model="state.year"
             label="year"
@@ -68,6 +83,7 @@ if (!('site' in state)) {
         </v-col>
         <v-col cols="12" xs="12" sm="5" class="px-2">
           <v-text-field
+            :readonly="!canEditCode"
             variant="underlined"
             v-model="state.number"
             label="number"

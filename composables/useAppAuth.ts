@@ -1,4 +1,4 @@
-import { ROLES } from '~/lib/constants/enums.ts'
+import { ROLES } from '~/lib/constants/enums'
 import { reduceAppRoles } from '~/lib/index.js'
 
 export function useAppAuth() {
@@ -25,6 +25,23 @@ export function useAppAuth() {
   const roleColor = computed(
     () => ROLE_COLORS[reduceAppRoles(roles.value)] || '#FFF',
   )
+  const hasSitePrivileges = (siteId: number) => siteId in data?.value.privileges
+
+  const getSitePrivileges = (siteId: number) =>
+    hasSitePrivileges(siteId) ? data?.value.privileges[siteId] : undefined
+
+  const hasSitePrivilege = (
+    siteId: number,
+    privilegeKey: SitesGrantableRoles,
+  ) =>
+    hasRoleAdmin.value ||
+    (hasSitePrivileges(siteId)
+      ? hasPrivilege(getSitePrivileges(siteId), privilegeKey)
+      : false)
+
+  const hasSitePrivilegeEditor = (siteId: number) =>
+    hasSitePrivilege(siteId, 'ROLE_SITE_EDITOR')
+
   return {
     isAuthenticated,
     isLoading,
@@ -32,5 +49,7 @@ export function useAppAuth() {
     hasRoleAdmin,
     hasRole,
     roleColor,
+    hasSitePrivileges,
+    hasSitePrivilegeEditor,
   }
 }

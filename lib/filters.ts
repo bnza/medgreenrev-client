@@ -1,5 +1,6 @@
 import type { ResourcePageState } from '~/composables/states/useAppResourcePageState'
 import type { FilterDefinitionObject } from '~/lib/constants/filters'
+import { getResourcePageRootKey, type ResourcePageKey } from '~/lib/resources'
 
 // const getResourceKey = (resourcePageKey: string) => {
 //   resourcePageKey = resourcePageKey.split('/')[0]
@@ -9,13 +10,13 @@ import type { FilterDefinitionObject } from '~/lib/constants/filters'
 //   }
 //   return resourceKey || ''
 // }
-const getResourceFiltersDefinitions = (routeNameOrResourceKey: string) => {
+const getResourceFiltersDefinitions = (resourcePageKey: ResourcePageKey) => {
   //const key = getResourceKey(routeNameOrResourceKey) || routeNameOrResourceKey
-  const key = getResourcePageRootKey(routeNameOrResourceKey)
+  const key = getResourcePageRootKey(resourcePageKey)
   const resourceFiltersDefinitions = RESOURCE_PAGES_STATE[key]
   if (!resourceFiltersDefinitions) {
     console.error(
-      `No resource filter definition found: keys "${routeNameOrResourceKey}", "${key}"`,
+      `No resource filter definition found: keys "${resourcePageKey}", "${key}"`,
     )
   }
   return resourceFiltersDefinitions || {}

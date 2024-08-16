@@ -1,14 +1,19 @@
-<script setup>
+<script setup lang="ts">
+import type { ResourceKey } from '~/lib/resources'
+
 const props = defineProps({
   parent: {
     type: Object,
     default: () => new Object(),
   },
 })
-const { fetchCollection, headers, resourceConfig } =
-  await useResource('sitesUsers')
+const resourceKey: ResourceKey = 'sitesUsers'
+const { fetchCollection, headers, resourcePageKey } = await useResource(
+  resourceKey,
+  { parent: props.parent, resourceOperationType: 'collection' },
+)
 const { pending, error, paginationOptions, items, totalItems } =
-  await fetchCollection(props.parent)
+  await fetchCollection()
 </script>
 
 <template>
@@ -33,17 +38,7 @@ const { pending, error, paginationOptions, items, totalItems } =
     @update:options="Object.assign(paginationOptions, $event)"
   >
     <template #[`item.id`]="{ item }">
-      <!--      <v-btn-->
-      <!--        color="error"-->
-      <!--        density="compact"-->
-      <!--        :icon="true"-->
-      <!--        variant="text"-->
-      <!--        data-testid="delete-item-button"-->
-      <!--      >-->
-      <!--        <v-icon icon="fas fa-minus" size="xsmall" />-->
-      <!--        <v-tooltip activator="parent" location="bottom">Delete item</v-tooltip>-->
-      <!--      </v-btn>-->
-      <navigation-resource-item :resource="resourceConfig" :item="item" />
+      <navigation-resource-item :page-key="resourcePageKey" :item />
     </template>
     <template #[`item.privileges`]="{ item }">
       <lazy-auth-sites-users-privileges-button :privileges="item.privileges" />

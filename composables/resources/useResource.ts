@@ -1,7 +1,12 @@
 import usePaginationOptionsState from '~/composables/states/usePaginationOptionsState'
 import { diff } from 'deep-object-diff'
 import { useResourceFiltersState } from '~/composables/index.js'
-import { type ResourceKey, type UseResourceTypeOptions } from '~/lib/resources'
+import {
+  type ResourceKey,
+  type ResourceOperationType,
+  type ResourcePageKey,
+  type UseResourceTypeOptions,
+} from '~/lib/resources'
 
 const _identity1 = (item: Record<string, any>) => item
 const _identity3 = (
@@ -17,15 +22,29 @@ const getUseResourceType = async (
     .default
 }
 
+type useResourceOptions = {
+  parent?: Record<string, any>
+  resourceOperationType?: ResourceOperationType
+}
+
 async function useResource(
   resourceKey: ResourceKey,
-  parent?: Record<string, any>,
+  { parent, resourceOperationType }: useResourceOptions = {
+    parent: null,
+    resourceOperationType: 'item',
+  },
 ) {
-  const resourcePageKey: string =
-    parent && Object.keys(parent).length > 0
-      ? resourceKey.concat('/' + Object.keys(parent)[0])
-      : resourceKey
+  const parentKey =
+    parent && Object.keys(parent).length > 0 ? Object.keys(parent)[0] : ''
 
+  if (parentKey) {
+    resourceOperationType = 'collection'
+  }
+  const resourcePageKey: ResourcePageKey = parentKey
+    ? `${resourceKey}/collection/${parentKey}`
+    : `${resourceKey}/${resourceOperationType}`
+
+  console.log(resourcePageKey, parent)
   const resourceConfig = getResourceConfig(resourceKey)
 
   const { isAuthenticated } = useAppAuth()
@@ -66,7 +85,7 @@ async function useResource(
     resourcePageKey,
     resourceConfig,
   })
-  const fetchCollection = async (parent: Record<string, string | number>) => {
+  const fetchCollection = async () => {
     parent = parent || {}
     const params = computed(() =>
       Object.assign(

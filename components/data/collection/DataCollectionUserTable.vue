@@ -1,9 +1,15 @@
-<script setup>
+<script setup lang="ts">
+import type { ResourceKey } from '~/lib/resources'
+
 const tableProps = defineProps(resourceDataTableProps)
 const { items, pending, totalItems } = toRefs(tableProps)
-const paginationOptions = defineModel('paginationOptions')
+const paginationOptions =
+  defineModel<PaginationOptionsState>('paginationOptions')
 
-const { headers, resourceConfig } = await useResource('users')
+const resourceKey: ResourceKey = 'users'
+const { headers, resourcePageKey } = await useResource(resourceKey, {
+  resourceOperationType: 'collection',
+})
 
 const emit = defineEmits(['openResetPasswordDialog'])
 </script>
@@ -23,7 +29,7 @@ const emit = defineEmits(['openResetPasswordDialog'])
     @update:options="Object.assign(paginationOptions, $event)"
   >
     <template #[`item.id`]="{ item }">
-      <navigation-resource-item :resource="resourceConfig" :item="item">
+      <navigation-resource-item :page-key="resourcePageKey" :item>
         <template #prepend>
           <lazy-navigation-user-reset-password
             :item="item"

@@ -5,8 +5,10 @@ definePageMeta({
   auth: false,
 })
 const { hasRoleAdmin } = useAppAuth()
-const { resourcePageKey, resourceConfig, collectionLabel } =
-  await useResource('sites')
+const { resourcePageKey, resourceConfig, collectionLabel } = await useResource(
+  'sites',
+  { resourceOperationType: 'collection' },
+)
 const { isFiltered } = useResourceFiltersState({
   resourcePageKey,
   resourceConfig,

@@ -2,7 +2,7 @@
 import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog.js'
 
 const { fetchCollection, resourceConfig, collectionLabel, patchItem } =
-  await useResource('users')
+  await useResource('users', { resourceOperationType: 'collection' })
 const { pending, error, paginationOptions, totalItems, items } =
   await fetchCollection()
 

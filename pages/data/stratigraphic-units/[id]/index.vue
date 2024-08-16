@@ -23,18 +23,18 @@ const tab = ref(null)
       <navigation-resource-item-update
         class="mr-4"
         :item="item"
-        :resource="resourceConfig"
+        :app-path="resourceConfig.appPath"
         size="large"
       />
       <navigation-resource-item-delete
         class="mr-4"
         :item="item"
-        :resource="resourceConfig"
+        :app-path="resourceConfig.appPath"
         size="large"
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath" />
+      <navigation-resource-collection-list />
     </template>
     <template #default>
       <div>
@@ -54,27 +54,6 @@ const tab = ref(null)
               :mode="API_ACTIONS.Read"
             />
           </v-tabs-window-item>
-          <!--          <v-tabs-window-item value="sus">-->
-          <!--            <v-card :rounded="false">-->
-          <!--              <v-toolbar density="compact">-->
-          <!--                <template #append>-->
-          <!--                  <lazy-navigation-resource-item-create-->
-          <!--                    :path="{-->
-          <!--                      path: `${getResourceConfig('stratigraphicUnits').appPath}/create`,-->
-          <!--                      query: { parent: { 'site.id': id } },-->
-          <!--                    }"-->
-          <!--                  />-->
-          <!--                  <lazy-navigation-resource-item-search-->
-          <!--                    :path="`${getResourceConfig('stratigraphicUnits').appPath}/search`"-->
-          <!--                  />-->
-          <!--                </template>-->
-          <!--              </v-toolbar>-->
-          <!--              <lazy-data-collection-stratigraphic-units-table-->
-          <!--                :parent="{ 'site.id': id }"-->
-          <!--                route-name="data-sites-id-stratigraphicUnits"-->
-          <!--              />-->
-          <!--            </v-card>-->
-          <!--          </v-tabs-window-item>-->
         </v-tabs-window>
       </div>
     </template>

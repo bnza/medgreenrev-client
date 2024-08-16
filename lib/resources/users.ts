@@ -1,4 +1,6 @@
-const resourceConfig = {
+import type { ResourceConfig } from '~/lib/resources/index'
+
+const resourceConfig: ResourceConfig = {
   apiPath: '/admin/users',
   appPath: '/admin/users',
   name: 'users',

@@ -1,27 +1,29 @@
-<script setup>
-const props = defineProps({
-  path: {
-    type: String,
-    required: true,
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    replace?: boolean
+    tooltipText?: string
+  }>(),
+  {
+    replace: false,
+    tooltipText: 'Back',
   },
-  tooltipText: {
-    type: String,
-    default: 'Show resource list',
-  },
-})
+)
 
-const to = computed(() => {
-  if (history.state.back) {
-    return history.state.back
+const router = useRouter()
+const back = () => {
+  console.log(history.state)
+  if (history.state && history.state.back) {
+    return router.back()
   }
-  return props.path
-})
+  return router.push('/')
+}
 </script>
 
 <template>
   <v-tooltip location="bottom" :text="tooltipText">
     <template #activator="{ props }">
-      <NuxtLink :to>
+      <NuxtLink @click="back()">
         <v-icon class="mx-3" v-bind="props" icon="fas fa-arrow-left" />
       </NuxtLink>
     </template>

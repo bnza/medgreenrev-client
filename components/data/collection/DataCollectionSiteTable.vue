@@ -1,13 +1,17 @@
-<script setup>
+<script setup lang="ts">
+import type { ResourceKey } from '~/lib/resources'
+
 const props = defineProps({
   parent: {
     type: Object,
     default: () => new Object(),
   },
 })
-const { fetchCollection, headers, resourceConfig } = await useResource('sites')
+const resourceKey: ResourceKey = 'sites'
+const { fetchCollection, headers, resourceConfig, resourcePageKey } =
+  await useResource(resourceKey, { resourceOperationType: 'collection' })
 const { pending, error, paginationOptions, items, totalItems } =
-  await fetchCollection(props.parent)
+  await fetchCollection()
 </script>
 
 <template>
@@ -32,7 +36,7 @@ const { pending, error, paginationOptions, items, totalItems } =
     @update:options="Object.assign(paginationOptions, $event)"
   >
     <template #[`item.id`]="{ item }">
-      <navigation-resource-item :resource="resourceConfig" :item="item" />
+      <navigation-resource-item :page-key="resourcePageKey" :item />
     </template>
     <template #[`item.public`]="{ item }">
       <v-checkbox-btn

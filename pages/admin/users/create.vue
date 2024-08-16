@@ -36,7 +36,7 @@ const submitAndFeedBack = async (state) => {
 <template>
   <data-card v :title="itemLabel" code="" :mode="mode">
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath" />
+      <navigation-resource-collection-list />
     </template>
     <template #toolbar-append>
       <v-btn

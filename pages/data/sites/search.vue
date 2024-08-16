@@ -4,7 +4,9 @@ import { useResourceFiltersState } from '~/composables'
 definePageMeta({
   auth: false,
 })
-const { resourcePageKey, resourceConfig } = await useResource('sites')
+const { resourcePageKey, resourceConfig } = await useResource('sites', {
+  resourceOperationType: 'collection',
+})
 
 const resourceFilterState = useResourceFiltersState({
   resourcePageKey,

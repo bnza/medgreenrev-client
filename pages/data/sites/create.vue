@@ -25,7 +25,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
       <lazy-data-toolbar-title-append :text="mode" />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath" />
+      <navigation-resource-collection-list />
     </template>
     <template #toolbar-append>
       <v-btn

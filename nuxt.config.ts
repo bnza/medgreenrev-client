@@ -22,6 +22,14 @@ export default defineNuxtConfig({
       pages: {
         login: '/login',
       },
+      session: {
+        dataType: {
+          id: 'string',
+          email: 'string',
+          roles: 'string[]',
+          privileges: 'number[]',
+        },
+      },
     },
     sessionRefresh: {
       // Whether to refresh the session every time the browser window is refocused.

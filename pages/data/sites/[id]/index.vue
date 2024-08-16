@@ -27,18 +27,18 @@ const { tab } = useResourceTabState('sites')
       <navigation-resource-item-update
         class="mr-4"
         :item="item"
-        :resource="resourceConfig"
+        :app-path="resourceConfig.appPath"
         size="large"
       />
       <navigation-resource-item-delete
         class="mr-4"
         :item="item"
-        :resource="resourceConfig"
+        :app-path="resourceConfig.appPath"
         size="large"
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath" />
+      <navigation-resource-collection-list />
     </template>
     <template #default>
       <v-tabs

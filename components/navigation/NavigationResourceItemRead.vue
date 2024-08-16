@@ -1,26 +1,19 @@
-<script setup>
-const props = defineProps({
-  resource: {
-    type: Object,
-    validator(value) {
-      return 'appPath' in value
-    },
+<script setup lang="ts">
+import type { ResourceAclItem, ResourcePageKey } from '~/lib/resources'
+
+const props = withDefaults(
+  defineProps<{
+    appPath: string
+    pageKey: ResourcePageKey
+    item: ResourceAclItem
+    size?: string
+    back?: boolean
+  }>(),
+  {
+    size: 'xsmall',
+    back: false,
   },
-  item: {
-    type: Object,
-    validator(value) {
-      return 'id' in value && '_acl' in value
-    },
-  },
-  size: {
-    type: String,
-    default: 'xsmall',
-  },
-  back: {
-    type: Boolean,
-    default: false,
-  },
-})
+)
 
 const disabled = computed(() => {
   return !props.item._acl.canRead
@@ -38,7 +31,7 @@ const icon = computed(() => `fas fa-arrow-${props.back ? 'left' : 'right'}`)
     :disabled="disabled"
     :icon="true"
     nuxt
-    :to="`${resource.appPath}/${item.id}`"
+    :to="`${appPath}/${item.id}`"
     variant="text"
   >
     <v-icon :color="color" :icon="icon" :size="size" />

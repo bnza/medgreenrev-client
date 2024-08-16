@@ -1,22 +1,16 @@
-<script setup>
-const props = defineProps({
-  resource: {
-    type: Object,
-    validator(value) {
-      return 'appPath' in value
-    },
+<script setup lang="ts">
+import type { ResourceAclItem } from '~/lib/resources'
+
+const props = withDefaults(
+  defineProps<{
+    appPath: string
+    item: ResourceAclItem
+    size?: string
+  }>(),
+  {
+    size: 'xsmall',
   },
-  item: {
-    type: Object,
-    validator(value) {
-      return 'id' in value && '_acl' in value
-    },
-  },
-  size: {
-    type: String,
-    default: 'xsmall',
-  },
-})
+)
 
 const disabled = computed(() => {
   return !props.item._acl.canUpdate
@@ -33,7 +27,7 @@ const color = computed(() => {
     :disabled="disabled"
     :icon="true"
     nuxt
-    :to="`${resource.appPath}/${item.id}/update`"
+    :to="`${appPath}/${item.id}/update`"
     variant="text"
     data-testid="update-item-button"
   >

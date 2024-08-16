@@ -12,7 +12,7 @@ const { parent, resourceKey } = toRefs(props)
 const { isAuthenticated } = useAppAuth()
 const { resourceConfig, resourcePageKey } = await useResource(
   resourceKey.value,
-  parent.value,
+  { parent: parent.value, resourceOperationType: 'collection' },
 )
 
 const { isFiltered } = useResourceFiltersState({
@@ -42,7 +42,6 @@ const collectionTableComponent = computed(
 
 <template>
   <data-card :rounded="false" title="">
-    <!--    <v-toolbar density="compact">-->
     <template #title-append>
       <lazy-data-toolbar-title-append
         v-if="isFiltered"
@@ -65,7 +64,6 @@ const collectionTableComponent = computed(
         }"
       />
     </template>
-    <!--    </v-toolbar>-->
     <component
       :is="collectionTableComponent"
       data-testid="children-collection-table"

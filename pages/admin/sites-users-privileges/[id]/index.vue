@@ -15,20 +15,20 @@ const { item, error, code } = await fetchItem(id)
   <data-card v-if="item" :title="itemLabel" :code="code">
     <template #toolbar-append>
       <navigation-resource-item-update
+        :app-path="resourceConfig.appPath"
         class="mr-4"
         :item="item"
-        :resource="resourceConfig"
         size="large"
       />
       <navigation-resource-item-delete
         class="mr-4"
         :item="item"
-        :resource="resourceConfig"
+        :app-path="resourceConfig.appPath"
         size="large"
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath" />
+      <navigation-resource-collection-list />
     </template>
     <template #default>
       <lazy-data-item-sites-users-form

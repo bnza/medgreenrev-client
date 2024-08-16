@@ -10,7 +10,7 @@ const parent = route.query?.parent
 
 const { resourceConfig, resourcePageKey } = await useResource(
   'stratigraphicUnits',
-  parent,
+  { parent, resourceOperationType: 'collection' },
 )
 
 const resourceFilterState = useResourceFiltersState({

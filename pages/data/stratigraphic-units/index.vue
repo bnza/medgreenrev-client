@@ -5,8 +5,10 @@ definePageMeta({
   auth: false,
 })
 const { hasRoleAdmin } = useAppAuth()
-const { resourcePageKey, resourceConfig, collectionLabel } =
-  await useResource('stratigraphicUnits')
+const { resourcePageKey, resourceConfig, collectionLabel } = await useResource(
+  'stratigraphicUnits',
+  { resourceOperationType: 'collection' },
+)
 const { isFiltered } = useResourceFiltersState({
   resourcePageKey,
   resourceConfig,

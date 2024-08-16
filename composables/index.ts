@@ -1,4 +1,3 @@
-import { isResourceKey, type ResourceKey } from '~/lib/resources'
 import type { Roles } from '~/lib/constants/enums'
 
 export { useAppNavigationDrawerVisibleState } from './states/useAppNavigationDrawerVisibleState'
@@ -6,6 +5,7 @@ export { useAppSnackbarState } from './states/useAppSnackbarState'
 export { useLoginRedirectUrlState } from './states/useLoginRedirectUrlState'
 export { useDataUiModeState } from './states/useDataUiModeState'
 export { useUserPlainPasswordState } from '~/composables/states/useUserPlainPasswordState'
+export { useAppNavigationFromPageState } from '~/composables/states/useAppNavigationFromPageState'
 
 export { default as useResource } from './resources/useResource'
 
@@ -19,13 +19,4 @@ export type SessionData = {
   email: string
   roles: Array<Roles>
   privileges: Record<number, number>
-}
-export const getResourcePageRootKey = (
-  resourcePageKey: string,
-): ResourceKey => {
-  const resourcePageRootKey = resourcePageKey.split('/')[0]
-  if (isResourceKey(resourcePageRootKey)) {
-    return resourcePageRootKey
-  }
-  throw new Error(`No such "${resourcePageRootKey}" resource key`)
 }

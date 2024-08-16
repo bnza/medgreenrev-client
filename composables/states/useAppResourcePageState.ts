@@ -1,23 +1,33 @@
+import type { MaybeResourcePageKey, ResourcePageKey } from '~/lib/resources'
+
 export type ResourcePageState = {
-  routeName: string
+  routeName: ResourcePageKey
   filters: Array<Filter>
   pagination: PaginationOptionsState
   tab: string | null
+  from: [string, MaybeResourcePageKey]
 }
+
+export const getDefaultResourcePageState = (
+  resourcePageKey: ResourcePageKey,
+): ResourcePageState =>
+  structuredClone({
+    routeName: resourcePageKey,
+    filters: [],
+    pagination: defaultPaginationOptions,
+    tab: null,
+    from: ['/', ''],
+  })
+
 type AppResourcePagesState = Record<string, ResourcePageState> | {}
-export const useAppResourcePageState = (resourcePageKey: string) => {
+export const useAppResourcePageState = (resourcePageKey: ResourcePageKey) => {
   const state: Ref<AppResourcePagesState> = useState(
     STATE_APP_RESOURCE_PAGES,
     () => new Object(),
   )
 
-  const initResourcePageState = (resourcePageKey: string) => {
-    state.value[resourcePageKey] = {
-      routeName: resourcePageKey,
-      filters: [],
-      pagination: structuredClone(defaultPaginationOptions),
-      tab: null,
-    }
+  const initResourcePageState = (resourcePageKey: ResourcePageKey) => {
+    state.value[resourcePageKey] = getDefaultResourcePageState(resourcePageKey)
   }
   const getResourcePageState = (): ResourcePageState => {
     if (!(resourcePageKey in state.value)) {

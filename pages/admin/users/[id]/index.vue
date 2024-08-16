@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import ResourceNotFound from '~/components/ResourceNotFound.vue'
 import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog'
 
 const route = useRoute()
@@ -53,18 +52,18 @@ const tab = ref(null)
       <navigation-resource-item-update
         class="mr-4"
         :item="item"
-        :resource="resourceConfig"
+        :app-path="resourceConfig.appPath"
         size="large"
       />
       <navigation-resource-item-delete
         class="mr-4"
         :item="item"
-        :resource="resourceConfig"
+        :app-path="resourceConfig.appPath"
         size="large"
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list :path="resourceConfig.appPath" />
+      <navigation-resource-collection-list />
     </template>
     <template #default>
       <v-tabs

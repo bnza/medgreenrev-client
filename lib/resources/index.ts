@@ -1,7 +1,7 @@
-import sites from './sites.js'
+import sites from './sites'
 import sitesUsers from './sites-users'
-import stratigraphicUnits from './stratigraphic-units.js'
-import users from './users.js'
+import stratigraphicUnits from './stratigraphic-units'
+import users from './users'
 import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
 
 export type ResourceKey =
@@ -13,10 +13,18 @@ export type ResourceKey =
 export type ResourceConfig = {
   apiPath: string
   appPath: string
-  name: string
+  name: ResourceKey
   labels: Array<string>
   getCodeFn: (item: Record<string, any>) => () => string
 }
+
+export type ResourceOperationType = 'item' | 'collection'
+
+export type ResourcePageKey =
+  | `${ResourceKey}/${ResourceOperationType}`
+  | `${ResourceKey}/collection/${string}`
+
+export type MaybeResourcePageKey = '' | ResourcePageKey
 
 export type UseResourceType = {
   defaultHeaders: ReadonlyHeaders
@@ -27,6 +35,15 @@ const resources: Record<ResourceKey, ResourceConfig> = {
   sitesUsers,
   users,
   stratigraphicUnits,
+}
+
+export type ResourceItem = { id: string | number } & Record<string, any>
+export type ResourceAclItem = ResourceItem & {
+  _acl: {
+    canRead: boolean
+    canUpdate: boolean
+    canDelete: boolean
+  }
 }
 
 export type UseResourceTypeOptions = {
@@ -81,4 +98,13 @@ export const getResourceValidation = async (key: ResourceKey, options = {}) => {
     ).default
   }
   return validations[key]
+}
+export const getResourcePageRootKey = (
+  resourcePageKey: ResourcePageKey,
+): ResourceKey => {
+  const resourcePageRootKey = resourcePageKey.split('/')[0]
+  if (isResourceKey(resourcePageRootKey)) {
+    return resourcePageRootKey
+  }
+  throw new Error(`No such "${resourcePageRootKey}" resource key`)
 }

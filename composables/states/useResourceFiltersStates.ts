@@ -6,12 +6,13 @@ import { getAvailableOperators, getAvailableProps } from '~/lib/filters'
 import type { Filter } from '~/lib/constants/filters'
 import type { MaybeRef } from 'vue'
 import { diff } from 'deep-object-diff'
+import type { ResourcePageKey } from '~/lib/resources'
 
 export const useResourceFiltersState = ({
-  resourcePageKey = '',
+  resourcePageKey,
   resourceConfig = {},
 }: {
-  resourcePageKey: string
+  resourcePageKey: ResourcePageKey
   resourceConfig: Record<string, any>
 }) => {
   if (!resourcePageKey) {

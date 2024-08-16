@@ -50,8 +50,6 @@ export function useAsyncUniqueValidator({
     return validator.validate(type, path, value)
   }
 
-  console.log(watch)
-
   return withMessage(
     () => message ?? `Duplicate [] tuple`,
     withAsync(validate, watch),

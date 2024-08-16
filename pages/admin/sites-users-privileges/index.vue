@@ -1,8 +1,10 @@
 <script setup>
 import { useResourceFiltersState } from '~/composables'
 
-const { resourcePageKey, resourceConfig, collectionLabel } =
-  await useResource('sitesUsers')
+const { resourcePageKey, resourceConfig, collectionLabel } = await useResource(
+  'sitesUsers',
+  { resourceOperationType: 'collection' },
+)
 const { isFiltered } = useResourceFiltersState({
   resourcePageKey,
   resourceConfig,
