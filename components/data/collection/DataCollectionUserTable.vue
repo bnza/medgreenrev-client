@@ -1,7 +1,11 @@
-<script setup lang="ts">
-import type { ResourceKey } from '~/lib/resources'
+<script setup lang="ts" generic="RT extends ApiResourceUser">
+import type { ApiResourceUser, ResourceKey } from '~/lib/resources'
 
-const tableProps = defineProps(resourceDataTableProps)
+const tableProps = defineProps<{
+  items: Array<RT>
+  totalItems: number
+  pending: boolean
+}>()
 const { items, pending, totalItems } = toRefs(tableProps)
 const paginationOptions =
   defineModel<PaginationOptionsState>('paginationOptions')
