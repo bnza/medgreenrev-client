@@ -10,7 +10,6 @@ export { useAppNavigationFromPageState } from '~/composables/states/useAppNaviga
 export { default as useResource } from './resources/useResource'
 
 export { default as useDataForm } from './form/useDataForm'
-export { default as useDataFormCode } from './form/useDataFormCode'
 export { default as useSubmitResourceRequest } from './form/useSubmitResourceRequest'
 export { useResourceFiltersState } from '~/composables/states/useResourceFiltersStates'
 
