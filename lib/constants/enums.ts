@@ -11,7 +11,7 @@ export const rolesBitmasksMap: Readonly<Record<SitesRoles, number>> = {
   ROLE_SITE_USER: 0b0,
 }
 
-export const COLORS = Object.freeze({
+export const COLORS: Readonly<Record<string, `#${string}`>> = {
   primary: '#2c549d',
   secondary: '#80bc37',
   anchor: '#FFF',
@@ -28,7 +28,7 @@ export const COLORS = Object.freeze({
   'on-surface-variant': '#EEE',
   'primary-darken-1': '#12223f',
   'secondary-darken-1': '#334b16',
-})
+}
 
 export const ROLE_HIERARCHY_VALUES: Readonly<Record<Roles, number>> =
   Object.freeze({
@@ -49,19 +49,15 @@ export const ROLE_COLORS = Object.freeze({
 })
 
 export type AppUiMode = 'default' | 'map'
-export const DATA_UI_MODE: Readonly<Record<string, AppUiMode>> = {
-  Default: 'default',
-  Map: 'map',
-}
 
 export type ApiAction = 'create' | 'update' | 'read' | 'delete'
 
-export const API_ACTIONS: Readonly<Record<string, ApiAction>> = {
-  Create: 'create',
-  Read: 'read',
-  Update: 'update',
-  Delete: 'delete',
-}
+// export const API_ACTIONS: Readonly<Record<string, ApiAction>> = {
+//   Create: 'create',
+//   Read: 'read',
+//   Update: 'update',
+//   Delete: 'delete',
+// }
 
 export const API_VALIDATOR_TYPE = Object.freeze({
   Unique: 'unique',
@@ -73,9 +69,11 @@ export const ACL_VOTERS = Object.freeze({
   HasRoleAdmin: 'HasRoleAdmin',
 })
 
-export const DATA_API_ACTIONS_BAR_COLOR = Object.freeze({
-  [API_ACTIONS.Read]: COLORS['surface-light'],
-  [API_ACTIONS.Create]: '#284151',
-  [API_ACTIONS.Update]: '#29332e',
-  [API_ACTIONS.Delete]: '#3e2325',
-})
+export const DATA_API_ACTIONS_BAR_COLOR: Readonly<
+  Record<ApiAction, `#${string}`>
+> = {
+  read: COLORS['surface-light'],
+  create: '#284151',
+  update: '#29332e',
+  delete: '#3e2325',
+}

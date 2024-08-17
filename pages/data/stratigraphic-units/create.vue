@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 const { resourceConfig, postItem, itemLabel } =
   await useResource('stratigraphicUnits')
 const invalid = ref(false)
 const item = ref({})
-const mode = API_ACTIONS.Create
+const mode: ApiAction = 'create'
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,

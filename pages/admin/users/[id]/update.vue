@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import ResourceNotFound from '~/components/ResourceNotFound.vue'
 
 const route = useRoute()
@@ -9,7 +9,7 @@ const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)
 
-const mode = API_ACTIONS.Update
+const mode: ApiAction = 'update'
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,

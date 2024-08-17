@@ -41,7 +41,7 @@ const tab = ref(null)
         <v-tabs
           v-model="tab"
           color="anchor"
-          :bg-color="DATA_API_ACTIONS_BAR_COLOR[API_ACTIONS.Read]"
+          :bg-color="DATA_API_ACTIONS_BAR_COLOR['read']"
         >
           <v-tab value="data">data</v-tab>
           <!--          <v-tab value="sus">stratigraphic units</v-tab>-->
@@ -51,7 +51,7 @@ const tab = ref(null)
             <lazy-data-item-stratigraphic-unit-form
               v-if="item"
               :item="item"
-              :mode="API_ACTIONS.Read"
+              mode="read"
             />
           </v-tabs-window-item>
         </v-tabs-window>

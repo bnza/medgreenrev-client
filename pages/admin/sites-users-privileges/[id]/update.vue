@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   middleware: ['acl'],
   voters: [ACL_VOTERS.HasRoleAdmin],
@@ -12,7 +12,7 @@ const { item } = await fetchItem(id)
 
 const invalid = ref(false)
 
-const mode = API_ACTIONS.Update
+const mode: ApiAction = 'update'
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,
   patchItem,

@@ -10,7 +10,7 @@ const { resourceConfig, fetchItem, itemLabel, deleteItem } =
 const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)
-const mode = API_ACTIONS.Delete
+const mode: ApiAction = 'delete'
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,

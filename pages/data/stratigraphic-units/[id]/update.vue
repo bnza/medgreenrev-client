@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
@@ -8,7 +8,7 @@ const { item, pending, code, error } = await fetchItem(id)
 
 const invalid = ref(false)
 
-const mode = API_ACTIONS.Update
+const mode: ApiAction = 'update'
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,

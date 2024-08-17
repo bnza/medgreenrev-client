@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { generatePassword } from '~/lib/index.js'
 import { useUserPlainPasswordState } from '~/composables/states/useUserPlainPasswordState.ts'
 
@@ -12,7 +12,7 @@ const { set } = useUserPlainPasswordState()
 
 const invalid = ref(false)
 const item = ref({})
-const mode = API_ACTIONS.Create
+const mode: ApiAction = 'create'
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,

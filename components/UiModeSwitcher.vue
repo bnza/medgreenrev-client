@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const { mode, icon, toggle } = useDataUiModeState()
-const text = computed(() =>
-  mode.value === DATA_UI_MODE.Map ? 'Map mode' : 'Data mode',
-)
+const text = computed(() => (mode.value === 'map' ? 'Map mode' : 'Data mode'))
 </script>
 
 <template>
@@ -12,5 +10,3 @@ const text = computed(() =>
     </template>
   </v-tooltip>
 </template>
-
-<style scoped></style>

@@ -1,19 +1,13 @@
 import type { AppUiMode } from '~/lib/constants/enums'
 
 export const useDataUiModeState = () => {
-  const mode: Ref<AppUiMode> = useState(
-    STATE_DATA_UI_MODE,
-    () => DATA_UI_MODE.Default,
-  )
+  const mode: Ref<AppUiMode> = useState(STATE_DATA_UI_MODE, () => 'default')
 
   const icon = computed(() =>
-    mode.value === DATA_UI_MODE.Default ? 'fas fa-globe' : 'fas fa-table',
+    mode.value === 'default' ? 'fas fa-globe' : 'fas fa-table',
   )
   const toggle = () =>
-    (mode.value =
-      mode.value === DATA_UI_MODE.Default
-        ? DATA_UI_MODE.Map
-        : DATA_UI_MODE.Default)
+    (mode.value = mode.value === 'default' ? 'map' : 'default')
   const set = (newMode: AppUiMode) => {
     mode.value = newMode
   }

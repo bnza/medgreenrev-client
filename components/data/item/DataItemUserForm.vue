@@ -9,7 +9,7 @@ import type {
 const props = defineProps<{
   triggerSubmit?: boolean
   mode: ApiAction
-  item: ApiLdResourceItem<RT>
+  item: ApiLdResourceItem<RT> | SessionData
 }>()
 
 const { readonly } = useDataForm({
@@ -40,7 +40,7 @@ const role = computed({
       <v-row no-gutters>
         <v-col cols="12" xs="6" sm="6" class="px-2">
           <v-text-field
-            :readonly="readonly || mode === API_ACTIONS.Update"
+            :readonly="readonly || mode === 'update'"
             variant="underlined"
             v-model="state.email"
             label="email"

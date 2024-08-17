@@ -47,7 +47,7 @@ const submitAndFeedback = async (state) => {
         @click="isChangeDialogOpen = true"
       />
     </template>
-    <lazy-data-item-user-form :mode="API_ACTIONS.Read" :item="data" />
+    <lazy-data-item-user-form mode="read" :item="data" />
   </data-card>
   <resource-not-found
     v-else-if="status === 'unauthenticated'"

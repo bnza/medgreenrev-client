@@ -31,11 +31,7 @@ const { item, error, code } = await fetchItem(id)
       <navigation-resource-collection-list />
     </template>
     <template #default>
-      <lazy-data-item-sites-users-form
-        v-if="item"
-        :item="item"
-        :mode="API_ACTIONS.Read"
-      />
+      <lazy-data-item-sites-users-form v-if="item" :item="item" mode="read" />
     </template>
   </data-card>
 </template>

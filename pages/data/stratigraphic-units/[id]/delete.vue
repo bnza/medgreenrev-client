@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
@@ -8,7 +8,7 @@ const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)
 
-const mode = API_ACTIONS.Delete
+const mode: ApiAction = 'delete'
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,

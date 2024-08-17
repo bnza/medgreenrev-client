@@ -24,7 +24,6 @@ const emit = defineEmits([
   'submitForm',
 ])
 const { state, v$ } = await useSubmitForm<RT>('stratigraphicUnits', props, emit)
-// const { state, v$ } = await useSubmitForm('stratigraphicUnits', props, emit)
 const { resourceConfig } = await useResource('stratigraphicUnits')
 
 if (!('site' in state)) {
@@ -35,10 +34,7 @@ const canEditCode = computed(() => {
   if (readonly.value) {
     return false
   }
-  // if (hasRoleAdmin.value) {
-  //   return true
-  // }
-  if (props.mode === API_ACTIONS.Create) {
+  if (props.mode === 'create') {
     return true
   }
   return hasSitePrivilegeEditor(props.item.site.id)

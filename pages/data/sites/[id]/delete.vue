@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   middleware: ['acl'],
   voters: [ACL_VOTERS.HasRoleAdmin],
@@ -13,7 +13,7 @@ const { item, error, code } = await fetchItem(id)
 
 const invalid = ref(false)
 
-const mode = API_ACTIONS.Delete
+const mode: ApiAction = 'delete'
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,

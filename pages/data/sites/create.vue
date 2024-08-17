@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   middleware: ['acl'],
   voters: [ACL_VOTERS.HasRoleAdmin],
@@ -7,7 +7,7 @@ definePageMeta({
 const { resourceConfig, postItem, itemLabel } = await useResource('sites')
 const invalid = ref(false)
 const item = ref({})
-const mode = API_ACTIONS.Create
+const mode: ApiAction = 'create'
 
 const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,

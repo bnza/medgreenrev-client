@@ -1,9 +1,9 @@
-export default function (mode, submitFn) {
+export default function (mode: ApiAction, submitFn: Function) {
   const router = useRouter()
   const { show } = useAppSnackbarState()
   const isSubmitPending = ref(false)
 
-  const showError = (e) => {
+  const showError = (e: Error) => {
     show({
       color: 'error',
       text: e.message,
@@ -37,7 +37,7 @@ export default function (mode, submitFn) {
         redirectToCollection,
       )
       await router.replace(redirectPath)
-      mode === API_ACTIONS.Update && response === 'NO__CHANGE'
+      mode === 'update' && response === 'NO__CHANGE'
         ? showNoChanges()
         : showSuccess()
     } catch (e) {
