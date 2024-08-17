@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useDataUiModeState } from '~/composables/states/useDataUiModeState'
 
 definePageMeta({

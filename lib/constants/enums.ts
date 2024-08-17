@@ -48,10 +48,11 @@ export const ROLE_COLORS = Object.freeze({
   [ROLES.User]: COLORS.success,
 })
 
-export const DATA_UI_MODE = Object.freeze({
+export type AppUiMode = 'default' | 'map'
+export const DATA_UI_MODE: Readonly<Record<string, AppUiMode>> = {
   Default: 'default',
   Map: 'map',
-})
+}
 
 export type ApiAction = 'create' | 'update' | 'read' | 'delete'
 

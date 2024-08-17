@@ -9,6 +9,8 @@ export const useAppSnackbarState = () => {
     timeout: -1,
     multiline: false,
   }
+
+  type SnackbarState = typeof _default
   const defaultFn = () => structuredClone(_default)
   const state = useState(STATE_APP_SNACKBAR, defaultFn)
 
@@ -16,11 +18,11 @@ export const useAppSnackbarState = () => {
     state.value = defaultFn()
   }
 
-  const set = (newState) => {
+  const set = (newState: Partial<SnackbarState>) => {
     state.value = Object.assign({}, defaultFn(), newState)
   }
 
-  const show = (newState) => {
+  const show = (newState: Partial<SnackbarState>) => {
     set(Object.assign({ visible: true }, newState))
   }
 

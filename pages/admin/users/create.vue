@@ -1,6 +1,6 @@
 <script setup>
 import { generatePassword } from '~/lib/index.js'
-import { useUserPlainPasswordState } from '~/composables/states/useUserPlainPasswordState.js'
+import { useUserPlainPasswordState } from '~/composables/states/useUserPlainPasswordState.ts'
 
 definePageMeta({
   middleware: ['acl'],
