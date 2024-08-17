@@ -12,7 +12,6 @@ withDefaults(
 
 const router = useRouter()
 const back = () => {
-  console.log(history.state)
   if (history.state && history.state.back) {
     return router.back()
   }

@@ -2,6 +2,8 @@ import usePaginationOptionsState from '~/composables/states/usePaginationOptions
 import { diff } from 'deep-object-diff'
 import { useResourceFiltersState } from '~/composables/index.js'
 import {
+  type ApiId,
+  type ApiResourceItem,
   type ResourceKey,
   type ResourceOperationType,
   type ResourcePageKey,
@@ -27,7 +29,7 @@ type useResourceOptions = {
   resourceOperationType?: ResourceOperationType
 }
 
-async function useResource(
+async function useResource<RT extends ApiResourceItem<ApiId>>(
   resourceKey: ResourceKey,
   { parent, resourceOperationType }: useResourceOptions = {
     parent: null,
@@ -44,7 +46,6 @@ async function useResource(
     ? `${resourceKey}/collection/${parentKey}`
     : `${resourceKey}/${resourceOperationType}`
 
-  console.log(resourcePageKey, parent)
   const resourceConfig = getResourceConfig(resourceKey)
 
   const { isAuthenticated } = useAppAuth()

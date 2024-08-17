@@ -1,31 +1,45 @@
-import FetchFactory from '~/repository/fetchFactory.js'
+import type { $Fetch } from 'nitropack'
+import type {
+  ApiId,
+  ApiLdResourceCollection,
+  ApiLdResourceItem,
+  ApiResourceItem,
+  ResourceKey,
+} from '~/lib/resources'
+import FetchFactory from './FetchFactory'
+import type { FetchOptions } from 'ofetch'
+import type { AsyncDataOptions } from '#app'
 
-class FetchApiResourceFactory extends FetchFactory {
-  constructor(fetcher) {
+abstract class FetchApiResourceFactory<
+  T extends ApiResourceItem<ApiId>,
+> extends FetchFactory<T> {
+  constructor(fetcher: $Fetch) {
     super(fetcher)
   }
 
   /**
    * @abstract
    */
-  get resourceKey() {
-    throw new Error('must be implemented by subclass!')
-  }
+  abstract get resourceKey(): ResourceKey
 
   get resource() {
     return getResourceConfig(this.resourceKey)
   }
 
-  getItemUrl(id) {
+  getItemUrl(id: MaybeRef<string | number>) {
     return `${this.resource.apiPath}/${unref(id)}`
   }
 
-  async fetchCollection(fetchOptions, asyncDataOptions) {
+  async fetchCollection(
+    fetchOptions: FetchOptions,
+    asyncDataOptions: AsyncDataOptions<ApiLdResourceCollection<T>>,
+  ) {
     const url = this.resource.apiPath
     return useAsyncData(
       url,
       () =>
         this.$fetch(url, {
+          // @ts-ignore
           method: 'GET',
           ...fetchOptions,
         }),
@@ -33,12 +47,17 @@ class FetchApiResourceFactory extends FetchFactory {
     )
   }
 
-  async fetchItem(id, fetchOptions, asyncDataOptions) {
+  async fetchItem(
+    id: MaybeRef<string | number>,
+    fetchOptions: FetchOptions,
+    asyncDataOptions: AsyncDataOptions<ApiLdResourceItem<T>>,
+  ) {
     const url = this.getItemUrl(id)
     return useAsyncData(
       url,
       () =>
         this.$fetch(url, {
+          // @ts-ignore
           method: 'GET',
           ...fetchOptions,
         }),
@@ -46,7 +65,10 @@ class FetchApiResourceFactory extends FetchFactory {
     )
   }
 
-  async patchItem(id, diffItem) {
+  async patchItem(
+    id: string | number,
+    diffItem: Record<string, any>,
+  ): Promise<never> {
     return this.$fetch(this.getItemUrl(id), {
       method: 'PATCH',
       headers: {
@@ -57,7 +79,7 @@ class FetchApiResourceFactory extends FetchFactory {
     })
   }
 
-  async postItem(newItem) {
+  async postItem(newItem: Record<string, any>): Promise<ApiLdResourceItem<T>> {
     return this.$fetch(this.resource.apiPath, {
       method: 'POST',
       headers: {
@@ -68,7 +90,7 @@ class FetchApiResourceFactory extends FetchFactory {
     })
   }
 
-  async deleteItem(oldItem) {
+  async deleteItem(oldItem: Partial<T>) {
     return this.$fetch(this.getItemUrl(oldItem.id), {
       method: 'DELETE',
       headers: {

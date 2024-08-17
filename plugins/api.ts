@@ -1,10 +1,11 @@
 import { stringify } from 'qs'
-import SitesModule from '~/repository/modules/sites.js'
-import StratigraphicUnitsModule from '~/repository/modules/stratigraphic-units.js'
-import UsersModule from '~/repository/modules/users.js'
-import ApiValidator from '~/repository/validator.js'
-import ApiAutocomplete from '~/repository/autocomplete.ts'
-import SitesUsersModule from '~/repository/modules/sitesUsers.js'
+import SitesModule from '~/repository/modules/sites'
+import StratigraphicUnitsModule from '~/repository/modules/stratigraphic-units'
+import UsersModule from '~/repository/modules/users'
+import ApiValidator from '~/repository/validator'
+import ApiAutocomplete from '~/repository/autocomplete'
+import SitesUsersModule from '~/repository/modules/sitesUsers'
+import type { ResourceKey } from '~/lib/resources'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
@@ -52,7 +53,7 @@ export default defineNuxtPlugin(() => {
 
   const modulesKeys = Object.freeze(Object.keys(modules))
 
-  const getRepository = (key) => {
+  const getRepository = (key: ResourceKey) => {
     if (!modulesKeys.includes(key)) {
       throw new Error(`Invalid repository key "${key}"`)
     }

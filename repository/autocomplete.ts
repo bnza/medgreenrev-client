@@ -1,8 +1,7 @@
 import qs from 'qs'
-import FetchFactory from '~/repository/fetchFactory'
-import type { MaybeRef } from 'vue'
+import FetchFactory from '~/repository/FetchFactory'
 
-class ApiAutocomplete extends FetchFactory {
+class ApiAutocomplete<T = any> extends FetchFactory<T> {
   async search(
     path: string,
     params: MaybeRef<Record<string, any>>,

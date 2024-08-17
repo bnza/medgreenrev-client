@@ -1,13 +1,16 @@
-<script setup>
-import { dataFormModeProp, dataFormItemProp } from '~/lib/props.js'
+<script setup lang="ts" generic="RT extends ApiResourceUser">
 import { reduceAppRoles } from '~/lib/index.js'
-import useSubmitForm from '~/composables/form/useSubmitForm.js'
+import useSubmitForm from '~/composables/form/useSubmitForm.ts'
+import type {
+  ApiLdResourceItem,
+  ApiResourceUser,
+} from '~/lib/resources/index.js'
 
-const props = defineProps({
-  triggerSubmit: Boolean,
-  mode: dataFormModeProp,
-  item: dataFormItemProp,
-})
+const props = defineProps<{
+  triggerSubmit?: boolean
+  mode: ApiAction
+  item: ApiLdResourceItem<RT>
+}>()
 
 const { readonly } = useDataForm({
   type: props.mode,
@@ -19,8 +22,7 @@ const emit = defineEmits([
   'submitForm',
   'submitResetPassword',
 ])
-const { state, v$ } = await useSubmitForm('users', props, emit)
-
+const { state, v$ } = await useSubmitForm<RT>('users', props, emit)
 const role = computed({
   get() {
     return reduceAppRoles(state.roles)

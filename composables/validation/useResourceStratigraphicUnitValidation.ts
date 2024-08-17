@@ -9,8 +9,15 @@ import {
 import { FORM_REQUIRED_FIELD } from './messages'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
 import { useAsyncUniqueValidator } from '~/composables/validation/useAsyncUniqueValidator'
+import type {
+  ResourceValidation,
+  ApiResourceStratigraphicUnit,
+} from '~/lib/resources'
 
-export default function (item, emit) {
+const useValidation: ResourceValidation<ApiResourceStratigraphicUnit> = (
+  item: Partial<RT>,
+  emit,
+) => {
   const shallowItem = JSON.parse(JSON.stringify(item?.value))
   const state = reactive(shallowItem)
   const currentYear = new Date().getFullYear()
@@ -58,3 +65,5 @@ export default function (item, emit) {
 
   return { state, v$ }
 }
+
+export default useValidation

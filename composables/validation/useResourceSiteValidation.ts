@@ -3,10 +3,15 @@ import { required, maxLength, helpers } from '@vuelidate/validators'
 import { FORM_REQUIRED_FIELD } from './messages'
 import { useAsyncUniqueValidator } from '~/composables/validation/useAsyncUniqueValidator'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
+import type { ApiResourceSite, ResourceValidation } from '~/lib/resources'
+import type { Reactive } from 'vue'
 
-export default function (item, emit) {
+const useValidation: ResourceValidation<ApiResourceSite> = (
+  item: Partial<RT>,
+  emit,
+) => {
   const shallowItem = JSON.parse(JSON.stringify(item?.value))
-  const state = reactive(shallowItem)
+  const state: Reactive<Partial<ApiResourceSite>> = reactive(shallowItem)
 
   const rules = {
     code: {
@@ -36,3 +41,5 @@ export default function (item, emit) {
 
   return { state, v$ }
 }
+
+export default useValidation

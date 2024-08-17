@@ -1,12 +1,12 @@
-<script setup>
-import { dataFormModeProp, dataFormItemProp } from '~/lib/props.js'
-import useSubmitForm from '~/composables/form/useSubmitForm.js'
+<script setup lang="ts" generic="RT extends ApiResourceSite">
+import useSubmitForm from '~/composables/form/useSubmitForm.ts'
+import type { ApiLdResourceItem, ApiResourceSite } from '~/lib/resources'
 
-const props = defineProps({
-  triggerSubmit: Boolean,
-  mode: dataFormModeProp,
-  item: dataFormItemProp,
-})
+const props = defineProps<{
+  triggerSubmit?: boolean
+  mode: ApiAction
+  item: ApiLdResourceItem<RT>
+}>()
 
 const { readonly } = useDataForm({
   type: props.mode,
@@ -20,7 +20,7 @@ const emit = defineEmits([
   'update:triggerSubmit',
   'submitForm',
 ])
-const { state, v$ } = await useSubmitForm('sites', props, emit)
+const { state, v$ } = await useSubmitForm<RT>('sites', props, emit)
 </script>
 
 <template>

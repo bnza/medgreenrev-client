@@ -53,12 +53,14 @@ export const DATA_UI_MODE = Object.freeze({
   Map: 'map',
 })
 
-export const API_ACTIONS = Object.freeze({
+export type ApiAction = 'create' | 'update' | 'read' | 'delete'
+
+export const API_ACTIONS: Readonly<Record<string, ApiAction>> = {
   Create: 'create',
   Read: 'read',
   Update: 'update',
   Delete: 'delete',
-})
+}
 
 export const API_VALIDATOR_TYPE = Object.freeze({
   Unique: 'unique',

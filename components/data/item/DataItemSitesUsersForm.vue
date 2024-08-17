@@ -1,14 +1,14 @@
-<script setup>
-import { dataFormModeProp, dataFormItemProp } from '~/lib/props.js'
-import useSubmitForm from '~/composables/form/useSubmitForm.js'
+<script setup lang="ts" generic="RT extends ApiResourceSitesUsers">
+import useSubmitForm from '~/composables/form/useSubmitForm.ts'
 import { useSitesUsersPrivileges } from '~/composables/useSitesUsersPrivileges.ts'
+import type { ApiLdResourceItem, ApiResourceSitesUsers } from '~/lib/resources'
 
-const props = defineProps({
-  triggerSubmit: Boolean,
-  mode: dataFormModeProp,
-  item: dataFormItemProp,
-  parent: Object,
-})
+const props = defineProps<{
+  triggerSubmit?: booles
+  mode: ApiAction
+  item: ApiLdResourceItem<RT>
+  parent?: Record<string, ApiId>
+}>()
 
 const { readonly } = useDataForm({
   type: props.mode,
@@ -20,7 +20,8 @@ const emit = defineEmits([
   'update:triggerSubmit',
   'submitForm',
 ])
-const { state, v$ } = await useSubmitForm('sitesUsers', props, emit)
+const { state, v$ } = await useSubmitForm<RT>('sitesUsers', props, emit)
+// const { state, v$ } = await useSubmitForm('sitesUsers', props, emit)
 const { assignPrivilege, hasPrivilege, getPrivilegeKey, getPrivilegeColor } =
   useSitesUsersPrivileges()
 const isSiteEditor = computed({

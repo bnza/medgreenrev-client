@@ -3,10 +3,12 @@
  It encapsulates the functionality for making API requests asynchronously
  through the call function, utilizing the provided HTTP client.
 */
-class FetchFactory {
-  #$fetch
+import type { $Fetch } from 'nitropack'
 
-  constructor(fetcher) {
+class FetchFactory<T = any> {
+  #$fetch: $Fetch
+
+  constructor(fetcher: $Fetch<T>) {
     this.#$fetch = fetcher
   }
 
