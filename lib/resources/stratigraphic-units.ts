@@ -1,5 +1,3 @@
-import type { ResourceConfig } from '~/lib/resources/index'
-
 const resourceConfig: ResourceConfig = {
   apiPath: '/stratigraphic_units',
   appPath: '/data/stratigraphic-units',

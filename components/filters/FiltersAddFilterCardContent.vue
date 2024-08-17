@@ -1,6 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { generateId } from '~/lib/index.js'
 import useFilterValidation from '~/composables/validation/filters/useFilterValidation.js'
+import { resourceFiltersStateInjectionKey } from '~/composables/states/useResourceFiltersStates'
 
 const filter = reactive({
   id: '',
@@ -28,7 +29,7 @@ const emit = defineEmits(['addFilter', 'update:invalid'])
 
 const triggerSubmit = defineModel('triggerSubmit', { required: true })
 
-const { setFilterAndCloseDialog } = inject('resourceFiltersState')
+const { setFilterAndCloseDialog } = inject(resourceFiltersStateInjectionKey)
 
 watch(triggerSubmit, async (trigger) => {
   if (trigger) {

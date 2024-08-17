@@ -1,129 +1,10 @@
 import sitesUsers from './sites-users'
 import stratigraphicUnits from './stratigraphic-units'
 import users from './users'
-// @ts-ignore
 import sites from './sites'
-import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
 import type { Validation } from '@vuelidate/core'
 import type { Reactive } from 'vue'
 
-export type ResourceKey =
-  | 'sites'
-  | 'users'
-  | 'stratigraphicUnits'
-  | 'sitesUsers'
-
-export type ResourceConfig = {
-  apiPath: string
-  appPath: string
-  name: ResourceKey
-  labels: Array<string>
-  getCodeFn: (item: Record<string, any>) => () => string
-}
-
-export type ResourceOperationType = 'item' | 'collection'
-
-export type ResourcePageKey =
-  | `${ResourceKey}/${ResourceOperationType}`
-  | `${ResourceKey}/collection/${string}`
-
-export type MaybeResourcePageKey = '' | ResourcePageKey
-
-export type UseResourceType = {
-  defaultHeaders: ReadonlyHeaders
-}
-
-export type ResourceItem = { id: string | number } & Record<string, any>
-export type ResourceAclItem = ResourceItem & {
-  _acl: {
-    canRead: boolean
-    canUpdate: boolean
-    canDelete: boolean
-  }
-}
-
-export type UseResourceTypeOptions = {
-  defaultHeaders: ReadonlyHeaders
-  formatJsonLdItem?: (item: Record<string, any>) => Record<string, any>
-  normalizePatchItem?: (
-    newItem: Record<string, any>,
-    oldItem: Record<string, any>,
-    diffItem: Record<string, any>,
-  ) => Record<string, any>
-  protectedFields?: ReadonlyArray<string>
-}
-
-export type ApiId = string | number
-
-export type ApiLdResourceType =
-  | 'Site'
-  | 'User'
-  | 'StratigraphicUnit'
-  | 'SitesUser'
-
-type ApiLdContext = `${string}/context/${ApiLdResourceType}`
-type ApiLdResourceId = `${string}/${ApiId}`
-
-export type ApiResourceItem<T extends ApiId> = {
-  id: T
-}
-
-export type ApiResourceSite = {
-  name: string
-  code: string
-  description?: string
-} & ApiResourceItem<number>
-
-export type ApiResourceStratigraphicUnit = {
-  site: Pick<ApiResourceSite, 'id' | 'code'>
-  year: number
-  number: number
-  interpretation?: string
-  description?: string
-} & ApiResourceItem<number>
-
-export type ApiRole = 'ROLE_BASE' | 'ROLE_EDITOR' | 'ROLE_ADMIN'
-export type ApiResourceUser = {
-  email: string
-  roles: Array<ApiRole>
-  privileges: number
-} & ApiResourceItem<string>
-
-export type ApiResourceSitesUsers = {
-  site: Pick<ApiResourceSite, 'id' | 'code'>
-  user: Pick<ApiResourceUser, 'id' | 'email'>
-  privileges: number
-} & ApiResourceItem<string>
-
-export type ApiAclItem<RT extends ApiResourceItem<ApiId>> = {
-  _acl: {
-    canRead: boolean
-    canUpdate: boolean
-    canDelete: boolean
-  }
-} & RT
-
-export type ApiLdResource = {
-  '@context': ApiLdContext
-  '@id': ApiLdResourceId
-  '@type': ApiLdResourceType
-}
-
-export type ApiLdResourceItem<RT extends ApiResourceItem<ApiId>> =
-  ApiLdResource & RT
-
-export type ApiLdResourceCollection<RT extends ApiResourceItem<ApiId>> = {
-  'hydra:totalNumber': number
-  'hydra:member': Array<RT>
-} & ApiLdResource
-
-export type ResourceValidation<RT extends ApiResourceItem<ApiId>> = (
-  item: Partial<RT>,
-  emit: (event: string, ...args: any[]) => void,
-) => {
-  state: Reactive<Partial<RT>>
-  v$: Validation
-}
 export const resources: Record<ResourceKey, ResourceConfig> = {
   sites,
   sitesUsers,
@@ -133,12 +14,24 @@ export const resources: Record<ResourceKey, ResourceConfig> = {
 export const isResourceKey = (key: string): key is ResourceKey =>
   key in resources
 
-const validations: Record<ResourceKey, string> = {
+const validationsKeys: Record<ResourceKey, string> = {
   sites: 'useResourceSiteValidation',
   sitesUsers: 'useResourceSitesUsersValidation',
   users: 'useResourceUserValidation',
   stratigraphicUnits: 'useResourceStratigraphicUnitValidation',
 }
+type ResourceValidation<RT> = (
+  item: Partial<RT>,
+  emit: Function,
+) => {
+  state: Reactive<Partial<RT>>
+  v$: Validation
+}
+
+const validations: Record<
+  ResourceKey,
+  ResourceValidation<ApiAclItem<ApiId>>
+> = {}
 
 export const resourceKeys: ReadonlyArray<string> = Object.freeze(
   Object.keys(resources),
@@ -164,20 +57,20 @@ export const getResourceIri = (
   return `${baseUrl}${apiPath}/${id}`
 }
 
-export const getResourceValidation = async (
+export const getResourceValidation = async <RT extends ApiResourceItem<ApiId>>(
   key: ResourceKey,
   options = {},
-): Promise<
-  () => {
-    state: Reactive<Partial<RT>>
-    v$: Validation
-  }
-> => {
-  if (typeof validations[key] === 'string') {
+): ResourceValidation<RT> => {
+  if (!(key in validations)) {
     validations[key] = (
-      await import(`~/composables/validation/${validations[key]}.ts`)
+      await import(`~/composables/validation/${validationsKeys[key]}.ts`)
     ).default
   }
+  // if (typeof validations[key] === 'string') {
+  //   validations[key] = (
+  //     await import(`~/composables/validation/${validations[key]}.ts`)
+  //   ).default
+  // }
   return validations[key]
 }
 export const getResourcePageRootKey = (
@@ -189,3 +82,5 @@ export const getResourcePageRootKey = (
   }
   throw new Error(`No such "${resourcePageRootKey}" resource key`)
 }
+export const clone = <T>(item: MaybeRef<Record<string, any>> = {}): T =>
+  JSON.parse(JSON.stringify(unref(item)))

@@ -1,6 +1,4 @@
 <script setup lang="ts" generic="RT extends ApiResourceUser">
-import type { ApiResourceUser, ResourceKey } from '~/lib/resources'
-
 const tableProps = defineProps<{
   items: Array<RT>
   totalItems: number

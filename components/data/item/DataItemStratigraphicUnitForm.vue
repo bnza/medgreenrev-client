@@ -1,9 +1,5 @@
 <script setup lang="ts" generic="RT extends ApiResourceStratigraphicUnit">
-import useSubmitForm from '~/composables/form/useSubmitForm.ts'
-import type {
-  ApiLdResourceItem,
-  ApiResourceStratigraphicUnit,
-} from '~/lib/resources'
+import useSubmitForm from '~/composables/form/useSubmitForm'
 
 const props = defineProps<{
   triggerSubmit?: boolean

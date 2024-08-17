@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ResourceKey } from '~/lib/resources'
-
 const props = defineProps({
   parent: {
     type: Object,

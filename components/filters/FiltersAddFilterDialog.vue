@@ -1,9 +1,11 @@
 <script setup>
+import { resourceFiltersStateInjectionKey } from '~/composables/states/useResourceFiltersStates'
+
 const props = defineProps({
   filter: Object,
 })
 
-const { isAddFilterDialogOpen } = inject('resourceFiltersState')
+const { isAddFilterDialogOpen } = inject(resourceFiltersStateInjectionKey)
 const triggerSubmit = ref(false)
 </script>
 

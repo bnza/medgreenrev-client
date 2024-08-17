@@ -5,7 +5,6 @@ import UsersModule from '~/repository/modules/users'
 import ApiValidator from '~/repository/validator'
 import ApiAutocomplete from '~/repository/autocomplete'
 import SitesUsersModule from '~/repository/modules/sitesUsers'
-import type { ResourceKey } from '~/lib/resources'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()

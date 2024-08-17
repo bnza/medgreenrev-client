@@ -1,6 +1,5 @@
 import FetchApiResourceFactory from '~/repository/FetchApiResourceFactory'
 import type { $Fetch } from 'nitropack'
-import type { ApiResourceUser, ResourceKey } from '~/lib/resources'
 
 class UsersModule extends FetchApiResourceFactory<ApiResourceUser> {
   constructor(fetcher: $Fetch) {

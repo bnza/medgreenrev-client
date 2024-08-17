@@ -1,6 +1,5 @@
 import FetchApiResourceFactory from '~/repository/FetchApiResourceFactory'
 import type { $Fetch } from 'nitropack'
-import type { ApiResourceStratigraphicUnit, ResourceKey } from '~/lib/resources'
 
 class StratigraphicUnitsModule extends FetchApiResourceFactory<ApiResourceStratigraphicUnit> {
   constructor(fetcher: $Fetch) {

@@ -1,6 +1,5 @@
 <script setup lang="ts" generic="RT extends ApiResourceSite">
-import useSubmitForm from '~/composables/form/useSubmitForm.ts'
-import type { ApiLdResourceItem, ApiResourceSite } from '~/lib/resources'
+import useSubmitForm from '~/composables/form/useSubmitForm'
 
 const props = defineProps<{
   triggerSubmit?: boolean

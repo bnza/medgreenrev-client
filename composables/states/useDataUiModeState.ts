@@ -1,5 +1,3 @@
-import type { AppUiMode } from '~/lib/constants/enums'
-
 export const useDataUiModeState = () => {
   const mode: Ref<AppUiMode> = useState(STATE_DATA_UI_MODE, () => 'default')
 

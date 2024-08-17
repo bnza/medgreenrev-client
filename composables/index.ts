@@ -1,5 +1,3 @@
-import type { Roles } from '~/lib/constants/enums'
-
 export { useAppNavigationDrawerVisibleState } from './states/useAppNavigationDrawerVisibleState'
 export { useAppSnackbarState } from './states/useAppSnackbarState'
 export { useLoginRedirectUrlState } from './states/useLoginRedirectUrlState'
@@ -12,10 +10,3 @@ export { default as useResource } from './resources/useResource'
 export { default as useDataForm } from './form/useDataForm'
 export { default as useSubmitResourceRequest } from './form/useSubmitResourceRequest'
 export { useResourceFiltersState } from '~/composables/states/useResourceFiltersStates'
-
-export type SessionData = {
-  id: string
-  email: string
-  roles: Array<Roles>
-  privileges: Record<number, number>
-}

@@ -1,10 +1,6 @@
 <script setup lang="ts" generic="RT extends ApiResourceUser">
 import { reduceAppRoles } from '~/lib/index.js'
-import useSubmitForm from '~/composables/form/useSubmitForm.ts'
-import type {
-  ApiLdResourceItem,
-  ApiResourceUser,
-} from '~/lib/resources/index.js'
+import useSubmitForm from '~/composables/form/useSubmitForm'
 
 const props = defineProps<{
   triggerSubmit?: boolean

@@ -2,7 +2,6 @@ import {
   type ResourcePageState,
   useAppResourcePageState,
 } from '~/composables/states/useAppResourcePageState'
-import type { MaybeResourcePageKey, ResourcePageKey } from '~/lib/resources'
 
 export const useAppNavigationFromPageState = (
   resourcePageKey?: ResourcePageKey,

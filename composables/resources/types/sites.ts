@@ -1,5 +1,3 @@
-import type { UseResourceTypeOptions } from '~/lib/resources'
-
 export default function (): UseResourceTypeOptions {
   const defaultHeaders: ReadonlyHeaders = [
     {

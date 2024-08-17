@@ -1,33 +1,3 @@
-import type { ResourceKey } from '~/lib/resources'
-
-export type Filter = {
-  id: string
-  property: string
-  filter: keyof typeof API_FILTERS
-  operands: Array<any>
-}
-
-export type FilterDefinitionObject = {
-  id: string
-  label: string
-  multiple: boolean
-  propertyLabel?: string
-  operandsComponent: string
-  operandListItemPropertyKey?: string
-  operandsNumber: number
-  addToObject: (filterObject: Record<string, any>, filter: Filter) => void
-}
-
-type ResourcePropertyFiltersDefinitionObject = {
-  propertyLabel?: string
-  filters: Record<string, FilterDefinitionObject>
-}
-
-type ResourceFiltersDefinitionObject = Record<
-  string,
-  ResourcePropertyFiltersDefinitionObject
->
-
 export const isFilter = (obj: unknown): obj is Filter => {
   return (
     isPlainObject(obj) &&
@@ -155,16 +125,17 @@ const SiteEqualAutocomplete: Readonly<FilterDefinitionObject> = {
   },
 }
 
-export const API_FILTERS: Readonly<Record<string, FilterDefinitionObject>> = {
-  SearchExact,
-  SearchPartial,
-  NumericEqual,
-  NumericGreaterThan,
-  NumericGreaterThanOrEqual,
-  NumericLowerThan,
-  NumericLowerThanOrEqual,
-  SiteEqualAutocomplete,
-}
+export const API_FILTERS: Readonly<Record<FilterKey, FilterDefinitionObject>> =
+  {
+    SearchExact,
+    SearchPartial,
+    NumericEqual,
+    NumericGreaterThan,
+    NumericGreaterThanOrEqual,
+    NumericLowerThan,
+    NumericLowerThanOrEqual,
+    SiteEqualAutocomplete,
+  }
 
 export const FILTER_COMPONENT = Object.freeze({
   Property: 0,

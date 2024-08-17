@@ -1,5 +1,3 @@
-import type { MaybeResourcePageKey, ResourcePageKey } from '~/lib/resources'
-
 export type ResourcePageState = {
   routeName: ResourcePageKey
   filters: Array<Filter>

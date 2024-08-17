@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useResourceFiltersState } from '~/composables'
-import type { ResourceKey } from '~/lib/resources'
 
 const props = defineProps<{
   resourceKey: ResourceKey

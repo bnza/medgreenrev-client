@@ -1,14 +1,6 @@
 import usePaginationOptionsState from '~/composables/states/usePaginationOptionsState'
 import { diff } from 'deep-object-diff'
 import { useResourceFiltersState } from '~/composables/index.js'
-import {
-  type ApiId,
-  type ApiResourceItem,
-  type ResourceKey,
-  type ResourceOperationType,
-  type ResourcePageKey,
-  type UseResourceTypeOptions,
-} from '~/lib/resources'
 
 const _identity1 = (item: Record<string, any>) => item
 const _identity3 = (

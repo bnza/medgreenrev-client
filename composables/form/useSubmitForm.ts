@@ -1,10 +1,4 @@
-import {
-  type ApiResourceItem,
-  getResourceValidation,
-  type ResourceKey,
-} from '~/lib/resources'
-import type { Reactive } from 'vue'
-import type { Validation } from '@vuelidate/core'
+import { getResourceValidation } from '~/lib/resources'
 
 export default async function <T extends ApiResourceItem<ApiId>>(
   resourceKey: ResourceKey,
@@ -12,12 +6,8 @@ export default async function <T extends ApiResourceItem<ApiId>>(
     triggerSubmit: boolean
     item: Partial<T>
   },
-  emit,
-): Promise<{
-  item: Ref<Partial<T>>
-  state: Reactive<Partial<T>>
-  v$: Validation
-}> {
+  emit: Function,
+) {
   const { triggerSubmit, item } = toRefs(props)
 
   const useResourceValidation = await getResourceValidation<T>(resourceKey)

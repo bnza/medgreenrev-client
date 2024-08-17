@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import type { ResourceKey } from '~/lib/resources'
-
-const props = defineProps({
-  parent: {
-    type: Object,
-    default: () => new Object(),
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    parent: Record<string, number | string>
+  }>(),
+  {},
+)
 const resourceKey: ResourceKey = 'sitesUsers'
 const { fetchCollection, headers, resourcePageKey } = await useResource(
   resourceKey,

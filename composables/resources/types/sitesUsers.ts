@@ -1,4 +1,4 @@
-import { getResourceIri, type UseResourceTypeOptions } from '~/lib/resources'
+import { getResourceIri } from '~/lib/resources'
 
 export default function (): UseResourceTypeOptions {
   const config = useRuntimeConfig()

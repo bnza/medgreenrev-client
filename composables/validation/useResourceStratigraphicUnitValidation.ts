@@ -9,16 +9,13 @@ import {
 import { FORM_REQUIRED_FIELD } from './messages'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
 import { useAsyncUniqueValidator } from '~/composables/validation/useAsyncUniqueValidator'
-import type {
-  ResourceValidation,
-  ApiResourceStratigraphicUnit,
-} from '~/lib/resources'
+import { clone } from '~/lib/resources'
 
-const useValidation: ResourceValidation<ApiResourceStratigraphicUnit> = (
-  item: Partial<RT>,
-  emit,
+const useValidation = <RT extends ApiResourceStratigraphicUnit>(
+  item: MaybeRef<Partial<RT>>,
+  emit: Function,
 ) => {
-  const shallowItem = JSON.parse(JSON.stringify(item?.value))
+  const shallowItem = clone<RT>(item)
   const state = reactive(shallowItem)
   const currentYear = new Date().getFullYear()
 

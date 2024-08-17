@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { resourceFiltersStateInjectionKey } from '~/composables/states/useResourceFiltersStates'
+
 const props = defineProps({
   size: {
     type: String,
@@ -6,9 +8,7 @@ const props = defineProps({
   },
 })
 
-const { isAddFilterDialogOpen } = inject('resourceFiltersState')
-// const { size } = toRefs(props)
-// const emit = defineEmits(['click'])
+const { isAddFilterDialogOpen } = inject(resourceFiltersStateInjectionKey)
 </script>
 
 <template>

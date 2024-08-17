@@ -1,6 +1,8 @@
-<script setup>
+<script setup lang="ts">
+import { resourceFiltersStateInjectionKey } from '~/composables/states/useResourceFiltersStates'
+
 const { filters, isEmpty, isChanged, removeFilter } = inject(
-  'resourceFiltersState',
+  resourceFiltersStateInjectionKey,
 )
 const text = computed(() =>
   isChanged.value

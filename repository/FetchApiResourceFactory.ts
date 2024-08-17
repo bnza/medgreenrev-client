@@ -1,11 +1,4 @@
 import type { $Fetch } from 'nitropack'
-import type {
-  ApiId,
-  ApiLdResourceCollection,
-  ApiLdResourceItem,
-  ApiResourceItem,
-  ResourceKey,
-} from '~/lib/resources'
 import FetchFactory from './FetchFactory'
 import type { FetchOptions } from 'ofetch'
 import type { AsyncDataOptions } from '#app'
@@ -32,7 +25,7 @@ abstract class FetchApiResourceFactory<
 
   async fetchCollection(
     fetchOptions: FetchOptions,
-    asyncDataOptions: AsyncDataOptions<ApiLdResourceCollection<T>>,
+    asyncDataOptions: AsyncDataOptions<ApiLdResourceCollection<ApiAclItem<T>>>,
   ) {
     const url = this.resource.apiPath
     return useAsyncData(

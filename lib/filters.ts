@@ -1,6 +1,6 @@
 import type { ResourcePageState } from '~/composables/states/useAppResourcePageState'
 import type { FilterDefinitionObject } from '~/lib/constants/filters'
-import { getResourcePageRootKey, type ResourcePageKey } from '~/lib/resources'
+import { getResourcePageRootKey } from '~/lib/resources'
 
 // const getResourceKey = (resourcePageKey: string) => {
 //   resourcePageKey = resourcePageKey.split('/')[0]

@@ -1,5 +1,3 @@
-import type { SessionData } from '~/composables/index'
-
 export function useSitesUsersPrivileges() {
   // @ts-ignore
   const {

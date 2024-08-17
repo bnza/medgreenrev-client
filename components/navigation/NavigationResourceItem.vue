@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  getResourcePageRootKey,
-  type ResourceAclItem,
-  type ResourcePageKey,
-} from '~/lib/resources'
+import { getResourcePageRootKey } from '~/lib/resources'
 
 const props = defineProps<{
   pageKey: ResourcePageKey

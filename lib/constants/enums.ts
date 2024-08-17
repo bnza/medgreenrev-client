@@ -1,11 +1,8 @@
-export type Roles = 'ROLE_USER' | 'ROLE_EDITOR' | 'ROLE_ADMIN'
 export const ROLES: Readonly<Record<string, Roles>> = {
   Admin: 'ROLE_ADMIN',
   Editor: 'ROLE_EDITOR',
   User: 'ROLE_USER',
 }
-export type SitesRoles = 'ROLE_SITE_USER' | 'ROLE_SITE_EDITOR'
-export type SitesGrantableRoles = Exclude<SitesRoles, 'ROLE_SITE_USER'>
 export const rolesBitmasksMap: Readonly<Record<SitesRoles, number>> = {
   ROLE_SITE_EDITOR: 0b1,
   ROLE_SITE_USER: 0b0,
@@ -47,17 +44,6 @@ export const ROLE_COLORS = Object.freeze({
   [ROLES.Editor]: COLORS.warning,
   [ROLES.User]: COLORS.success,
 })
-
-export type AppUiMode = 'default' | 'map'
-
-export type ApiAction = 'create' | 'update' | 'read' | 'delete'
-
-// export const API_ACTIONS: Readonly<Record<string, ApiAction>> = {
-//   Create: 'create',
-//   Read: 'read',
-//   Update: 'update',
-//   Delete: 'delete',
-// }
 
 export const API_VALIDATOR_TYPE = Object.freeze({
   Unique: 'unique',

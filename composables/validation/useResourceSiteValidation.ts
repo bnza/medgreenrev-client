@@ -3,15 +3,14 @@ import { required, maxLength, helpers } from '@vuelidate/validators'
 import { FORM_REQUIRED_FIELD } from './messages'
 import { useAsyncUniqueValidator } from '~/composables/validation/useAsyncUniqueValidator'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
-import type { ApiResourceSite, ResourceValidation } from '~/lib/resources'
-import type { Reactive } from 'vue'
+import { clone } from '~/lib/resources'
 
-const useValidation: ResourceValidation<ApiResourceSite> = (
-  item: Partial<RT>,
-  emit,
+const useValidation = <RT extends ApiResourceSite>(
+  item: MaybeRef<Partial<RT>>,
+  emit: Function,
 ) => {
-  const shallowItem = JSON.parse(JSON.stringify(item?.value))
-  const state: Reactive<Partial<ApiResourceSite>> = reactive(shallowItem)
+  const shallowItem = clone<RT>(item)
+  const state = reactive(shallowItem)
 
   const rules = {
     code: {

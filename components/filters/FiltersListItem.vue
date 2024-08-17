@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { Filter } from '@/lib/constants/filters'
-
 const props = defineProps<{ filter: Filter }>()
 defineEmits(['removeFilter'])
 const operandValue = (operand: unknown) => {

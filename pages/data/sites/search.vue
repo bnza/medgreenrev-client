@@ -1,5 +1,8 @@
-<script setup>
-import { useResourceFiltersState } from '~/composables'
+<script setup lang="ts">
+import {
+  useResourceFiltersState,
+  resourceFiltersStateInjectionKey,
+} from '~/composables/states/useResourceFiltersStates'
 
 definePageMeta({
   auth: false,
@@ -12,7 +15,7 @@ const resourceFilterState = useResourceFiltersState({
   resourcePageKey,
   resourceConfig,
 })
-provide('resourceFiltersState', resourceFilterState)
+provide(resourceFiltersStateInjectionKey, resourceFilterState)
 </script>
 
 <template>

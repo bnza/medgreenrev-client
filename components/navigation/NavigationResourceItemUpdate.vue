@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ResourceAclItem } from '~/lib/resources'
-
 const props = withDefaults(
   defineProps<{
     appPath: string

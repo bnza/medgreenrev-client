@@ -1,4 +1,9 @@
-<script setup>
+<script setup lang="ts">
+import {
+  type UseResourceFiltersState,
+  resourceFiltersStateInjectionKey,
+} from '~/composables/states/useResourceFiltersStates'
+
 const props = defineProps({
   property: {
     type: String,
@@ -7,7 +12,9 @@ const props = defineProps({
 })
 
 const { property } = toRefs(props)
-const { getAvailableOperatorsByProp } = inject('resourceFiltersState')
+const { getAvailableOperatorsByProp } = inject(
+  resourceFiltersStateInjectionKey,
+) as UseResourceFiltersState
 const availableOperators = getAvailableOperatorsByProp(property)
 const operator = defineModel('operator')
 </script>

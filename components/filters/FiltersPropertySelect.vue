@@ -1,6 +1,8 @@
-<script setup>
+<script setup lang="ts">
+import { resourceFiltersStateInjectionKey } from '~/composables/states/useResourceFiltersStates'
+
 const property = defineModel('property')
-const { availableProps } = inject('resourceFiltersState')
+const { availableProps } = inject(resourceFiltersStateInjectionKey)
 </script>
 
 <template>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { resourceFiltersStateInjectionKey } from '~/composables/states/useResourceFiltersStates'
+
 const props = defineProps<{
   backPath: string
 }>()
 const { isEmpty, isChanged, setFiltersAndClose, clearFilters } = inject(
-  'resourceFiltersState',
+  resourceFiltersStateInjectionKey,
 )
 </script>
 
