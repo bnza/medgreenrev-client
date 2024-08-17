@@ -6,6 +6,14 @@ const googleFonts = {
 export default defineNuxtConfig({
   app: {
     baseURL: '/app',
+    head: {
+      link: [
+        {
+          rel: 'icon',
+          href: '/app/favicon.ico',
+        },
+      ],
+    },
   },
 
   auth: {
