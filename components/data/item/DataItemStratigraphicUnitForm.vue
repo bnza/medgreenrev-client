@@ -1,17 +1,17 @@
-<script setup lang="ts" generic="RT extends ApiResourceStratigraphicUnit">
+<script setup lang="ts">
 import useSubmitForm from '~/composables/form/useSubmitForm'
 
 const props = defineProps<{
   triggerSubmit?: boolean
   mode: ApiAction
-  item: ApiLdResourceItem<RT>
+  item: ApiLdResourceItem<ApiResourceStratigraphicUnit>
 }>()
 
 const { readonly } = useDataForm({
   type: props.mode,
 })
 
-const { isAuthenticated, hasSitePrivilegeEditor, hasRoleAdmin } = useAppAuth()
+const { isAuthenticated, hasSitePrivilegeEditor } = useAppAuth()
 
 const emit = defineEmits([
   'update:invalid',
@@ -19,7 +19,11 @@ const emit = defineEmits([
   'update:triggerSubmit',
   'submitForm',
 ])
-const { state, v$ } = await useSubmitForm<RT>('stratigraphicUnits', props, emit)
+const { state, v$ } = await useSubmitForm<ApiResourceStratigraphicUnit>(
+  'stratigraphicUnits',
+  props,
+  emit,
+)
 const { resourceConfig } = await useResource('stratigraphicUnits')
 
 if (!('site' in state)) {

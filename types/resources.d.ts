@@ -29,15 +29,7 @@ declare global {
     defaultHeaders: ReadonlyHeaders
   }
 
-  export type ResourceItem = { id: string | number } & Record<string, any>
-  export type HideableResourceItem = ResourceItem & { public: Boolean }
-  export type ResourceAclItem = ResourceItem & {
-    _acl: {
-      canRead: boolean
-      canUpdate: boolean
-      canDelete: boolean
-    }
-  }
+  // export type ResourceItem = { id: string | number } & Record<string, any>
 
   export type UseResourceTypeOptions = {
     defaultHeaders: ReadonlyHeaders
@@ -65,11 +57,22 @@ declare global {
     id: T
   }
 
+  export type HideableResourceItem = { public: boolean }
+
+  export type ResourceAclItem = {
+    _acl: {
+      canRead: boolean
+      canUpdate: boolean
+      canDelete: boolean
+    }
+  }
+
   export type ApiResourceSite = {
     name: string
     code: string
     description?: string
-  } & HideableResourceItem<number>
+  } & ApiResourceItem<number> &
+    HideableResourceItem
 
   export type ApiResourceStratigraphicUnit = {
     site: Pick<ApiResourceSite, 'id' | 'code'>
@@ -77,7 +80,8 @@ declare global {
     number: number
     interpretation?: string
     description?: string
-  } & ApiResourceItem<number>
+  } & ApiResourceItem<number> &
+    HideableResourceItem
 
   export type ApiRole = 'ROLE_BASE' | 'ROLE_EDITOR' | 'ROLE_ADMIN'
   export type ApiResourceUser = {

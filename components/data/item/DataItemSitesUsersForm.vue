@@ -1,11 +1,11 @@
-<script setup lang="ts" generic="RT extends ApiResourceSitesUsers">
+<script setup lang="ts">
 import useSubmitForm from '~/composables/form/useSubmitForm'
 import { useSitesUsersPrivileges } from '~/composables/useSitesUsersPrivileges'
 
 const props = defineProps<{
   triggerSubmit?: boolean
   mode: ApiAction
-  item: ApiLdResourceItem<RT>
+  item: ApiLdResourceItem<ApiResourceSitesUsers>
   parent?: Record<string, ApiId>
 }>()
 
@@ -19,7 +19,11 @@ const emit = defineEmits([
   'update:triggerSubmit',
   'submitForm',
 ])
-const { state, v$ } = await useSubmitForm<RT>('sitesUsers', props, emit)
+const { state, v$ } = await useSubmitForm<ApiResourceSitesUsers>(
+  'sitesUsers',
+  props,
+  emit,
+)
 const { assignPrivilege, hasPrivilege, getPrivilegeKey, getPrivilegeColor } =
   useSitesUsersPrivileges()
 const isSiteEditor = computed({

@@ -1,11 +1,11 @@
-<script setup lang="ts" generic="RT extends ApiResourceUser">
+<script setup lang="ts">
 import { reduceAppRoles } from '~/lib/index.js'
 import useSubmitForm from '~/composables/form/useSubmitForm'
 
 const props = defineProps<{
   triggerSubmit?: boolean
   mode: ApiAction
-  item: ApiLdResourceItem<RT> | SessionData
+  item: ApiLdResourceItem<ApiResourceUser> | SessionData
 }>()
 
 const { readonly } = useDataForm({
@@ -18,7 +18,7 @@ const emit = defineEmits([
   'submitForm',
   'submitResetPassword',
 ])
-const { state, v$ } = await useSubmitForm<RT>('users', props, emit)
+const { state, v$ } = await useSubmitForm<ApiResourceUser>('users', props, emit)
 const role = computed({
   get() {
     return reduceAppRoles(state.roles)

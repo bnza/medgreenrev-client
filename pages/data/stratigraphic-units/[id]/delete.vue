@@ -23,7 +23,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
     :error="error"
   />
   <data-card
-    v
+    v-else
     :title="itemLabel"
     code=""
     :color="DATA_API_ACTIONS_BAR_COLOR[mode]"

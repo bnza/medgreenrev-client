@@ -4,7 +4,7 @@ import { useResourceFiltersState } from '~/composables/index.ts'
 definePageMeta({
   auth: false,
 })
-const { hasRoleAdmin } = useAppAuth()
+const { isAuthenticated } = useAppAuth()
 const { resourcePageKey, resourceConfig, collectionLabel } = await useResource(
   'stratigraphicUnits',
   { resourceOperationType: 'collection' },
@@ -26,7 +26,7 @@ const { isFiltered } = useResourceFiltersState({
     </template>
     <template #toolbar-append>
       <lazy-navigation-resource-item-create
-        v-if="hasRoleAdmin"
+        v-if="isAuthenticated"
         :path="`${resourceConfig.appPath}/create`"
       />
       <lazy-navigation-resource-item-search
