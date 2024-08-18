@@ -11,6 +11,9 @@ export default defineNuxtPlugin(() => {
 
   const { token } = useAuth()
   const { show } = useAppSnackbarState()
+  const { signOut } = useAuth()
+  const router = useRouter()
+  const route = useRoute()
 
   const fetchOptions = {
     baseURL: config.public.apiBaseURL,
@@ -29,6 +32,19 @@ export default defineNuxtPlugin(() => {
         timeout: -1,
       })
       console.log(error)
+    },
+    async onResponseError({ response }) {
+      if (response.status === 401) {
+        show({
+          // response._data.message,
+          text: 'Session expired please login',
+          color: 'error',
+          timeout: -1,
+        })
+        await signOut({ callbackUrl: route.fullPath })
+        console.log('Logged out')
+        await router.push('/login')
+      }
     },
   }
 
