@@ -1,44 +1,25 @@
-<script setup lang="ts">
-const props = defineProps({
-  label: {
-    type: String,
-    required: true,
+<script setup lang="ts" generic="RT extends Record<string, any>">
+const props = withDefaults(
+  defineProps<{
+    label: string
+    path: string
+    itemTitle: string
+    itemValue?: string
+    itemSubtitle?: string
+    orderBy?: string
+    authorizedOnly?: boolean
+  }>(),
+  {
+    authorizedOnly: false,
   },
-  path: {
-    type: String,
-    required: true,
-  },
-  orderBy: {
-    type: String,
-  },
-  itemTitle: {
-    type: String,
-    required: true,
-  },
-  itemValue: {
-    type: String,
-    validator: propsValidator,
-  },
-  itemSubtitle: {
-    type: String,
-    validator: propsValidator,
-  },
-  // errorMessages: Array<string>,
-})
+)
 
-const model = defineModel()
+if (!XorProps(props, 'itemValue', 'itemSubtitle')) {
+  console.error('itemValue and itemSubtitle are mutually exclusive')
+}
+const model = defineModel<RT>()
 
-const useAutocomplete = ({
-  path,
-  orderBy,
-  itemTitle,
-  itemSubtitle,
-}: {
-  path: string
-  orderBy: string
-  itemTitle?: string
-  itemSubtitle?: string
-}) => {
+const useAutocomplete = () => {
   const { autocomplete } = useNuxtApp().$api
   const value = ref('')
   const params = computed(() => {
@@ -48,8 +29,8 @@ const useAutocomplete = ({
       itemsPerPage: number
     } = { itemsPerPage: 10 }
 
-    if (orderBy) {
-      _return.order = { [orderBy]: 'asc' }
+    if (props.orderBy) {
+      _return.order = { [props.orderBy]: 'asc' }
     }
 
     if (value.value) {
@@ -63,7 +44,11 @@ const useAutocomplete = ({
   watch(
     params,
     async () => {
-      items.value = await autocomplete.search(path, params)
+      items.value = await autocomplete.search(
+        props.path,
+        params,
+        props.authorizedOnly,
+      )
     },
     {
       immediate: true,
@@ -72,31 +57,33 @@ const useAutocomplete = ({
 
   const itemPropsFn = (item: Record<string, any>) => {
     return {
-      title: item[itemTitle],
-      subtitle: item[itemSubtitle],
+      title: item[props.itemTitle],
+      subtitle: item[props.itemSubtitle],
     }
   }
-  const itemProps = itemSubtitle ? itemPropsFn : false
+  const itemProps = props.itemSubtitle ? itemPropsFn : false
 
   return { value, items, itemProps }
 }
-const { items, value, itemProps } = useAutocomplete({
-  path: props.path,
-  orderBy: props.orderBy,
-  itemTitle: props.itemTitle,
-  itemSubtitle: props.itemSubtitle,
-})
+const { items, value, itemProps } = useAutocomplete()
 </script>
 
 <script lang="ts">
 const xor = (a: boolean, b: boolean) => (a && !b) || (!a && b)
-const propsValidator = (_: any, props: Record<string, any>) => {
-  const keys = Object.keys(props)
+
+const XorProps = (props: Record<string, any>, key1: string, key2: string) => {
   return xor(
-    keys.includes('itemValue') && props.itemValue,
-    keys.includes('itemSubtitle') && props.itemSubtitle,
+    key1 in props && 'undefined' !== typeof props[key1],
+    key2 in props && 'undefined' !== typeof props[key2],
   )
 }
+// const propsValidator = (_: any, props: Record<string, any>) => {
+//   const keys = Object.keys(props)
+//   return xor(
+//     keys.includes('itemValue') && props.itemValue,
+//     keys.includes('itemSubtitle') && props.itemSubtitle,
+//   )
+// }
 </script>
 
 <template>

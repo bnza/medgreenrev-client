@@ -55,6 +55,7 @@ const canEditCode = computed(() => {
             order-by="code"
             item-title="code"
             item-subtitle="name"
+            :authorized-only="true"
             v-model="state.site"
           />
           <v-text-field
