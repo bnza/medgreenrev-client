@@ -8,6 +8,8 @@ declare global {
     | 'NumericLowerThan'
     | 'NumericLowerThanOrEqual'
     | 'SiteEqualAutocomplete'
+    | 'BooleanIsTrue'
+    | 'BooleanIsFalse'
 
   export type Filter = {
     id: string

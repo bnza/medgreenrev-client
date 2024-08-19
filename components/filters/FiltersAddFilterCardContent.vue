@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { generateId } from '~/lib/index.js'
 import useFilterValidation from '~/composables/validation/filters/useFilterValidation.js'
 import { resourceFiltersStateInjectionKey } from '~/composables/states/useResourceFiltersStates'
 
-const filter = reactive({
+const filter: Partial<Filter> = reactive({
   id: '',
   property: '',
-  filter: '',
+  filter: null,
   operands: [],
 })
 
@@ -39,7 +38,7 @@ watch(triggerSubmit, async (trigger) => {
     }
     const valid = await v$.value.$validate()
     if (valid) {
-      setFilterAndCloseDialog(filter)
+      setFilterAndCloseDialog(filter as Filter)
     }
   }
 })

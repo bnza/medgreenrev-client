@@ -112,6 +112,28 @@ const NumericLowerThanOrEqual: Readonly<FilterDefinitionObject> = {
   },
 }
 
+const BooleanIsTrue: Readonly<FilterDefinitionObject> = {
+  id: 'BooleanIsTrue',
+  label: 'is true',
+  multiple: false,
+  operandsComponent: '',
+  operandsNumber: 0,
+  addToObject: (filterObj, filter) => {
+    filterObj[filter.property] = 1
+  },
+}
+
+const BooleanIsFalse: Readonly<FilterDefinitionObject> = {
+  id: 'BooleanIsFalse',
+  label: 'is false',
+  multiple: false,
+  operandsComponent: '',
+  operandsNumber: 0,
+  addToObject: (filterObj, filter) => {
+    filterObj[filter.property] = 0
+  },
+}
+
 const SiteEqualAutocomplete: Readonly<FilterDefinitionObject> = {
   id: 'SiteEqualAutocomplete',
   label: 'equals',
@@ -134,6 +156,8 @@ export const API_FILTERS: Readonly<Record<FilterKey, FilterDefinitionObject>> =
     NumericGreaterThanOrEqual,
     NumericLowerThan,
     NumericLowerThanOrEqual,
+    BooleanIsTrue,
+    BooleanIsFalse,
     SiteEqualAutocomplete,
   }
 
@@ -152,6 +176,9 @@ const sites: Readonly<ResourceFiltersDefinitionObject> = {
   },
   description: {
     filters: { SearchPartial },
+  },
+  public: {
+    filters: { BooleanIsFalse, BooleanIsTrue },
   },
 }
 
@@ -183,6 +210,9 @@ const stratigraphicUnits: Readonly<ResourceFiltersDefinitionObject> = {
   'site.id': {
     filters: { SiteEqualAutocomplete },
     propertyLabel: 'site',
+  },
+  public: {
+    filters: { BooleanIsFalse, BooleanIsTrue },
   },
 }
 export const RESOURCE_PAGES_STATE: Readonly<

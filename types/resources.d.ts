@@ -9,13 +9,14 @@ declare global {
     | 'stratigraphicUnits'
     | 'sitesUsers'
 
-  export type ResourceConfig = {
+  export type ResourceConfig = Readonly<{
     apiPath: string
     appPath: string
     name: ResourceKey
     labels: Array<string>
     getCodeFn: (item: Record<string, any>) => () => string
-  }
+    protectedFields?: Array<string>
+  }>
 
   export type ResourceOperationType = 'item' | 'collection'
 
@@ -39,7 +40,6 @@ declare global {
       oldItem: Record<string, any>,
       diffItem: Record<string, any>,
     ) => Record<string, any>
-    protectedFields?: ReadonlyArray<string>
   }
 
   export type ApiId = string | number

@@ -6,16 +6,16 @@ import { getAvailableOperators, getAvailableProps } from '~/lib/filters'
 import type { MaybeRef } from 'vue'
 import { diff } from 'deep-object-diff'
 
-export type UseResourceFiltersState = ReturnType<useAppResourcePageState>
+export type UseResourceFiltersState = ReturnType<typeof useResourceFiltersState>
 
 export const resourceFiltersStateInjectionKey =
   Symbol() as InjectionKey<UseResourceFiltersState>
 export const useResourceFiltersState = ({
   resourcePageKey,
-  resourceConfig = {},
+  resourceConfig,
 }: {
   resourcePageKey: ResourcePageKey
-  resourceConfig: Record<string, any>
+  resourceConfig: ResourceConfig
 }) => {
   if (!resourcePageKey) {
     console.error('route name is required')
@@ -36,13 +36,19 @@ export const useResourceFiltersState = ({
 
   const isEmpty = computed(() => workData.filters.length === 0)
 
-  const availableProps = computed(() => getAvailableProps(workData))
+  const protectedFields = computed(() =>
+    isAuthenticated.value ? [] : resourceConfig.protectedFields || [],
+  )
+  const availableProps = computed(() =>
+    getAvailableProps(workData, protectedFields.value),
+  )
 
   const isChanged = computed(() => {
     const diffObj = diff(filters.value, resourcePageState.value.filters)
     return !Boolean(Object.keys(diffObj).length === 0)
   })
 
+  const { isAuthenticated } = useAppAuth()
   const getAvailableOperatorsByProp = (prop: MaybeRef<string>) =>
     computed(() => getAvailableOperators(workData, unref(prop)))
 

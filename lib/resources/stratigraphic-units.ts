@@ -5,6 +5,7 @@ const resourceConfig: ResourceConfig = {
   labels: ['Stratigraphic Unit', 'Stratigraphic Units'],
   getCodeFn: (item) => () =>
     `${item?.site?.code}.${item?.year}.${item.number}` || '',
+  protectedFields: ['public'],
 }
 
 export default resourceConfig

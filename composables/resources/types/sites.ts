@@ -33,10 +33,7 @@ export default function (): UseResourceTypeOptions {
     },
   ]
 
-  const protectedFields: ReadonlyArray<string> = ['public']
-
   return {
     defaultHeaders,
-    protectedFields,
   }
 }

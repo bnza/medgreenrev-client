@@ -50,8 +50,6 @@ export default function (): UseResourceTypeOptions {
     },
   ]
 
-  const protectedFields = ['public']
-
   const formatJsonLdItem = (item: Record<string, any>) => {
     if (item?.site?.id) {
       item.site = getResourceIri(baseURL, 'sites', item.site.id)
@@ -67,7 +65,6 @@ export default function (): UseResourceTypeOptions {
 
   return {
     defaultHeaders,
-    protectedFields,
     formatJsonLdItem,
   }
 }

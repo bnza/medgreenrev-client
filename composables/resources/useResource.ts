@@ -44,9 +44,9 @@ async function useResource<RT extends ApiResourceItem<ApiId>>(
 
   const useResourceType = await getUseResourceType(resourceKey)
 
+  const { protectedFields } = resourceConfig
   const {
     defaultHeaders,
-    protectedFields = [],
     normalizePatchItem = _identity3,
     formatJsonLdItem = _identity1,
   } = useResourceType()

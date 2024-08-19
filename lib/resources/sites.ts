@@ -4,6 +4,7 @@ const resourceConfig: ResourceConfig = {
   name: 'sites',
   labels: ['Site', 'Sites'],
   getCodeFn: (item) => () => `${item?.code}` || '',
+  protectedFields: ['public'],
 }
 
 export default resourceConfig
