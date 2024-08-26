@@ -96,6 +96,12 @@ declare global {
     privileges: number
   } & ApiResourceItem<string>
 
+  export type ApiResources =
+    | ApiResourceSite
+    | ApiResourceUser
+    | ApiResourceSitesUsers
+    | ApiResourceStratigraphicUnit
+
   export type ApiAclItem<RT extends ApiResourceItem<ApiId>> = {
     _acl: {
       canRead: boolean

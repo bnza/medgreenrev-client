@@ -1,5 +1,6 @@
+import type { SessionData } from '#auth'
+
 export function useSitesUsersPrivileges() {
-  // @ts-ignore
   const {
     data,
   }: {
@@ -17,36 +18,6 @@ export function useSitesUsersPrivileges() {
       hasSessionPrivileges.value(site) ? privileges[site] : false,
   )
 
-  // const hasPrivilege = (
-  //   sitePrivileges: number,
-  //   privilegeKey: SitesGrantableRoles,
-  // ) => Boolean(sitePrivileges & rolesBitmasksMap[privilegeKey])
-  // const grantPrivilege = (
-  //   sitePrivileges: number,
-  //   privilegeKey: SitesGrantableRoles,
-  // ) => sitePrivileges | rolesBitmasksMap[privilegeKey]
-  // const revokePrivilege = (
-  //   sitePrivileges: number,
-  //   privilegeKey: SitesGrantableRoles,
-  // ) => sitePrivileges & ~rolesBitmasksMap[privilegeKey]
-  // const assignPrivilege = (
-  //   flag: boolean,
-  //   sitePrivileges: number,
-  //   privilegeKey: SitesGrantableRoles,
-  // ) => {
-  //   const fn = flag ? grantPrivilege : revokePrivilege
-  //   return fn(sitePrivileges, privilegeKey)
-  // }
-  // const togglePrivilege = (
-  //   flag: boolean,
-  //   sitePrivileges: number,
-  //   privilegeKey: SitesGrantableRoles,
-  // ) => {
-  //   const fn = hasPrivilege(sitePrivileges, privilegeKey)
-  //     ? revokePrivilege
-  //     : grantPrivilege
-  //   return fn(sitePrivileges, privilegeKey)
-  // }
   const hasSessionPrivilege = computed(
     () => (site: number, privilegeKey: SitesGrantableRoles) =>
       hasPrivilege(getSessionPrivileges.value(site), privilegeKey),

@@ -1,6 +1,6 @@
-import FetchFactory from '~/repository/FetchFactory'
+import AbstractRepository from '~/repository/AbstractRepository'
 
-class ApiValidator<T = any> extends FetchFactory<T> {
+class ValidatorRepository<T extends boolean> extends AbstractRepository<T> {
   async validate(
     type: string,
     path: MaybeRef<string>,
@@ -14,4 +14,4 @@ class ApiValidator<T = any> extends FetchFactory<T> {
   }
 }
 
-export default ApiValidator
+export default ValidatorRepository

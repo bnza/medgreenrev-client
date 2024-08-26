@@ -1,7 +1,9 @@
+import AbstractRepository from '~/repository/AbstractRepository'
 import qs from 'qs'
-import FetchFactory from '~/repository/FetchFactory'
 
-class ApiAutocomplete<T = any> extends FetchFactory<T> {
+class AutocompleteRepository<
+  RT extends ApiResourceItem<ApiId>,
+> extends AbstractRepository<RT> {
   async search(
     path: string,
     params: MaybeRef<Record<string, any>>,
@@ -16,4 +18,4 @@ class ApiAutocomplete<T = any> extends FetchFactory<T> {
   }
 }
 
-export default ApiAutocomplete
+export default AutocompleteRepository

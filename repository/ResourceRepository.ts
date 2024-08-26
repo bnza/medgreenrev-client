@@ -1,33 +1,26 @@
-import type { $Fetch } from 'nitropack'
-import FetchFactory from './FetchFactory'
+import AbstractRepository from '~/repository/AbstractRepository'
+import type { $Fetch, TypedInternalResponse } from 'nitropack'
 import type { FetchOptions } from 'ofetch'
 import type { AsyncDataOptions } from '#app'
 
-abstract class FetchApiResourceFactory<
-  T extends ApiResourceItem<ApiId>,
-> extends FetchFactory<T> {
-  constructor(fetcher: $Fetch) {
-    super(fetcher)
-  }
+class ResourceRepository<
+  ResourceType extends ApiResources,
+> extends AbstractRepository<ResourceType> {
+  protected resourceConfig: ResourceConfig
 
-  /**
-   * @abstract
-   */
-  abstract get resourceKey(): ResourceKey
-
-  get resource() {
-    return getResourceConfig(this.resourceKey)
-  }
-
-  getItemUrl(id: MaybeRef<string | number>) {
-    return `${this.resource.apiPath}/${unref(id)}`
+  constructor(resourceKey: ResourceKey, $fetch: $Fetch) {
+    super($fetch)
+    this.resourceConfig = getResourceConfig(resourceKey)
   }
 
   async fetchCollection(
     fetchOptions: FetchOptions,
-    asyncDataOptions: AsyncDataOptions<ApiLdResourceCollection<ApiAclItem<T>>>,
+    asyncDataOptions: AsyncDataOptions<
+      TypedInternalResponse<string, ResourceType, 'get'>,
+      ApiLdResourceCollection<ApiAclItem<ResourceType>>
+    >,
   ) {
-    const url = this.resource.apiPath
+    const url = this.resourceConfig.apiPath
     return useAsyncData(
       url,
       () =>
@@ -40,10 +33,17 @@ abstract class FetchApiResourceFactory<
     )
   }
 
+  getItemUrl(id: MaybeRef<string | number>) {
+    return `${this.resourceConfig.apiPath}/${unref(id)}`
+  }
+
   async fetchItem(
     id: MaybeRef<string | number>,
     fetchOptions: FetchOptions,
-    asyncDataOptions: AsyncDataOptions<ApiLdResourceItem<T>>,
+    asyncDataOptions: AsyncDataOptions<
+      TypedInternalResponse<string, ResourceType, 'get'>,
+      ApiLdResourceItem<ResourceType>
+    >,
   ) {
     const url = this.getItemUrl(id)
     return useAsyncData(
@@ -72,8 +72,10 @@ abstract class FetchApiResourceFactory<
     })
   }
 
-  async postItem(newItem: Record<string, any>): Promise<ApiLdResourceItem<T>> {
-    return this.$fetch(this.resource.apiPath, {
+  async postItem(
+    newItem: Record<string, any>,
+  ): Promise<ApiLdResourceItem<ResourceType>> {
+    return this.$fetch(this.resourceConfig.apiPath, {
       method: 'POST',
       headers: {
         Accept: 'application/ld+json',
@@ -83,7 +85,7 @@ abstract class FetchApiResourceFactory<
     })
   }
 
-  async deleteItem(oldItem: Partial<T>) {
+  async deleteItem(oldItem: Partial<ResourceType>) {
     return this.$fetch(this.getItemUrl(oldItem.id), {
       method: 'DELETE',
       headers: {
@@ -94,4 +96,4 @@ abstract class FetchApiResourceFactory<
   }
 }
 
-export default FetchApiResourceFactory
+export default ResourceRepository

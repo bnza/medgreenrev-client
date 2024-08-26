@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    parent: Record<string, number | string>
+    parent?: Record<string, number | string>
   }>(),
   {},
 )

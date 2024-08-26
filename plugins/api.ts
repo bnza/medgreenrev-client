@@ -1,10 +1,9 @@
 import { stringify } from 'qs'
-import SitesModule from '~/repository/modules/sites'
-import StratigraphicUnitsModule from '~/repository/modules/stratigraphic-units'
-import UsersModule from '~/repository/modules/users'
-import ApiValidator from '~/repository/validator'
-import ApiAutocomplete from '~/repository/autocomplete'
-import SitesUsersModule from '~/repository/modules/sitesUsers'
+import type { FetchOptions } from 'ofetch'
+import ResourceRepository from '~/repository/ResourceRepository'
+import ValidatorRepository from '~/repository/ValidatorRepository'
+import AutocompleteRepository from '~/repository/AutocompleteRepository'
+import UserRepository from '~/repository/UserRepository'
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
@@ -15,7 +14,7 @@ export default defineNuxtPlugin(() => {
   const router = useRouter()
   const route = useRoute()
 
-  const fetchOptions = {
+  const fetchOptions: FetchOptions = {
     baseURL: config.public.apiBaseURL,
     onRequest({ options }) {
       if (token.value) {
@@ -48,7 +47,7 @@ export default defineNuxtPlugin(() => {
     },
   }
 
-  const fetchOptionsParamsToUrl = (options) => {
+  const fetchOptionsParamsToUrl = (options: Record<string, any>) => {
     if (options?.params) {
       const convertedOptions = new URLSearchParams(
         stringify(unref(options.params)),
@@ -60,10 +59,16 @@ export default defineNuxtPlugin(() => {
   const apiFetcher = $fetch.create(fetchOptions)
 
   const modules = {
-    sites: new SitesModule(apiFetcher),
-    sitesUsers: new SitesUsersModule(apiFetcher),
-    stratigraphicUnits: new StratigraphicUnitsModule(apiFetcher),
-    users: new UsersModule(apiFetcher),
+    sites: new ResourceRepository<ApiResourceSite>('sites', apiFetcher),
+    sitesUsers: new ResourceRepository<ApiResourceSitesUsers>(
+      'sitesUsers',
+      apiFetcher,
+    ),
+    stratigraphicUnits: new ResourceRepository<ApiResourceStratigraphicUnit>(
+      'stratigraphicUnits',
+      apiFetcher,
+    ),
+    users: new UserRepository<ApiResourceUser>('users', apiFetcher),
   }
 
   const modulesKeys = Object.freeze(Object.keys(modules))
@@ -75,8 +80,8 @@ export default defineNuxtPlugin(() => {
     return modules[key]
   }
 
-  const validator = new ApiValidator(apiFetcher)
-  const autocomplete = new ApiAutocomplete(apiFetcher)
+  const validator = new ValidatorRepository(apiFetcher)
+  const autocomplete = new AutocompleteRepository(apiFetcher)
 
   return {
     provide: {

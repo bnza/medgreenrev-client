@@ -4,6 +4,7 @@ const isChangeDialogOpen = ref(false)
 const isChangePasswordRequestPending = ref(false)
 
 const { repository } = await useResource('users')
+
 const { show } = useAppSnackbarState()
 const submitAndFeedback = async (state) => {
   isChangePasswordRequestPending.value = true

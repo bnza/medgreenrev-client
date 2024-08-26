@@ -21,17 +21,16 @@ const validationsKeys: Record<ResourceKey, string> = {
   stratigraphicUnits: 'useResourceStratigraphicUnitValidation',
 }
 type ResourceValidation<RT> = (
-  item: Partial<RT>,
+  item: MaybeRef<Partial<RT>>,
   emit: Function,
 ) => {
   state: Reactive<Partial<RT>>
   v$: Validation
 }
 
-const validations: Record<
-  ResourceKey,
-  ResourceValidation<ApiAclItem<ApiId>>
-> = {}
+const validations:
+  | Record<ResourceKey, ResourceValidation<ApiAclItem<ApiResourceItem<ApiId>>>>
+  | {} = {}
 
 export const resourceKeys: ReadonlyArray<string> = Object.freeze(
   Object.keys(resources),
@@ -60,7 +59,7 @@ export const getResourceIri = (
 export const getResourceValidation = async <RT extends ApiResourceItem<ApiId>>(
   key: ResourceKey,
   options = {},
-): ResourceValidation<RT> => {
+): Promise<ResourceValidation<RT>> => {
   if (!(key in validations)) {
     validations[key] = (
       await import(`~/composables/validation/${validationsKeys[key]}.ts`)
