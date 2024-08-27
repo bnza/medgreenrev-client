@@ -1,6 +1,6 @@
 import { useAppResourcePageState } from '~/composables/states/useAppResourcePageState'
 
-export default function (resourcePageKey: string) {
+export default function (resourcePageKey: ResourcePageKey) {
   const { resourcePageState } = useAppResourcePageState(resourcePageKey)
   const paginationOptions = reactive(resourcePageState.value.pagination)
   const queryPaginationOptionsParams = computed(() =>

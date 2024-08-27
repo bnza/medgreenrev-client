@@ -1,6 +1,6 @@
-<script setup lang="ts" generic="RT extends ApiResourceUser">
+<script setup lang="ts">
 const tableProps = defineProps<{
-  items: Array<RT>
+  items: Array<ApiResourceUser>
   totalItems: number
   pending: boolean
 }>()
@@ -9,16 +9,21 @@ const paginationOptions =
   defineModel<PaginationOptionsState>('paginationOptions')
 
 const resourceKey: ResourceKey = 'users'
-const { headers, resourcePageKey } = await useResource(resourceKey, {
-  resourceOperationType: 'collection',
-})
+const { headers, resourcePageKey } = await useResource<ApiResourceUser>(
+  resourceKey,
+  {
+    resourceOperationType: 'collection',
+  },
+)
 
 const emit = defineEmits(['openResetPasswordDialog'])
+const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
+const reduceAppRoles1 = reduceAppRoles
 </script>
 
 <template>
   <v-data-table-server
-    :items-per-page-options="ITEMS_PER_PAGE_OPTIONS"
+    :items-per-page-options
     :items-per-page="paginationOptions.itemsPerPage"
     :headers="headers"
     :items-length="totalItems"
@@ -31,7 +36,10 @@ const emit = defineEmits(['openResetPasswordDialog'])
     @update:options="Object.assign(paginationOptions, $event)"
   >
     <template #[`item.id`]="{ item }">
-      <navigation-resource-item :page-key="resourcePageKey" :item>
+      <navigation-resource-item
+        :page-key="<ResourcePageKey>resourcePageKey"
+        :item
+      >
         <template #prepend>
           <lazy-navigation-user-reset-password
             :item="item"
@@ -41,7 +49,7 @@ const emit = defineEmits(['openResetPasswordDialog'])
       </navigation-resource-item>
     </template>
     <template #[`item.roles`]="{ item }">
-      {{ reduceAppRoles(item.roles) }}
+      {{ reduceAppRoles1(item.roles) }}
     </template>
   </v-data-table-server>
 </template>

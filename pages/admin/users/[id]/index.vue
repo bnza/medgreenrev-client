@@ -18,6 +18,8 @@ const {
 resetPasswordUserItem.value = Object.assign({}, item.value || {})
 
 const tab = ref(null)
+
+const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
 </script>
 
 <template>
@@ -66,11 +68,7 @@ const tab = ref(null)
       <navigation-resource-collection-list />
     </template>
     <template #default>
-      <v-tabs
-        v-model="tab"
-        color="anchor"
-        :bg-color="DATA_API_ACTIONS_BAR_COLOR['read']"
-      >
+      <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
         <v-tab value="data">data</v-tab>
         <v-tab value="sites">sites</v-tab>
       </v-tabs>

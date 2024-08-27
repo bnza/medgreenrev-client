@@ -7,9 +7,12 @@ const props = withDefaults(
 )
 const resourceKey: ResourceKey = 'sites'
 const { fetchCollection, headers, resourceConfig, resourcePageKey } =
-  await useResource(resourceKey, { resourceOperationType: 'collection' })
+  await useResource<ApiResourceSite>(resourceKey, {
+    resourceOperationType: 'collection',
+  })
 const { pending, error, paginationOptions, items, totalItems } =
   await fetchCollection()
+const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
 </script>
 
 <template>
@@ -21,7 +24,7 @@ const { pending, error, paginationOptions, items, totalItems } =
   />
   <v-data-table-server
     v-else
-    :items-per-page-options="ITEMS_PER_PAGE_OPTIONS"
+    :items-per-page-options
     :items-per-page="paginationOptions.itemsPerPage"
     :headers="headers"
     :items-length="totalItems"
@@ -34,7 +37,10 @@ const { pending, error, paginationOptions, items, totalItems } =
     @update:options="Object.assign(paginationOptions, $event)"
   >
     <template #[`item.id`]="{ item }">
-      <navigation-resource-item :page-key="resourcePageKey" :item />
+      <navigation-resource-item
+        :page-key="<ResourcePageKey>resourcePageKey"
+        :item
+      />
     </template>
     <template #[`item.public`]="{ item }">
       <v-checkbox-btn

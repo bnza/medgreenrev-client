@@ -1,7 +1,6 @@
 import { useAppResourcePageState } from '~/composables/states/useAppResourcePageState'
-import type { ResourceKey } from '~/lib/resources'
 
-export const useResourceTabState = (resourcePageKey: ResourceKey) => {
+export const useResourceTabState = (resourcePageKey: ResourcePageKey) => {
   const { resourcePageState } = useAppResourcePageState(resourcePageKey)
   const tab = computed({
     get() {

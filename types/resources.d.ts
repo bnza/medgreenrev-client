@@ -83,11 +83,11 @@ declare global {
   } & ApiResourceItem<number> &
     HideableResourceItem
 
-  export type ApiRole = 'ROLE_BASE' | 'ROLE_EDITOR' | 'ROLE_ADMIN'
+  export type ApiRole = 'ROLE_USER' | 'ROLE_EDITOR' | 'ROLE_ADMIN'
   export type ApiResourceUser = {
     email: string
     roles: Array<ApiRole>
-    privileges: number
+    privileges: Record<number, number>
   } & ApiResourceItem<string>
 
   export type ApiResourceSitesUsers = {

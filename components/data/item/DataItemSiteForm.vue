@@ -4,7 +4,7 @@ import useSubmitForm from '~/composables/form/useSubmitForm'
 const props = defineProps<{
   triggerSubmit?: boolean
   mode: ApiAction
-  item: ApiLdResourceItem<ApiResourceSite>
+  item: Partial<ApiLdResourceItem<ApiResourceSite>>
 }>()
 
 const { readonly } = useDataForm({

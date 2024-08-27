@@ -19,6 +19,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,
   deleteItem,
 )
+const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
 </script>
 
 <template>
@@ -27,12 +28,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <data-card
-    v-if="item"
-    :title="itemLabel"
-    :code="code"
-    :color="DATA_API_ACTIONS_BAR_COLOR[mode]"
-  >
+  <data-card v-if="item" :title="itemLabel" :code="code" :color="barColor">
     <template #title-append>
       <lazy-data-toolbar-title-append :text="mode" />
     </template>

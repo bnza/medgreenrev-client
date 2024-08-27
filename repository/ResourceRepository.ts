@@ -42,7 +42,7 @@ class ResourceRepository<
     fetchOptions: FetchOptions,
     asyncDataOptions: AsyncDataOptions<
       TypedInternalResponse<string, ResourceType, 'get'>,
-      ApiLdResourceItem<ResourceType>
+      ResourceAclItem & ApiLdResourceItem<ResourceType>
     >,
   ) {
     const url = this.getItemUrl(id)

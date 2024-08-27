@@ -5,7 +5,7 @@ import { useSitesUsersPrivileges } from '~/composables/useSitesUsersPrivileges'
 const props = defineProps<{
   triggerSubmit?: boolean
   mode: ApiAction
-  item: ApiLdResourceItem<ApiResourceSitesUsers>
+  item: Partial<ApiLdResourceItem<ApiResourceSitesUsers>>
   parent?: Record<string, ApiId>
 }>()
 
@@ -69,7 +69,6 @@ const isSiteEditor = computed({
         <v-col cols="12" xs="12" sm="4" class="px-4">
           <v-checkbox
             v-model="isSiteEditor"
-            color="primary"
             :label="getPrivilegeKey(state.privileges)"
             :color="getPrivilegeColor(state.privileges)"
             :error-messages="v$.privileges.$errors.map((e) => e.$message)"

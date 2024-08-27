@@ -9,7 +9,9 @@ definePageMeta({
 })
 
 const route = useRoute()
-const parent = route.query?.parent as Record<string, string | number>
+const parent = route.query?.parent as unknown as
+  | Record<string, string | number>
+  | undefined
 
 const { resourceConfig, resourcePageKey } = await useResource(
   'stratigraphicUnits',

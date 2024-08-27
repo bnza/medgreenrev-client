@@ -1,4 +1,6 @@
 <script setup lang="ts" generic="RT extends Record<string, any>">
+import useApiAutocomplete from '~/composables/api/useApiAutocomplete'
+
 const props = withDefaults(
   defineProps<{
     label: string
@@ -19,8 +21,10 @@ if (!XorProps(props, 'itemValue', 'itemSubtitle')) {
 }
 const model = defineModel<RT>()
 
+const autocomplete = useApiAutocomplete()
+
 const useAutocomplete = () => {
-  const { autocomplete } = useNuxtApp().$api
+  // const { autocomplete } = useNuxtApp().$api
   const value = ref('')
   const params = computed(() => {
     const _return: {

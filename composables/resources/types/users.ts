@@ -1,5 +1,4 @@
 import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
-import type { UseResourceTypeOptions } from '~/lib/resources'
 
 export default function (): UseResourceTypeOptions {
   const defaultHeaders: ReadonlyHeaders = [

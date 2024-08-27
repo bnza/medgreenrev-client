@@ -1,9 +1,12 @@
-<script setup>
+<script setup lang="ts">
+import useApiResourceUserRepository from '~/composables/api/useApiResourceUserRepository'
+
 const { data, status } = useAuth()
 const isChangeDialogOpen = ref(false)
 const isChangePasswordRequestPending = ref(false)
 
-const { repository } = await useResource('users')
+// const { repository } = await useResource('users')
+const repository = useApiResourceUserRepository()
 
 const { show } = useAppSnackbarState()
 const submitAndFeedback = async (state) => {
@@ -30,7 +33,7 @@ const submitAndFeedback = async (state) => {
 
 <template>
   <data-card
-    v-if="status === 'authenticated'"
+    v-if="status === 'authenticated' && data"
     title="Current user:"
     :code="data.email"
   >
@@ -48,7 +51,7 @@ const submitAndFeedback = async (state) => {
         @click="isChangeDialogOpen = true"
       />
     </template>
-    <lazy-data-item-user-form mode="read" :item="data" />
+    <lazy-data-item-user-form mode="read" :item="<SessionData>data" />
   </data-card>
   <resource-not-found
     v-else-if="status === 'unauthenticated'"

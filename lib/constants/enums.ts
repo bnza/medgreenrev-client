@@ -1,4 +1,4 @@
-export const ROLES: Readonly<Record<string, Roles>> = {
+export const ROLES: Readonly<Record<string, ApiRole>> = {
   Admin: 'ROLE_ADMIN',
   Editor: 'ROLE_EDITOR',
   User: 'ROLE_USER',
@@ -27,7 +27,7 @@ export const COLORS: Readonly<Record<string, `#${string}`>> = {
   'secondary-darken-1': '#334b16',
 }
 
-export const ROLE_HIERARCHY_VALUES: Readonly<Record<Roles, number>> =
+export const ROLE_HIERARCHY_VALUES: Readonly<Record<ApiRole, number>> =
   Object.freeze({
     ROLE_ADMIN: 1000,
     ROLE_EDITOR: 100,

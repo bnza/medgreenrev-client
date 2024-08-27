@@ -1,11 +1,7 @@
-import { stringify } from 'qs'
 import type { FetchOptions } from 'ofetch'
-import ResourceRepository from '~/repository/ResourceRepository'
-import ValidatorRepository from '~/repository/ValidatorRepository'
-import AutocompleteRepository from '~/repository/AutocompleteRepository'
-import UserRepository from '~/repository/UserRepository'
+import { stringify } from 'qs'
 
-export default defineNuxtPlugin(() => {
+export function useFetchOptions() {
   const config = useRuntimeConfig()
 
   const { token } = useAuth()
@@ -56,40 +52,5 @@ export default defineNuxtPlugin(() => {
     }
   }
 
-  const apiFetcher = $fetch.create(fetchOptions)
-
-  const modules = {
-    sites: new ResourceRepository<ApiResourceSite>('sites', apiFetcher),
-    sitesUsers: new ResourceRepository<ApiResourceSitesUsers>(
-      'sitesUsers',
-      apiFetcher,
-    ),
-    stratigraphicUnits: new ResourceRepository<ApiResourceStratigraphicUnit>(
-      'stratigraphicUnits',
-      apiFetcher,
-    ),
-    users: new UserRepository<ApiResourceUser>('users', apiFetcher),
-  }
-
-  const modulesKeys = Object.freeze(Object.keys(modules))
-
-  const getRepository = (key: ResourceKey) => {
-    if (!modulesKeys.includes(key)) {
-      throw new Error(`Invalid repository key "${key}"`)
-    }
-    return modules[key]
-  }
-
-  const validator = new ValidatorRepository(apiFetcher)
-  const autocomplete = new AutocompleteRepository(apiFetcher)
-
-  return {
-    provide: {
-      api: {
-        autocomplete,
-        getRepository,
-        validator,
-      },
-    },
-  }
-})
+  return fetchOptions
+}

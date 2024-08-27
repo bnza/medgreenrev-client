@@ -17,14 +17,11 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,
   patchItem,
 )
+const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
 </script>
 
 <template>
-  <data-card
-    :title="itemLabel"
-    code=""
-    :color="DATA_API_ACTIONS_BAR_COLOR[mode]"
-  >
+  <data-card :title="itemLabel" code="" :color="barColor">
     <template #title-append>
       <lazy-data-toolbar-title-append :text="mode" />
     </template>

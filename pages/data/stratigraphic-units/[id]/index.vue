@@ -10,6 +10,7 @@ const { resourceConfig, fetchItem, itemLabel } =
 const { item, error, code } = await fetchItem(id)
 
 const tab = ref(null)
+const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
 </script>
 
 <template>
@@ -38,11 +39,7 @@ const tab = ref(null)
     </template>
     <template #default>
       <div>
-        <v-tabs
-          v-model="tab"
-          color="anchor"
-          :bg-color="DATA_API_ACTIONS_BAR_COLOR['read']"
-        >
+        <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
           <v-tab value="data">data</v-tab>
           <!--          <v-tab value="sus">stratigraphic units</v-tab>-->
         </v-tabs>

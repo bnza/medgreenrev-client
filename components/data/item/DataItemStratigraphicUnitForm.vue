@@ -4,7 +4,7 @@ import useSubmitForm from '~/composables/form/useSubmitForm'
 const props = defineProps<{
   triggerSubmit?: boolean
   mode: ApiAction
-  item: ApiLdResourceItem<ApiResourceStratigraphicUnit>
+  item: Partial<ApiLdResourceItem<ApiResourceStratigraphicUnit>>
 }>()
 
 const { readonly } = useDataForm({
@@ -37,7 +37,7 @@ const canEditCode = computed(() => {
   if (props.mode === 'create') {
     return true
   }
-  return hasSitePrivilegeEditor(props.item.site.id)
+  return 'site' in props.item && hasSitePrivilegeEditor(props.item.site.id)
 })
 </script>
 

@@ -11,18 +11,13 @@ withDefaults(
 )
 
 const router = useRouter()
-const back = () => {
-  if (history.state && history.state.back) {
-    return router.back()
-  }
-  return router.push('/')
-}
+const to = computed(() => history.state?.back || '/')
 </script>
 
 <template>
   <v-tooltip location="bottom" :text="tooltipText">
     <template #activator="{ props }">
-      <NuxtLink @click="back()">
+      <NuxtLink :to>
         <v-icon class="mx-3" v-bind="props" icon="fas fa-arrow-left" />
       </NuxtLink>
     </template>

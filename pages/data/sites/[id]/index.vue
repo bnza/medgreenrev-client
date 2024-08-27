@@ -8,12 +8,14 @@ definePageMeta({
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const { resourceConfig, fetchItem, itemLabel } = await useResource('sites')
+const { resourceConfig, fetchItem, itemLabel, resourcePageKey } =
+  await useResource<ApiResourceSite>('sites')
 const { item, error, code } = await fetchItem(id)
 
 const { hasRoleAdmin } = useAppAuth()
 
-const { tab } = useResourceTabState('sites')
+const { tab } = useResourceTabState(resourcePageKey)
+const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
 </script>
 
 <template>
@@ -41,11 +43,7 @@ const { tab } = useResourceTabState('sites')
       <navigation-resource-collection-list />
     </template>
     <template #default>
-      <v-tabs
-        v-model="tab"
-        color="anchor"
-        :bg-color="DATA_API_ACTIONS_BAR_COLOR['read']"
-      >
+      <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
         <v-tab value="data">data</v-tab>
         <v-tab value="sus">stratigraphic units</v-tab>
         <v-tab v-if="hasRoleAdmin" value="users">users</v-tab>

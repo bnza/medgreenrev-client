@@ -28,6 +28,8 @@ const propertyValue = computed(() => {
   const filterDef = API_FILTERS[props.filter.filter]
   return filterDef.propertyLabel || props.filter.property
 })
+
+const filterLabel = computed(() => API_FILTERS[props.filter.filter].label)
 </script>
 
 <template>
@@ -52,10 +54,7 @@ const propertyValue = computed(() => {
           <v-text-field :readonly="true" :model-value="propertyValue" />
         </v-col>
         <v-col>
-          <v-text-field
-            :readonly="true"
-            :model-value="API_FILTERS[filter.filter].label"
-          />
+          <v-text-field :readonly="true" :model-value="filterLabel" />
         </v-col>
         <v-col>
           <v-text-field

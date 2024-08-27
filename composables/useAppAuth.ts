@@ -13,7 +13,7 @@ export function useAppAuth() {
 
   const roles = computed(() => (unref(isAuthenticated) ? data.value.roles : []))
 
-  function _hasRole(role: Roles) {
+  function _hasRole(role: ApiRole) {
     if (!Object.values(ROLES).includes(role)) {
       throw `Invalid role "${role}"`
     }

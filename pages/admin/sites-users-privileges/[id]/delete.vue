@@ -13,6 +13,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,
   deleteItem,
 )
+const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
 </script>
 
 <template>
@@ -21,7 +22,13 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <data-card v-if="item" :title="itemLabel" :code="code" :mode="mode">
+  <data-card
+    v-if="item"
+    :title="itemLabel"
+    :code="code"
+    :mode="mode"
+    :color="barColor"
+  >
     <template #toolbar-prepend>
       <navigation-resource-collection-list />
     </template>

@@ -1,5 +1,6 @@
 import { helpers } from '@vuelidate/validators'
 import type { Reactive } from 'vue'
+import useApiValidator from '~/composables/api/useApiValidator'
 
 const { withMessage, withAsync } = helpers
 type AsyncValidationType = 'unique'
@@ -30,7 +31,7 @@ export function useAsyncUniqueValidator({
   path: string
   item?: Record<string, any>
   message?: string
-  watch?: ComputedRef<Array<string | number>>
+  watch?: () => Array<string | number>
 }) {
   function validate(value, state: Reactive<Record<string, any>>) {
     if (Array.isArray(prop)) {
@@ -46,7 +47,8 @@ export function useAsyncUniqueValidator({
     } else if (value === '' || value === item?.value?.[prop]) {
       return true
     }
-    const { validator } = useNuxtApp().$api
+    // const { validator } = useNuxtApp().$api
+    const validator = useApiValidator()
     return validator.validate(type, path, value)
   }
 

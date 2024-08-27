@@ -28,7 +28,11 @@ export default function (mode: ApiAction, submitFn: Function) {
   }
 
   const triggerSubmit = ref(false)
-  const submit = async (state, oldItem, redirectToCollection = false) => {
+  const submit = async (
+    state: Record<string, any>,
+    oldItem?: Record<string, any>,
+    redirectToCollection = false,
+  ) => {
     isSubmitPending.value = true
     try {
       const { response, redirectPath } = await submitFn(

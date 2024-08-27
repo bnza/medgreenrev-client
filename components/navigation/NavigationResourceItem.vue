@@ -3,7 +3,7 @@ import { getResourcePageRootKey } from '~/lib/resources'
 
 const props = defineProps<{
   pageKey: ResourcePageKey
-  item: ResourceAclItem
+  item: ResourceAclItem & ApiResourceItem<ApiId>
 }>()
 
 const appPath = getResourceConfig(getResourcePageRootKey(props.pageKey)).appPath

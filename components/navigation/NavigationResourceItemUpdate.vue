@@ -2,7 +2,7 @@
 const props = withDefaults(
   defineProps<{
     appPath: string
-    item: ResourceAclItem
+    item: ResourceAclItem & ApiResourceItem<ApiId>
     size?: string
   }>(),
   {

@@ -14,6 +14,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
   mode,
   patchItem,
 )
+const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
 </script>
 
 <template>
@@ -26,7 +27,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
     v-if="item"
     :title="itemLabel"
     :code="code"
-    :color="DATA_API_ACTIONS_BAR_COLOR[mode]"
+    :color="barColor"
     :loading="pending || isSubmitPending"
   >
     <template #title-append>

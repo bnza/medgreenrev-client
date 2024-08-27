@@ -37,6 +37,8 @@ const collectionTableComponentsMap: Partial<
 const collectionTableComponent = computed(
   () => collectionTableComponentsMap[resourceKey.value],
 )
+
+const toolbarTitleColor = COLORS['secondary']
 </script>
 
 <template>
@@ -45,7 +47,7 @@ const collectionTableComponent = computed(
       <lazy-data-toolbar-title-append
         v-if="isFiltered"
         text="filtered"
-        :color="COLORS['secondary']"
+        :color="toolbarTitleColor"
       />
     </template>
     <template #toolbar-append>

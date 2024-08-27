@@ -3,7 +3,7 @@ const props = withDefaults(
   defineProps<{
     appPath: string
     pageKey: ResourcePageKey
-    item: ResourceAclItem
+    item: ResourceAclItem & ApiResourceItem<ApiId>
     size?: string
     back?: boolean
   }>(),
