@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { resourceFiltersStateInjectionKey } from '~/composables/states/useResourceFiltersStates'
 
 const props = defineProps({

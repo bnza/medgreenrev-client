@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog'
 
 const { fetchCollection, resourceConfig, collectionLabel, patchItem } =

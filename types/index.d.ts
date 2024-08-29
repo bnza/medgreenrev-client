@@ -1,4 +1,4 @@
-import type Api from '~/lib/Api'
+import type Api from '~/app/lib/Api'
 
 declare global {
   export type SitesRoles = 'ROLE_SITE_USER' | 'ROLE_SITE_EDITOR'

@@ -1,4 +1,4 @@
-import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
+import type { ReadonlyHeaders } from '~/app/lib/constants/vuetify'
 import type { Reactive } from 'vue'
 import type { Validation } from '@vuelidate/core'
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reduceAppRoles } from '~/lib/index.js'
+import { reduceAppRoles } from '~/lib'
 import useSubmitForm from '~/composables/form/useSubmitForm'
 
 const props = defineProps<{

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useResourceFiltersState } from '~/composables'
 
 const { resourcePageKey, resourceConfig, collectionLabel } = await useResource(
@@ -9,6 +9,7 @@ const { isFiltered } = useResourceFiltersState({
   resourcePageKey,
   resourceConfig,
 })
+const color = COLORS['secondary']
 </script>
 
 <template>
@@ -17,7 +18,7 @@ const { isFiltered } = useResourceFiltersState({
       <lazy-data-toolbar-title-append
         v-if="isFiltered"
         text="filtered"
-        :color="COLORS['secondary']"
+        :color
       />
     </template>
     <template #toolbar-append>

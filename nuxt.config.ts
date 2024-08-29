@@ -15,7 +15,6 @@ export default defineNuxtConfig({
       ],
     },
   },
-
   auth: {
     provider: {
       type: 'local',
@@ -50,33 +49,30 @@ export default defineNuxtConfig({
     globalAppMiddleware: true,
     baseURL: process.env.API_BASE_URL || 'http://localhost:8000/api',
   },
-
   css: ['~/assets/styles/index.css'],
   devtools: { enabled: true },
-
+  future: {
+    compatibilityVersion: 4,
+  },
   imports: {
     dirs: ['./lib', './lib/constants'],
   },
-
   modules: [
     '@nuxt/eslint',
     'vuetify-nuxt-module',
     ['@nuxtjs/google-fonts', googleFonts],
     '@sidebase/nuxt-auth',
   ],
-
   router: {
     options: {
       hashMode: true,
     },
   },
-
   runtimeConfig: {
     public: {
       apiBaseURL: 'http://localhost:8000/api',
     },
   },
-
   ssr: false,
   typescript: { strict: false },
   compatibilityDate: '2024-07-08',

@@ -1,5 +1,5 @@
 import { ROLES } from '~/lib/constants/enums'
-import { reduceAppRoles } from '~/lib/index.js'
+import { reduceAppRoles } from '~/lib'
 
 export function useAppAuth() {
   const { data, status } = useAuth()

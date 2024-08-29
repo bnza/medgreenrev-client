@@ -1,7 +1,7 @@
 import useVuelidate from '@vuelidate/core'
 import { required, sameAs, helpers, minLength } from '@vuelidate/validators'
-import { FORM_REQUIRED_FIELD } from './messages'
-import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
+import { FORM_REQUIRED_FIELD } from './messages.js'
+import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid.js'
 
 const containsDigit = (value) => Boolean(value.match(/\d/))
 const containsUpperCase = (value) => Boolean(value.match(/[A-Z]/))

@@ -1,6 +1,6 @@
 import useVuelidate from '@vuelidate/core'
 import { required, minLength, helpers } from '@vuelidate/validators'
-import { FORM_REQUIRED_FIELD } from '@/composables/validation/messages.js'
+import { FORM_REQUIRED_FIELD } from '~/composables/validation/messages.js'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid.js'
 
 export default function (filter, emit) {

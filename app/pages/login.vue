@@ -58,7 +58,7 @@ const signInAndFeedback = async ({ email, password }) => {
         <v-text-field v-model="password" type="password" label="password" />
       </v-form>
       <v-card-actions>
-        <NuxtLink to="/">
+        <NuxtLink :to="{ name: 'index' }">
           <v-btn color="anchor" :disabled="isLoading" :flat="true">
             cancel
           </v-btn>

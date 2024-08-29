@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { generatePassword } from '~/lib/index.js'
+import { generatePassword } from '~/lib'
 import { useUserPlainPasswordState } from '~/composables/states/useUserPlainPasswordState'
 
 definePageMeta({

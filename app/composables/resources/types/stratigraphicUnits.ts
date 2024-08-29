@@ -1,4 +1,4 @@
-import { getResourceIri } from '~/lib/index.js'
+import { getResourceIri } from '~/lib'
 import type { ReadonlyHeaders } from '~/lib/constants/vuetify'
 
 export default function (): UseResourceTypeOptions {
