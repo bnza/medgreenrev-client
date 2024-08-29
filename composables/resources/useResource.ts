@@ -1,7 +1,6 @@
 import usePaginationOptionsState from '~/composables/states/usePaginationOptionsState'
 import { diff } from 'deep-object-diff'
 import { useResourceFiltersState } from '~/composables/index.js'
-import useApiResourceRepository from '~/composables/api/useApiResourceRepository'
 
 const _identity1 = (item: Record<string, any>) => item
 const _identity3 = (
@@ -70,8 +69,7 @@ async function useResource<RT extends ApiResources>(
   const getIri = (id: string | number) =>
     `${baseURL}${resourceConfig.apiPath}/${id}`
 
-  // const repository = useNuxtApp().$api.getRepository(resourceKey)
-  const repository = useApiResourceRepository<RT>(resourceKey)
+  const repository = useNuxtApp().$api.getRepository<RT>(resourceKey)
 
   const { paginationOptions, queryPaginationOptionsParams } =
     usePaginationOptionsState(resourcePageKey)

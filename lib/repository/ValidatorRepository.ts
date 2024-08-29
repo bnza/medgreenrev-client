@@ -1,6 +1,6 @@
-import AbstractRepository from '~/repository/AbstractRepository'
+import AbstractRepository from '~/lib/repository/AbstractRepository'
 
-class ValidatorRepository<T extends boolean> extends AbstractRepository<T> {
+class ValidatorRepository extends AbstractRepository {
   async validate(
     type: string,
     path: MaybeRef<string>,

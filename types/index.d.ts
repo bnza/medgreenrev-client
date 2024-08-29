@@ -1,5 +1,6 @@
+import type Api from '~/lib/Api'
+
 declare global {
-  // export type Roles = 'ROLE_USER' | 'ROLE_EDITOR' | 'ROLE_ADMIN'
   export type SitesRoles = 'ROLE_SITE_USER' | 'ROLE_SITE_EDITOR'
   export type SitesGrantableRoles = Exclude<SitesRoles, 'ROLE_SITE_USER'>
   export type AppUiMode = 'default' | 'map'
@@ -10,6 +11,24 @@ declare global {
     email: string
     roles: Array<ApiRole>
     privileges: Record<number, number>
+  }
+}
+// https://nuxt.com/docs/guide/directory-structure/plugins#typing-plugins
+// https://youtrack.jetbrains.com/issue/WEB-59818/Vue-custom-global-properties-added-by-augmenting-vue-are-not-resolved
+declare module '#app' {
+  interface NuxtApp {
+    $api: Api
+  }
+}
+
+declare module 'vue' {
+  interface ComponentCustomProperties {
+    $api: Api
+  }
+}
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $api: Api
   }
 }
 export {}

@@ -1,11 +1,11 @@
-import AbstractRepository from '~/repository/AbstractRepository'
-import type { $Fetch, TypedInternalResponse } from 'nitropack'
+import AbstractRepository from '~/lib/repository/AbstractRepository'
+import type { $Fetch } from 'nitropack'
 import type { FetchOptions } from 'ofetch'
 import type { AsyncDataOptions } from '#app'
 
 class ResourceRepository<
   ResourceType extends ApiResources,
-> extends AbstractRepository<ResourceType> {
+> extends AbstractRepository {
   protected resourceConfig: ResourceConfig
 
   constructor(resourceKey: ResourceKey, $fetch: $Fetch) {
@@ -16,7 +16,6 @@ class ResourceRepository<
   async fetchCollection(
     fetchOptions: FetchOptions,
     asyncDataOptions: AsyncDataOptions<
-      TypedInternalResponse<string, ResourceType, 'get'>,
       ApiLdResourceCollection<ApiAclItem<ResourceType>>
     >,
   ) {
@@ -41,7 +40,6 @@ class ResourceRepository<
     id: MaybeRef<string | number>,
     fetchOptions: FetchOptions,
     asyncDataOptions: AsyncDataOptions<
-      TypedInternalResponse<string, ResourceType, 'get'>,
       ResourceAclItem & ApiLdResourceItem<ResourceType>
     >,
   ) {

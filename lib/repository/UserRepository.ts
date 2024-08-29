@@ -1,8 +1,6 @@
-import ResourceRepository from '~/repository/ResourceRepository'
+import ResourceRepository from '~/lib/repository/ResourceRepository'
 
-class UserRepository<
-  ResourceType extends ApiResourceUser,
-> extends ResourceRepository<ResourceType> {
+class UserRepository extends ResourceRepository<ApiResourceUser> {
   async changeUserPassword(body: any) {
     return this.$fetch('users/me/change-password', {
       method: 'POST',

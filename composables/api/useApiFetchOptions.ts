@@ -1,7 +1,7 @@
 import type { FetchOptions } from 'ofetch'
 import { stringify } from 'qs'
 
-export function useFetchOptions() {
+export function useApiFetchOptions() {
   const config = useRuntimeConfig()
 
   const { token } = useAuth()
