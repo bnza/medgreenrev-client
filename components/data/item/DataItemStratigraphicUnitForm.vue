@@ -27,7 +27,7 @@ const { state, v$ } = await useSubmitForm<ApiResourceStratigraphicUnit>(
 const { resourceConfig } = await useResource('stratigraphicUnits')
 
 if (!('site' in state)) {
-  state.site = {}
+  state.site = { id: 0, code: '' }
 }
 
 const canEditCode = computed(() => {

@@ -28,18 +28,22 @@ export default function (mode: ApiAction, submitFn: Function) {
   }
 
   const triggerSubmit = ref(false)
-  const submit = async (
-    state: Record<string, any>,
-    oldItem?: Record<string, any>,
+  const submit = async ({
+    state,
+    oldItem,
     redirectToCollection = false,
-  ) => {
+  }: {
+    state: Record<string, any>
+    oldItem?: Record<string, any>
+    redirectToCollection?: boolean
+  }) => {
     isSubmitPending.value = true
     try {
-      const { response, redirectPath } = await submitFn(
-        state,
+      const { response, redirectPath } = await submitFn({
+        newItem: state,
         oldItem,
         redirectToCollection,
-      )
+      })
       await router.replace(redirectPath)
       mode === 'update' && response === 'NO__CHANGE'
         ? showNoChanges()

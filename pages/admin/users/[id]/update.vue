@@ -49,7 +49,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
         :mode="mode"
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit($event, item)"
+        @submit-form="submit({ state: $event, oldItem: item })"
       />
     </template>
   </data-card>

@@ -28,7 +28,7 @@ onMounted(() => {
   }
 })
 const submitAndFeedBack = async (state) => {
-  await submit(state)
+  await submit({ state })
   set(plainPassword.value)
 }
 </script>

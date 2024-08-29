@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const tableProps = defineProps<{
-  items: Array<ApiResourceUser>
+  items: Array<ApiAclItem<ApiResourceUser>>
   totalItems: number
   pending: boolean
 }>()

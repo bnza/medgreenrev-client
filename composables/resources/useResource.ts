@@ -119,11 +119,15 @@ async function useResource<RT extends ApiResources>(
     return { item: data, pending, error, code }
   }
 
-  const patchItem = (
-    newItem: Record<string, any>,
-    oldItem: Record<string, any>,
+  const patchItem = async ({
+    newItem,
+    oldItem,
     redirectToCollection = false,
-  ) => {
+  }: {
+    newItem: Record<string, any>
+    oldItem: Record<string, any>
+    redirectToCollection?: boolean
+  }) => {
     const getNormalizePatchItemParams = (
       newItem: Record<string, any>,
       oldItem: Record<string, any>,
@@ -154,10 +158,13 @@ async function useResource<RT extends ApiResources>(
     })
   }
 
-  const postItem = (
-    newItem: Record<string, any>,
+  const postItem = async ({
+    newItem,
     redirectToCollection = false,
-  ) => {
+  }: {
+    newItem: Record<string, any>
+    redirectToCollection?: boolean
+  }) => {
     return repository
       .postItem(formatJsonLdItem(unref(newItem)))
       .then((response) => {
@@ -171,7 +178,7 @@ async function useResource<RT extends ApiResources>(
       })
   }
 
-  const deleteItem = (newItem) => {
+  const deleteItem = async ({ newItem }: { newItem: RT }) => {
     return repository.deleteItem(unref(newItem)).then((response) => {
       return {
         response,

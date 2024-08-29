@@ -4,7 +4,7 @@ definePageMeta({
   voters: [ACL_VOTERS.HasRoleAdmin],
 })
 
-const { resourceConfig, postItem, itemLabel } = await useResource('sitesUsers')
+const { postItem, itemLabel } = await useResource('sitesUsers')
 const invalid = ref(false)
 const item = ref({
   privileges: 0,
@@ -52,7 +52,7 @@ const parent = ref(route.query?.parent)
         :mode="mode"
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit($event, true)"
+        @submit-form="submit({ state: $event, redirectToCollection: true })"
       />
     </template>
   </data-card>

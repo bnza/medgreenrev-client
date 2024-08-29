@@ -51,7 +51,9 @@ const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
         :mode="mode"
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit($event, item, true)"
+        @submit-form="
+          submit({ state: $event, oldItem: item, redirectToCollection: true })
+        "
       />
     </template>
   </data-card>

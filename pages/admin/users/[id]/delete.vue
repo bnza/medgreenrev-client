@@ -50,7 +50,7 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
         :mode="mode"
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit($event)"
+        @submit-form="submit({ state: $event })"
       >
         <template #alert>
           <delete-item-alert-row />

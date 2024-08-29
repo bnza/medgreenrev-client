@@ -1,5 +1,5 @@
 <script setup>
-import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog.js'
+import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog'
 
 const { fetchCollection, resourceConfig, collectionLabel, patchItem } =
   await useResource('users', { resourceOperationType: 'collection' })

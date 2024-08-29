@@ -1,22 +1,18 @@
 export default function () {
   const { set, plainPassword, clear } = useUserPlainPasswordState()
   const { show } = useAppSnackbarState()
-  const userItem = ref({})
+  const userItem: Ref<Partial<ApiResourceUser>> = ref({ id: '' })
   const pending = ref(false)
 
   const isResetPasswordDialogVisible = ref(false)
 
-  const resetPassword = async (patchItem) => {
+  const resetPassword = async (patchItem: Function) => {
     const newPlainPassword = generatePassword()
     pending.value = true
+    const oldItem = { id: userItem.value?.id }
+    const newItem = { ...oldItem, plainPassword: newPlainPassword }
     try {
-      await patchItem(
-        {
-          ...userItem.value,
-          plainPassword: newPlainPassword,
-        },
-        userItem.value,
-      )
+      await patchItem({ newItem, oldItem })
     } catch (e) {
       show({
         color: 'error',
@@ -30,7 +26,7 @@ export default function () {
     set(newPlainPassword)
   }
 
-  const openResetPasswordDialog = (item) => {
+  const openResetPasswordDialog = (item: Partial<ApiResourceUser>) => {
     userItem.value = Object.assign({}, item || {})
     isResetPasswordDialogVisible.value = true
   }
