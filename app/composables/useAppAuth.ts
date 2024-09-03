@@ -25,7 +25,8 @@ export function useAppAuth() {
   const roleColor = computed(
     () => ROLE_COLORS[reduceAppRoles(roles.value)] || '#FFF',
   )
-  const hasSitePrivileges = (siteId: number) => siteId in data?.value.privileges
+  const hasSitePrivileges = (siteId: number) =>
+    isAuthenticated.value && siteId in data?.value.privileges
 
   const getSitePrivileges = (siteId: number) =>
     hasSitePrivileges(siteId) ? data?.value.privileges[siteId] : undefined

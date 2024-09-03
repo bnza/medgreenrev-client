@@ -47,7 +47,7 @@ export default defineNuxtConfig({
     },
     // disableServerSideAuth: true,
     globalAppMiddleware: true,
-    baseURL: process.env.API_BASE_URL || 'http://localhost:8000/api',
+    baseURL: process.env.API_BASE_URL || 'http://localhost:80/api',
   },
   css: ['~/assets/styles/index.css'],
   devtools: { enabled: true },
@@ -70,7 +70,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBaseURL: 'http://localhost:8000/api',
+      apiBaseURL: 'http://localhost:80/api',
     },
   },
   ssr: false,
