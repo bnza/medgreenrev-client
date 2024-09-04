@@ -38,6 +38,27 @@ const isSiteEditor = computed({
     )
   },
 })
+
+const parentResourceOptions:
+  | {
+      stateKey: 'site' | 'user'
+      resourceKey: ResourceKey
+      id: ApiId
+    }
+  | undefined = props.parent
+  ? 'site.id' in props.parent
+    ? { stateKey: 'site', resourceKey: 'sites', id: props.parent['site.id'] }
+    : 'user.id' in props.parent
+      ? { stateKey: 'user', resourceKey: 'users', id: props.parent['user.id'] }
+      : undefined
+  : undefined
+
+let parentObject: Record<string, any> | undefined
+if (parentResourceOptions) {
+  const { fetchItem } = await useResource(parentResourceOptions.resourceKey)
+  parentObject = await fetchItem(ref(parentResourceOptions.id))
+  state[parentResourceOptions.stateKey] = parentObject.item
+}
 </script>
 
 <template>
@@ -52,6 +73,9 @@ const isSiteEditor = computed({
             order-by="code"
             item-title="code"
             item-subtitle="name"
+            :readonly="
+              parentResourceOptions && parentResourceOptions.stateKey === 'site'
+            "
             :error-messages="v$.site.$errors.map((e) => e.$message)"
             v-model="state.site"
           />
@@ -62,6 +86,9 @@ const isSiteEditor = computed({
             path="users"
             item-title="email"
             item-value="id"
+            :readonly="
+              parentResourceOptions && parentResourceOptions.stateKey === 'user'
+            "
             :error-messages="v$.user.$errors.map((e) => e.$message)"
             v-model="state.user"
           />

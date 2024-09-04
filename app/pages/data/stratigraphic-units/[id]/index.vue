@@ -1,15 +1,17 @@
 <script setup>
+import { useResourceTabState } from '~/composables/states/useResourceTabState'
+
 definePageMeta({
   auth: false,
 })
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
-const { resourceConfig, fetchItem, itemLabel } =
+const { resourceConfig, fetchItem, itemLabel, resourcePageKey } =
   await useResource('stratigraphicUnits')
 const { item, error, code } = await fetchItem(id)
 
-const tab = ref(null)
+const { tab } = useResourceTabState(resourcePageKey)
 const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
 </script>
 
@@ -41,7 +43,7 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
       <div>
         <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
           <v-tab value="data">data</v-tab>
-          <!--          <v-tab value="sus">stratigraphic units</v-tab>-->
+          <v-tab value="relationships">relationships</v-tab>
         </v-tabs>
         <v-tabs-window v-model="tab">
           <v-tabs-window-item value="data">
@@ -50,6 +52,12 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
               :item="item"
               mode="read"
             />
+          </v-tabs-window-item>
+          <v-tabs-window-item
+            value="relationships"
+            data-testid="tabs-window-relationships"
+          >
+            <su-relationship-container v-if="item" :sx-su="item" />
           </v-tabs-window-item>
         </v-tabs-window>
       </div>

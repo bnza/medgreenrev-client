@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { useResourceFiltersState } from '~/composables'
 
-const props = defineProps<{
-  resourceKey: ResourceKey
-  parent: Record<string, string | number>
-}>()
+const props = withDefaults(
+  defineProps<{
+    resourceKey: ResourceKey
+    parent: Record<string, string | number>
+    createButton?: boolean
+    searchButton?: boolean
+  }>(),
+  {
+    createButton: true,
+    searchButton: true,
+  },
+)
 
 const { parent, resourceKey } = toRefs(props)
 
@@ -52,13 +60,14 @@ const toolbarTitleColor = COLORS['secondary']
     </template>
     <template #toolbar-append>
       <lazy-navigation-resource-item-create
-        v-if="isAuthenticated"
+        v-if="createButton && isAuthenticated"
         :path="{
           path: `${resourceConfig.appPath}/create`,
           query: { parent },
         }"
       />
       <lazy-navigation-resource-item-search
+        v-if="searchButton"
         :path="{
           path: `${resourceConfig.appPath}/search`,
           query: { parent },

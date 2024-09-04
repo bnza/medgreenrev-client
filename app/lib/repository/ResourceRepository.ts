@@ -2,6 +2,7 @@ import AbstractRepository from '~/lib/repository/AbstractRepository'
 import type { $Fetch } from 'nitropack'
 import type { FetchOptions } from 'ofetch'
 import type { AsyncDataOptions } from '#app'
+import * as url from 'node:url'
 
 class ResourceRepository<
   ResourceType extends ApiResources,
@@ -34,6 +35,11 @@ class ResourceRepository<
 
   getItemUrl(id: MaybeRef<string | number>) {
     return `${this.resourceConfig.apiPath}/${unref(id)}`
+  }
+
+  async $fetchItem(id: MaybeRef<string | number>) {
+    const url = this.getItemUrl(id)
+    return this.$fetch<ResourceType>(url, { method: 'GET' })
   }
 
   async fetchItem(

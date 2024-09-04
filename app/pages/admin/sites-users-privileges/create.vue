@@ -18,7 +18,9 @@ const { submit, isSubmitPending, triggerSubmit } = useSubmitResourceRequest(
 const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
 
 const route = useRoute()
-const parent = ref(route.query?.parent)
+const parent = ref(route.query?.parent) as unknown as
+  | Record<string, ApiId>
+  | undefined
 </script>
 
 <template>
@@ -31,6 +33,7 @@ const parent = ref(route.query?.parent)
     </template>
     <template #toolbar-append>
       <v-btn
+        data-testid="submit-button"
         v-if="item"
         class="mx-4"
         :disabled="invalid || isSubmitPending"
@@ -50,6 +53,7 @@ const parent = ref(route.query?.parent)
         v-if="item"
         :item="item"
         :mode="mode"
+        :parent
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
         @submit-form="submit({ state: $event, redirectToCollection: true })"

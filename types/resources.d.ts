@@ -1,22 +1,34 @@
 import type { ReadonlyHeaders } from '~/app/lib/constants/vuetify'
 import type { Reactive } from 'vue'
 import type { Validation } from '@vuelidate/core'
+import type { StratigraphicUnitRelationshipKey } from '~/lib/resources/vocabulary'
 
 declare global {
+  export type VocabularyKey = 'vocabulary/stratigraphicUnits/relationship'
+
   export type ResourceKey =
     | 'sites'
     | 'users'
     | 'stratigraphicUnits'
     | 'sitesUsers'
+    | 'stratigraphicUnitsRelationships'
 
-  export type ResourceConfig = Readonly<{
+  type ApiResourceConfig = Readonly<{
     apiPath: string
     appPath: string
-    name: ResourceKey
-    labels: Array<string>
-    getCodeFn: (item: Record<string, any>) => () => string
+    labels: [string, string]
     protectedFields?: Array<string>
   }>
+  export type VocabularyResourceConfig = Readonly<{
+    name: VocabularyKey
+  }> &
+    ApiResourceConfig
+
+  export type ResourceConfig = Readonly<{
+    name: ResourceKey
+    getCodeFn: (item: Record<string, any>) => () => string
+  }> &
+    ApiResourceConfig
 
   export type ResourceOperationType = 'item' | 'collection'
 
@@ -29,8 +41,6 @@ declare global {
   export type UseResourceType = {
     defaultHeaders: ReadonlyHeaders
   }
-
-  // export type ResourceItem = { id: string | number } & Record<string, any>
 
   export type UseResourceTypeOptions = {
     defaultHeaders: ReadonlyHeaders
@@ -49,6 +59,7 @@ declare global {
     | 'User'
     | 'StratigraphicUnit'
     | 'SitesUser'
+    | 'StratigraphicUnitRelationship'
 
   type ApiLdContext = `${string}/context/${ApiLdResourceType}`
   type ApiLdResourceId = `${string}/${ApiId}`
@@ -96,11 +107,18 @@ declare global {
     privileges: number
   } & ApiResourceItem<string>
 
+  export type ApiResourceStratigraphicUnitRelationship = {
+    sxSU: ApiResourceStratigraphicUnit
+    relationship: ApiLdResourceId | ApiLdResourceItem<string>
+    dxSU: ApiResourceStratigraphicUnit
+  } & ApiResourceItem<number>
+
   export type ApiResources =
     | ApiResourceSite
     | ApiResourceUser
     | ApiResourceSitesUsers
     | ApiResourceStratigraphicUnit
+    | ApiResourceStratigraphicUnitRelationship
 
   export type ApiAclItem<RT extends ApiResourceItem<ApiId>> = {
     _acl: {

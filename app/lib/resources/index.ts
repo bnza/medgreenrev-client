@@ -1,7 +1,9 @@
 import sitesUsers from './sites-users'
 import stratigraphicUnits from './stratigraphic-units'
+import stratigraphicUnitsRelationships from './stratigraphic-units-relationship'
 import users from './users'
 import sites from './sites'
+import { vocabularyResources } from '~/lib/resources/vocabulary'
 import type { Validation } from '@vuelidate/core'
 import type { Reactive } from 'vue'
 
@@ -10,6 +12,7 @@ export const resources: Record<ResourceKey, ResourceConfig> = {
   sitesUsers,
   users,
   stratigraphicUnits,
+  stratigraphicUnitsRelationships,
 }
 export const isResourceKey = (key: string): key is ResourceKey =>
   key in resources
@@ -19,6 +22,8 @@ const validationsKeys: Record<ResourceKey, string> = {
   sitesUsers: 'useResourceSitesUsersValidation',
   users: 'useResourceUserValidation',
   stratigraphicUnits: 'useResourceStratigraphicUnitValidation',
+  stratigraphicUnitsRelationships:
+    'useResourceStratigraphicUnitRelationshipValidation',
 }
 type ResourceValidation<RT> = (
   item: MaybeRef<Partial<RT>>,
@@ -40,7 +45,7 @@ export const checkResourceKey = (key: string): key is ResourceKey => {
   return resourceKeys.includes(key)
 }
 
-export const getResourceConfig = (key: string) => {
+export const getResourceConfig = (key: ResourceKey) => {
   if (checkResourceKey(key)) {
     return Object.assign({}, resources[key])
   }
@@ -55,6 +60,14 @@ export const getResourceIri = (
   const apiPath = getResourceConfig(key).apiPath
   return `${baseUrl}${apiPath}/${id}`
 }
+export const getVocabularyIri = (
+  baseUrl: string,
+  key: VocabularyKey,
+  id: string | number,
+) => {
+  const apiPath = vocabularyResources[key].apiPath
+  return `${baseUrl}${apiPath}/${id}`
+}
 
 export const getResourceValidation = async <RT extends ApiResourceItem<ApiId>>(
   key: ResourceKey,
@@ -65,11 +78,6 @@ export const getResourceValidation = async <RT extends ApiResourceItem<ApiId>>(
       await import(`~/composables/validation/${validationsKeys[key]}.ts`)
     ).default
   }
-  // if (typeof validations[key] === 'string') {
-  //   validations[key] = (
-  //     await import(`~/composables/validation/${validations[key]}.ts`)
-  //   ).default
-  // }
   return validations[key]
 }
 export const getResourcePageRootKey = (

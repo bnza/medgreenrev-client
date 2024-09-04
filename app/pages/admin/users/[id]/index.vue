@@ -79,6 +79,7 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
         <v-tabs-window-item value="sites" data-testid="tabs-window-sites-users">
           <lazy-data-collection-child-card
             :parent="{ 'user.id': id }"
+            :search-button="false"
             resource-key="sitesUsers"
           />
         </v-tabs-window-item>

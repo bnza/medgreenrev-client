@@ -88,7 +88,7 @@ async function useResource<RT extends ApiResources>(
         resourceFilterParams.value,
       ),
     )
-    const { data, pending, error } = await repository.fetchCollection(
+    const { data, pending, error, refresh } = await repository.fetchCollection(
       {
         params,
       },
@@ -101,6 +101,7 @@ async function useResource<RT extends ApiResources>(
       pending,
       error,
       items,
+      refresh,
       totalItems,
       paginationOptions,
       resourceFilterParams,
@@ -200,6 +201,7 @@ async function useResource<RT extends ApiResources>(
     postItem,
     deleteItem,
     getIri,
+    paginationOptions,
   }
 }
 

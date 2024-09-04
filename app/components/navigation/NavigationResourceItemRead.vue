@@ -2,8 +2,7 @@
 const props = withDefaults(
   defineProps<{
     appPath: string
-    pageKey: ResourcePageKey
-    item: ResourceAclItem & ApiResourceItem<ApiId>
+    item: (ResourceAclItem & ApiResourceItem<ApiId>) | ApiResourceItem<any>
     size?: string
     back?: boolean
   }>(),
@@ -14,7 +13,7 @@ const props = withDefaults(
 )
 
 const disabled = computed(() => {
-  return !props.item._acl.canRead
+  return '_acl' in props.item ? !props.item._acl.canRead : true
 })
 const color = computed(() => {
   return disabled.value ? '' : props.back ? 'anchor' : 'primary'

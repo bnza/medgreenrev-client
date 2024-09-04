@@ -1,7 +1,7 @@
 export default function () {
   const { set, plainPassword, clear } = useUserPlainPasswordState()
   const { show } = useAppSnackbarState()
-  const userItem: Ref<Partial<ApiResourceUser>> = ref({ id: '' })
+  const userItem: Ref<Partial<ApiResourceUser>> = ref()
   const pending = ref(false)
 
   const isResetPasswordDialogVisible = ref(false)

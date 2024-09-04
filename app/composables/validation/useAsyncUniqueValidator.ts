@@ -8,8 +8,11 @@ type AsyncValidationType = 'unique'
 const accessNestedProps = (
   acc: Record<string, any> | undefined,
   propKey: string,
-) => (acc && propKey in acc ? acc[propKey] : undefined)
-
+) => {
+  return acc && acc.constructor === Object && propKey in acc
+    ? acc[propKey]
+    : undefined
+}
 const getValues = (state: Record<string, any>) => (propAccessor: string) => {
   const propKeys = propAccessor.split('.')
   return propKeys.reduce(accessNestedProps, unref(state))
@@ -47,7 +50,6 @@ export function useAsyncUniqueValidator({
     } else if (value === '' || value === item?.value?.[prop]) {
       return true
     }
-    // const { validator } = useNuxtApp().$api
     const validator = useApiValidator()
     return validator.validate(type, path, value)
   }

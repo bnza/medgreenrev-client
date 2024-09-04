@@ -10,9 +10,14 @@ const props = withDefaults(
     itemSubtitle?: string
     orderBy?: string
     authorizedOnly?: boolean
+    readonly?: boolean
+    customItem?: boolean
+    parent?: Record<string, ApiId>
   }>(),
   {
     authorizedOnly: false,
+    readonly: false,
+    customItem: false,
   },
 )
 
@@ -24,7 +29,6 @@ const model = defineModel<RT>()
 const autocomplete = useApiAutocomplete()
 
 const useAutocomplete = () => {
-  // const { autocomplete } = useNuxtApp().$api
   const value = ref('')
   const params = computed(() => {
     const _return: {
@@ -39,6 +43,11 @@ const useAutocomplete = () => {
 
     if (value.value) {
       _return.search = value.value
+    }
+
+    if (props.parent) {
+      const parentKey = Object.keys(props.parent)[0]
+      _return[parentKey] = props.parent[parentKey]
     }
 
     return _return
@@ -81,13 +90,6 @@ const XorProps = (props: Record<string, any>, key1: string, key2: string) => {
     key2 in props && 'undefined' !== typeof props[key2],
   )
 }
-// const propsValidator = (_: any, props: Record<string, any>) => {
-//   const keys = Object.keys(props)
-//   return xor(
-//     keys.includes('itemValue') && props.itemValue,
-//     keys.includes('itemSubtitle') && props.itemSubtitle,
-//   )
-// }
 </script>
 
 <template>
@@ -95,13 +97,19 @@ const XorProps = (props: Record<string, any>, key1: string, key2: string) => {
     :label
     :items
     :model-value="model"
+    :readonly
     @update:search="value = $event"
     @update:modelValue="model = $event"
     :itemValue
     :itemTitle
     :itemProps
+    no-filter
     return-object
-  />
+  >
+    <template #item="{ props, item }" v-if="customItem">
+      <slot name="item" :props="props" :item="item" />
+    </template>
+  </v-autocomplete>
 </template>
 
 <style scoped></style>
