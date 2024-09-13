@@ -2,7 +2,6 @@ import AbstractRepository from '~/lib/repository/AbstractRepository'
 import type { $Fetch } from 'nitropack'
 import type { FetchOptions } from 'ofetch'
 import type { AsyncDataOptions } from '#app'
-import * as url from 'node:url'
 
 class ResourceRepository<
   ResourceType extends ApiResources,
@@ -60,6 +59,18 @@ class ResourceRepository<
         }),
       asyncDataOptions,
     )
+  }
+
+  async exportCollection(fetchOptions: FetchOptions) {
+    return this.$fetch<string>(`${this.resourceConfig.apiPath}/export`, {
+      // @ts-ignore
+      method: 'GET',
+      headers: {
+        Accept: 'text/csv',
+        'Content-Type': 'text/csv',
+      },
+      ...fetchOptions,
+    })
   }
 
   async patchItem(

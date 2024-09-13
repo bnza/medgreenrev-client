@@ -68,6 +68,7 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
         >
           <lazy-data-collection-child-card
             :parent="{ 'site.id': id }"
+            :download-button="false"
             resource-key="sitesUsers"
           />
         </v-tabs-window-item>

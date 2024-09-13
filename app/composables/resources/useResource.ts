@@ -1,6 +1,7 @@
 import usePaginationOptionsState from '~/composables/states/usePaginationOptionsState'
 import { diff } from 'deep-object-diff'
 import { useResourceFiltersState } from '~/composables'
+import { useResourceTotalItemsState } from '~/composables/states/useResourceTotalItemsState'
 
 const _identity1 = (item: Record<string, any>) => item
 const _identity3 = (
@@ -78,9 +79,10 @@ async function useResource<RT extends ApiResources>(
     resourcePageKey,
     resourceConfig,
   })
-  const fetchCollection = async () => {
+
+  const getFetchCollectionParams = () => {
     parent = parent || {}
-    const params = computed(() =>
+    return computed(() =>
       Object.assign(
         {},
         parent,
@@ -88,6 +90,11 @@ async function useResource<RT extends ApiResources>(
         resourceFilterParams.value,
       ),
     )
+  }
+
+  const totalItemsState = useResourceTotalItemsState(resourcePageKey)
+  const fetchCollection = async () => {
+    const params = getFetchCollectionParams()
     const { data, pending, error, refresh } = await repository.fetchCollection(
       {
         params,
@@ -96,6 +103,7 @@ async function useResource<RT extends ApiResources>(
     )
     const items = computed(() => data.value?.['hydra:member'])
     const totalItems = computed(() => data.value?.['hydra:totalItems'] || 0)
+    totalItemsState.value = totalItems.value
     return {
       data,
       pending,
@@ -106,6 +114,11 @@ async function useResource<RT extends ApiResources>(
       paginationOptions,
       resourceFilterParams,
     }
+  }
+
+  const exportCollection = async () => {
+    const params = getFetchCollectionParams()
+    return await repository.exportCollection({ params })
   }
 
   const fetchItem = async (id: Ref<string | number>) => {
@@ -195,6 +208,7 @@ async function useResource<RT extends ApiResources>(
     itemLabel,
     resourceConfig,
     resourcePageKey,
+    exportCollection,
     fetchCollection,
     fetchItem,
     patchItem,
