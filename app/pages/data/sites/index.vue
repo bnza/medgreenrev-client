@@ -4,11 +4,9 @@ import { useResourceFiltersState } from '~/composables'
 definePageMeta({
   auth: false,
 })
-const { hasRoleAdmin } = useAppAuth()
-const { resourcePageKey, resourceConfig, collectionLabel } = await useResource(
-  'sites',
-  { resourceOperationType: 'collection' },
-)
+const { hasRoleAdmin, isAuthenticated } = useAppAuth()
+const { resourcePageKey, resourceConfig, collectionLabel, exportCollection } =
+  await useResource('sites', { resourceOperationType: 'collection' })
 const { isFiltered } = useResourceFiltersState({
   resourcePageKey,
   resourceConfig,
@@ -26,6 +24,12 @@ const color = COLORS['secondary']
       />
     </template>
     <template #toolbar-append>
+      <lazy-navigation-resource-collection-download
+        v-if="isAuthenticated"
+        :resource-page-key
+        :export-collection
+        :collection-label
+      />
       <lazy-navigation-resource-item-create
         v-if="hasRoleAdmin"
         :path="`${resourceConfig.appPath}/create`"
@@ -34,7 +38,7 @@ const color = COLORS['secondary']
         :path="`${resourceConfig.appPath}/search`"
       />
     </template>
-    <template #default>
+    <template #default="">
       <lazy-data-collection-site-table />
     </template>
   </data-card>

@@ -87,30 +87,32 @@ const submitAndRefresh = async () => {
               <p>{{ relationshipText }}</p>
             </v-col>
           </v-row>
+          <v-row dense>
+            <v-col justify="center">
+              <autocomplete-api
+                label="SU"
+                path="stratigraphic_units"
+                authorized-only
+                order-by="number"
+                item-title="number"
+                item-subtitle="site.code"
+                custom-item
+                v-model="state.dxSU"
+                :parent
+                :error-messages="v$.dxSU.$errors.map((e) => e.$message)"
+              >
+                <template #item="{ props, item }">
+                  <v-list-item
+                    v-bind="props"
+                    :title="
+                      stratigraphicUnitResourceConfig.getCodeFn(item.raw)()
+                    "
+                  />
+                </template>
+              </autocomplete-api>
+            </v-col>
+          </v-row>
         </v-container>
-        <v-row dense>
-          <v-col justify="center">
-            <autocomplete-api
-              label="SU"
-              path="stratigraphic_units"
-              authorized-only
-              order-by="number"
-              item-title="number"
-              item-subtitle="site.code"
-              custom-item
-              v-model="state.dxSU"
-              :parent
-              :error-messages="v$.dxSU.$errors.map((e) => e.$message)"
-            >
-              <template #item="{ props, item }">
-                <v-list-item
-                  v-bind="props"
-                  :title="stratigraphicUnitResourceConfig.getCodeFn(item.raw)()"
-                />
-              </template>
-            </autocomplete-api>
-          </v-col>
-        </v-row>
       </v-card-text>
       <v-card-actions>
         <v-btn color="anchor" @click="isDialogOpen = false">cancel</v-btn>

@@ -12,6 +12,16 @@ declare global {
     roles: Array<ApiRole>
     privileges: Record<number, number>
   }
+
+  export type AllowedMimeType =
+    | 'application/vnd.oasis.opendocument.spreadsheet'
+    | 'application/vnd.ms-excel'
+    | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    | 'application/pdf'
+    | 'image/jpeg'
+    | 'image/png'
+    | 'image/webp'
+    | 'image/gif'
 }
 // https://nuxt.com/docs/guide/directory-structure/plugins#typing-plugins
 // https://youtrack.jetbrains.com/issue/WEB-59818/Vue-custom-global-properties-added-by-augmenting-vue-are-not-resolved

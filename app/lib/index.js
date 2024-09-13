@@ -112,3 +112,12 @@ export const generatePassword = (length = 10) => {
 }
 
 export const generateId = generatePassword
+export const downloadCsv = (resourceName, data) => {
+  const fileURL = window.URL.createObjectURL(new Blob([data]))
+  const fileLink = document.createElement('a')
+  fileLink.href = fileURL
+  fileLink.setAttribute('download', `export-${resourceName}.csv`)
+  document.body.appendChild(fileLink)
+  fileLink.click()
+  fileLink.remove()
+}

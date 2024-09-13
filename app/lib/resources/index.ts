@@ -1,5 +1,6 @@
 import sitesUsers from './sites-users'
 import stratigraphicUnits from './stratigraphic-units'
+import stratigraphicUnitsMediaObjects from './stratigraphic-units-media-objects'
 import stratigraphicUnitsRelationships from './stratigraphic-units-relationship'
 import users from './users'
 import sites from './sites'
@@ -12,6 +13,7 @@ export const resources: Record<ResourceKey, ResourceConfig> = {
   sitesUsers,
   users,
   stratigraphicUnits,
+  stratigraphicUnitsMediaObjects,
   stratigraphicUnitsRelationships,
 }
 export const isResourceKey = (key: string): key is ResourceKey =>
@@ -24,7 +26,10 @@ const validationsKeys: Record<ResourceKey, string> = {
   stratigraphicUnits: 'useResourceStratigraphicUnitValidation',
   stratigraphicUnitsRelationships:
     'useResourceStratigraphicUnitRelationshipValidation',
+  stratigraphicUnitsMediaObjects:
+    'useResourceStratigraphicUnitMediaObjectValidation',
 }
+
 type ResourceValidation<RT> = (
   item: MaybeRef<Partial<RT>>,
   emit: Function,

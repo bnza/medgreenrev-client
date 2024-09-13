@@ -12,6 +12,7 @@ declare global {
     | 'stratigraphicUnits'
     | 'sitesUsers'
     | 'stratigraphicUnitsRelationships'
+    | 'stratigraphicUnitsMediaObjects'
 
   type ApiResourceConfig = Readonly<{
     apiPath: string
@@ -111,6 +112,23 @@ declare global {
     sxSU: ApiResourceStratigraphicUnit
     relationship: ApiLdResourceId | ApiLdResourceItem<string>
     dxSU: ApiResourceStratigraphicUnit
+  } & ApiResourceItem<number>
+
+  export type ApiResourceMediaObject = {
+    contentUrl: string
+    originalFilename: string
+    mimeType: string
+    size: number
+  } & ApiResourceItem<number>
+
+  export type ApiResourceItemMediaObject = {
+    item: ApiResourceStratigraphicUnit
+    mediaObject: ApiResourceMediaObject
+  } & ApiResourceItem<number>
+
+  export type ApiResourceStratigraphicUnitMediaObject = {
+    stratigraphicUnit: ApiResourceStratigraphicUnit | ApiLdResourceId
+    mediaObject: ApiResourceMediaObject
   } & ApiResourceItem<number>
 
   export type ApiResources =

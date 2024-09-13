@@ -2,7 +2,6 @@ import AbstractRepository from '~/lib/repository/AbstractRepository'
 import type { $Fetch } from 'nitropack'
 import type { FetchOptions } from 'ofetch'
 import type { AsyncDataOptions } from '#app'
-import * as url from 'node:url'
 
 class ResourceRepository<
   ResourceType extends ApiResources,
@@ -62,6 +61,18 @@ class ResourceRepository<
     )
   }
 
+  async exportCollection(fetchOptions: FetchOptions) {
+    return this.$fetch<string>(`${this.resourceConfig.apiPath}/export`, {
+      // @ts-ignore
+      method: 'GET',
+      headers: {
+        Accept: 'text/csv',
+        'Content-Type': 'text/csv',
+      },
+      ...fetchOptions,
+    })
+  }
+
   async patchItem(
     id: string | number,
     diffItem: Record<string, any>,
@@ -78,13 +89,20 @@ class ResourceRepository<
 
   async postItem(
     newItem: Record<string, any>,
+    contentType = 'application/ld+json',
   ): Promise<ApiLdResourceItem<ResourceType>> {
+    // For multipart/form-data requests Content-Type header value MUST be undefined
+    // in order to avoid boundary problems
+    // @see https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
+    const headers = {
+      Accept: 'application/ld+json',
+    }
+    if (contentType !== 'multipart/form-data') {
+      headers['Content-Type'] = contentType
+    }
     return this.$fetch(this.resourceConfig.apiPath, {
       method: 'POST',
-      headers: {
-        Accept: 'application/ld+json',
-        'Content-Type': 'application/ld+json',
-      },
+      headers,
       body: newItem,
     })
   }

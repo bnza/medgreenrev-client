@@ -5,10 +5,10 @@ definePageMeta({
   auth: false,
 })
 const { isAuthenticated } = useAppAuth()
-const { resourcePageKey, resourceConfig, collectionLabel } = await useResource(
-  'stratigraphicUnits',
-  { resourceOperationType: 'collection' },
-)
+const { resourcePageKey, resourceConfig, collectionLabel, exportCollection } =
+  await useResource('stratigraphicUnits', {
+    resourceOperationType: 'collection',
+  })
 const { isFiltered } = useResourceFiltersState({
   resourcePageKey,
   resourceConfig,
@@ -25,6 +25,12 @@ const { isFiltered } = useResourceFiltersState({
       />
     </template>
     <template #toolbar-append>
+      <lazy-navigation-resource-collection-download
+        v-if="isAuthenticated"
+        :resource-page-key
+        :export-collection
+        :collection-label
+      />
       <lazy-navigation-resource-item-create
         v-if="isAuthenticated"
         :path="`${resourceConfig.appPath}/create`"

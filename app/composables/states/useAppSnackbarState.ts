@@ -1,4 +1,13 @@
 // @TODO handle concurrent messages
+
+export type ResponseError = {
+  status: number
+  _data?: {
+    '@type'?: string
+    violations: Array<{ message: string }>
+  }
+}
+
 export const useAppSnackbarState = () => {
   const _default = {
     visible: false,
@@ -26,5 +35,33 @@ export const useAppSnackbarState = () => {
     set(Object.assign({ visible: true }, newState))
   }
 
-  return { state, show, reset }
+  const showError = (e: Error & { response?: ResponseError }) => {
+    let text: string = e.message
+    let response: ResponseError | undefined = e.response
+
+    if (
+      response?.status === 422 &&
+      '@type' in response._data &&
+      response._data['@type'] === 'ConstraintViolationList'
+    ) {
+      text = response._data.violations.reduce(
+        (
+          acc: string,
+          curr: {
+            message: string
+          },
+          i: number,
+        ) => (acc += (i > 0 ? ',' : '') + curr.message),
+        '',
+      )
+    }
+
+    show({
+      color: 'error',
+      text,
+      timeout: -1,
+    })
+  }
+
+  return { state, show, showError, reset }
 }

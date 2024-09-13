@@ -1,42 +1,7 @@
 export default function (mode: ApiAction, submitFn: Function) {
   const router = useRouter()
-  const { show } = useAppSnackbarState()
+  const { show, showError } = useAppSnackbarState()
   const isSubmitPending = ref(false)
-
-  const showError = (e: Error) => {
-    let text: string = e.message
-    let response:
-      | {
-          status: number
-          _data?: {
-            '@type'?: string
-            violations: Array<{ message: string }>
-          }
-        }
-      | undefined = e.response
-
-    if (
-      response.status === 422 &&
-      '@type' in response._data &&
-      response._data['@type'] === 'ConstraintViolationList'
-    ) {
-      text = response._data.violations.reduce(
-        (
-          acc: string,
-          curr: {
-            message: string
-          },
-          i: number,
-        ) => (acc += (i > 0 ? ',' : '') + curr.message),
-        '',
-      )
-    }
-    show({
-      color: 'error',
-      text,
-      timeout: -1,
-    })
-  }
 
   const showSuccess = () => {
     show({

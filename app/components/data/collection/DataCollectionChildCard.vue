@@ -5,10 +5,12 @@ const props = withDefaults(
   defineProps<{
     resourceKey: ResourceKey
     parent: Record<string, string | number>
+    downloadButton?: boolean
     createButton?: boolean
     searchButton?: boolean
   }>(),
   {
+    downloadButton: true,
     createButton: true,
     searchButton: true,
   },
@@ -17,10 +19,11 @@ const props = withDefaults(
 const { parent, resourceKey } = toRefs(props)
 
 const { isAuthenticated } = useAppAuth()
-const { resourceConfig, resourcePageKey } = await useResource(
-  resourceKey.value,
-  { parent: parent.value, resourceOperationType: 'collection' },
-)
+const { resourceConfig, resourcePageKey, collectionLabel, exportCollection } =
+  await useResource(resourceKey.value, {
+    parent: parent.value,
+    resourceOperationType: 'collection',
+  })
 
 const { isFiltered } = useResourceFiltersState({
   resourcePageKey,
@@ -59,6 +62,12 @@ const toolbarTitleColor = COLORS['secondary']
       />
     </template>
     <template #toolbar-append>
+      <lazy-navigation-resource-collection-download
+        v-if="downloadButton && isAuthenticated"
+        :resource-page-key
+        :export-collection
+        :collection-label
+      />
       <lazy-navigation-resource-item-create
         v-if="createButton && isAuthenticated"
         :path="{

@@ -4,6 +4,7 @@ export type ResourcePageState = {
   pagination: PaginationOptionsState
   tab: string | null
   from: [string, MaybeResourcePageKey]
+  totalItems: number
 }
 
 export const getDefaultResourcePageState = (
@@ -15,6 +16,7 @@ export const getDefaultResourcePageState = (
     pagination: defaultPaginationOptions,
     tab: null,
     from: ['/', ''],
+    totalItems: 0,
   })
 
 type AppResourcePagesState = Record<string, ResourcePageState> | {}
