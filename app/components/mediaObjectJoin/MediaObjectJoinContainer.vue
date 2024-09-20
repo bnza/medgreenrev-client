@@ -77,6 +77,8 @@ const createAndFeedback = async (item: Record<string, any>) => {
     createPending.value = false
   }
 }
+
+console.log(items.value.length)
 </script>
 
 <template>
@@ -121,7 +123,12 @@ const createAndFeedback = async (item: Record<string, any>) => {
         />
       </v-col>
     </v-row>
-    <resource-not-found v-else />
+    <v-row v-else justify="center">
+      <v-empty-state
+        title="No media found"
+        text="No media are currently related to this item"
+      />
+    </v-row>
   </v-container>
 </template>
 
