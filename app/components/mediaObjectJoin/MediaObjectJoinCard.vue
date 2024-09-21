@@ -66,7 +66,7 @@ const emit = defineEmits<{
         </v-container>
       </template>
     </v-img>
-    <v-card-actions>
+    <template #actions>
       <v-btn
         v-if="canUpdate"
         class="mr-4"
@@ -93,7 +93,7 @@ const emit = defineEmits<{
         <v-icon icon="far fa-circle-down" />
         <v-tooltip activator="parent" location="bottom">download</v-tooltip>
       </v-btn>
-    </v-card-actions>
+    </template>
   </v-card>
 </template>
 

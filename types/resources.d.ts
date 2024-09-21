@@ -7,6 +7,7 @@ declare global {
   export type VocabularyKey = 'vocabulary/stratigraphicUnits/relationship'
 
   export type ResourceKey =
+    | 'samples'
     | 'sites'
     | 'users'
     | 'stratigraphicUnits'
@@ -90,7 +91,18 @@ declare global {
     site: Pick<ApiResourceSite, 'id' | 'code'>
     year: number
     number: number
+    code: string
     interpretation?: string
+    description?: string
+  } & ApiResourceItem<number> &
+    HideableResourceItem
+
+  export type ApiResourceSample = {
+    number: number
+    stratigraphicUnit: Pick<
+      ApiResourceStratigraphicUnit,
+      'id' | 'number' | 'code'
+    >
     description?: string
   } & ApiResourceItem<number> &
     HideableResourceItem
@@ -133,6 +145,7 @@ declare global {
 
   export type ApiResources =
     | ApiResourceSite
+    | ApiResourceSample
     | ApiResourceUser
     | ApiResourceSitesUsers
     | ApiResourceStratigraphicUnit

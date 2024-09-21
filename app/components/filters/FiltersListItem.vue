@@ -14,7 +14,7 @@ const operandValue = (operand: unknown) => {
     return operand.id
   }
   const key = API_FILTERS[props.filter.filter].operandListItemPropertyKey
-  if (!(key || key in operand)) {
+  if (!(key && key in operand)) {
     console.error(`Invalid key "${key}"`)
     return operand.id
   }

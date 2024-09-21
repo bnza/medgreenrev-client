@@ -1,3 +1,4 @@
+import samples from '~/lib/resources/samples'
 import sitesUsers from './sites-users'
 import stratigraphicUnits from './stratigraphic-units'
 import stratigraphicUnitsMediaObjects from './stratigraphic-units-media-objects'
@@ -9,6 +10,7 @@ import type { Validation } from '@vuelidate/core'
 import type { Reactive } from 'vue'
 
 export const resources: Record<ResourceKey, ResourceConfig> = {
+  samples,
   sites,
   sitesUsers,
   users,
@@ -20,6 +22,7 @@ export const isResourceKey = (key: string): key is ResourceKey =>
   key in resources
 
 const validationsKeys: Record<ResourceKey, string> = {
+  samples: 'useResourceSampleValidation',
   sites: 'useResourceSiteValidation',
   sitesUsers: 'useResourceSitesUsersValidation',
   users: 'useResourceUserValidation',

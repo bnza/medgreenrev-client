@@ -44,6 +44,7 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
         <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
           <v-tab value="data">data</v-tab>
           <v-tab value="relationships">relationships</v-tab>
+          <v-tab value="samples">samples</v-tab>
           <v-tab value="media">media</v-tab>
         </v-tabs>
         <v-tabs-window v-model="tab">
@@ -59,6 +60,12 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
             data-testid="tabs-window-relationships"
           >
             <su-relationship-container v-if="item" :sx-su="item" />
+          </v-tabs-window-item>
+          <v-tabs-window-item value="samples" data-testid="tabs-window-samples">
+            <lazy-data-collection-child-card
+              :parent="{ 'stratigraphicUnit.id': id }"
+              resource-key="samples"
+            />
           </v-tabs-window-item>
           <v-tabs-window-item value="media" data-testid="tabs-window-media">
             <lazy-media-object-join-container

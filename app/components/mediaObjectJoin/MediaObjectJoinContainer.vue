@@ -77,8 +77,6 @@ const createAndFeedback = async (item: Record<string, any>) => {
     createPending.value = false
   }
 }
-
-console.log(items.value.length)
 </script>
 
 <template>

@@ -4,7 +4,7 @@ import { FORM_REQUIRED_FIELD } from './messages'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'
 import { clone } from '~/lib/resources'
 
-const useValidation = <RT extends ApiResourceStratigraphicUnitMediaObject>(
+const useValidation = <RT extends Record<string, any>>(
   item: MaybeRef<Partial<RT>>,
   emit: Function,
 ) => {

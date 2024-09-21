@@ -146,6 +146,18 @@ const SiteEqualAutocomplete: Readonly<FilterDefinitionObject> = {
     filterObj[filter.property] = filter.operands[0].id
   },
 }
+const StratigraphicUnitEqualAutocomplete: Readonly<FilterDefinitionObject> = {
+  id: 'StratigraphicUnitEqualAutocomplete',
+  label: 'equals',
+  multiple: false,
+  propertyLabel: 'SU',
+  operandsComponent: 'StratigraphicUnitAutocomplete',
+  operandListItemPropertyKey: 'code',
+  operandsNumber: 1,
+  addToObject: (filterObj, filter) => {
+    filterObj[filter.property] = filter.operands[0].id
+  },
+}
 
 export const API_FILTERS: Readonly<Record<FilterKey, FilterDefinitionObject>> =
   {
@@ -159,6 +171,7 @@ export const API_FILTERS: Readonly<Record<FilterKey, FilterDefinitionObject>> =
     BooleanIsTrue,
     BooleanIsFalse,
     SiteEqualAutocomplete,
+    StratigraphicUnitEqualAutocomplete,
   }
 
 export const FILTER_COMPONENT = Object.freeze({
@@ -215,9 +228,33 @@ const stratigraphicUnits: Readonly<ResourceFiltersDefinitionObject> = {
     filters: { BooleanIsFalse, BooleanIsTrue },
   },
 }
+
+const samples: Readonly<ResourceFiltersDefinitionObject> = {
+  'stratigraphicUnit.site.id': {
+    filters: { SiteEqualAutocomplete },
+    propertyLabel: 'site',
+  },
+  'stratigraphicUnit.id': {
+    filters: { StratigraphicUnitEqualAutocomplete },
+    propertyLabel: 'SU',
+  },
+  number: {
+    filters: {
+      NumericEqual,
+      NumericGreaterThan,
+      NumericGreaterThanOrEqual,
+      NumericLowerThan,
+      NumericLowerThanOrEqual,
+    },
+  },
+  description: {
+    filters: { SearchPartial },
+  },
+}
 export const RESOURCE_PAGES_STATE: Readonly<
   Partial<Record<ResourceKey, ResourceFiltersDefinitionObject>>
 > = {
+  samples,
   sites,
   stratigraphicUnits,
 }

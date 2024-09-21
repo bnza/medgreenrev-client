@@ -12,6 +12,9 @@ const filter: Partial<Filter> = reactive({
 const operandsComponentsMap = {
   Single: resolveComponent('FiltersSingleOperand'),
   SiteAutocomplete: resolveComponent('FiltersSiteAutocompleteOperand'),
+  StratigraphicUnitAutocomplete: resolveComponent(
+    'FiltersStratigraphicUnitAutocompleteOperand',
+  ),
 }
 
 const operandsComponent = computed(() => {

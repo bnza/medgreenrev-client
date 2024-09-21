@@ -4,7 +4,7 @@ const resourceConfig: ResourceConfig = {
   name: 'stratigraphicUnits',
   labels: ['Stratigraphic Unit', 'Stratigraphic Units'],
   getCodeFn: (item) => () =>
-    `${item?.site?.code}.${item?.year}.${item.number}` || '',
+    `${item?.site?.code}.${item?.year}.${item?.number}` || '',
   protectedFields: ['public'],
 }
 

@@ -42,6 +42,8 @@ export default function (mode: ApiAction, submitFn: Function) {
       })
       if (redirect) {
         await router.replace(redirectPath)
+      } else {
+        await router.replace(history.state?.back || redirectPath)
       }
       mode === 'update' && response === 'NO__CHANGE'
         ? showNoChanges()

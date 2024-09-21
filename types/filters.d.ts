@@ -8,6 +8,7 @@ declare global {
     | 'NumericLowerThan'
     | 'NumericLowerThanOrEqual'
     | 'SiteEqualAutocomplete'
+    | 'StratigraphicUnitEqualAutocomplete'
     | 'BooleanIsTrue'
     | 'BooleanIsFalse'
 

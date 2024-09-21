@@ -33,6 +33,9 @@ const { isFiltered } = useResourceFiltersState({
 const collectionTableComponentsMap: Partial<
   Record<ResourceKey, ReturnType<typeof defineAsyncComponent>>
 > = {
+  samples: defineAsyncComponent(
+    () => import('~/components/data/collection/DataCollectionSampleTable.vue'),
+  ),
   stratigraphicUnits: defineAsyncComponent(
     () =>
       import(
