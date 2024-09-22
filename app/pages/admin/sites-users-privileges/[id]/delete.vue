@@ -29,6 +29,9 @@ const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
     :mode="mode"
     :color="barColor"
   >
+    <template #title-append>
+      <lazy-data-toolbar-title-append :text="mode" />
+    </template>
     <template #toolbar-prepend>
       <navigation-resource-collection-list />
     </template>
@@ -41,6 +44,7 @@ const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
         rounded="false"
         variant="text"
         :icon="true"
+        data-testid="submit-delete-button"
         @click="triggerSubmit = true"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket" />

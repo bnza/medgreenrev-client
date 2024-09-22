@@ -1,7 +1,6 @@
 import type { ReadonlyHeaders } from '~/app/lib/constants/vuetify'
 import type { Reactive } from 'vue'
 import type { Validation } from '@vuelidate/core'
-import type { StratigraphicUnitRelationshipKey } from '~/lib/resources/vocabulary'
 
 declare global {
   export type VocabularyKey = 'vocabulary/stratigraphicUnits/relationship'

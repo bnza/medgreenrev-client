@@ -52,7 +52,7 @@ const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
         :mode="mode"
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit({ state: $event, oldItem: item, redirect: false })"
+        @submit-form="submit({ state: $event, oldItem: item, redirectTo: '' })"
       >
         <template #alert>
           <delete-item-alert-row />

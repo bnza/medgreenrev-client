@@ -60,7 +60,7 @@ const submitAndRefresh = async () => {
   const valid = await v$.value.$validate()
   if (valid) {
     try {
-      await submit({ state, redirect: false, reThrow: true })
+      await submit({ state, redirectTo: '', reThrow: true })
       creatingRelationshipType.value = ''
       triggerRefreshCollection.value = true
       state.dxSU = undefined

@@ -56,7 +56,7 @@ const parent = ref(route.query?.parent) as unknown as
         :parent
         :trigger-submit="triggerSubmit"
         @update:invalid="invalid = $event"
-        @submit-form="submit({ state: $event, redirectToCollection: true })"
+        @submit-form="submit({ state: $event, redirectTo: '@collection' })"
       />
     </template>
   </data-card>

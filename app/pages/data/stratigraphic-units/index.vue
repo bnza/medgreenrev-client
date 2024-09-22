@@ -1,9 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import { useResourceFiltersState } from '~/composables/index.ts'
+import { useOnMountedPopRouteStackState } from '~/composables/states/useOnMountedPopRouteStackState'
 
 definePageMeta({
   auth: false,
 })
+useOnMountedPopRouteStackState()
 const { isAuthenticated } = useAppAuth()
 const { resourcePageKey, resourceConfig, collectionLabel, exportCollection } =
   await useResource('stratigraphicUnits', {

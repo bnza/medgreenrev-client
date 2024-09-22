@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog'
+import { useOnMountedPopRouteStackState } from '~/composables/states/useOnMountedPopRouteStackState'
 
+useOnMountedPopRouteStackState()
 const { fetchCollection, resourceConfig, collectionLabel, patchItem } =
   await useResource('users', { resourceOperationType: 'collection' })
 const { pending, error, paginationOptions, totalItems, items } =

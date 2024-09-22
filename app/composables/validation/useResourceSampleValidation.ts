@@ -1,5 +1,5 @@
 import useVuelidate from '@vuelidate/core'
-import { required, maxLength, helpers } from '@vuelidate/validators'
+import { required, helpers } from '@vuelidate/validators'
 import { FORM_REQUIRED_FIELD } from './messages'
 import { useAsyncUniqueValidator } from '~/composables/validation/useAsyncUniqueValidator'
 import { useEmitValidationInvalid } from '~/composables/validation/useEmitValidationInvalid'

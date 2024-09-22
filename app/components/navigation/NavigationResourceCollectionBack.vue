@@ -1,25 +1,28 @@
 <script setup lang="ts">
+import { useRouteStackState } from '~/composables/states/useRouteStackState'
+
 withDefaults(
   defineProps<{
-    replace?: boolean
     tooltipText?: string
   }>(),
   {
-    replace: false,
     tooltipText: 'Back',
   },
 )
 
+const { pop } = useRouteStackState()
 const router = useRouter()
-const to = computed(() => history.state?.back || '/')
+const back = () => {
+  router.replace(pop())
+}
 </script>
 
 <template>
   <v-tooltip location="bottom" :text="tooltipText">
     <template #activator="{ props }">
-      <NuxtLink :to>
+      <v-btn :icon="true" @click="back()" data-testid="button-navigation-back">
         <v-icon class="mx-3" v-bind="props" icon="fas fa-arrow-left" />
-      </NuxtLink>
+      </v-btn>
     </template>
   </v-tooltip>
 </template>

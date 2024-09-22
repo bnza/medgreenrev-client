@@ -30,6 +30,7 @@ const icon = computed(() => `fas fa-arrow-${props.back ? 'left' : 'right'}`)
     nuxt
     :to="`${appPath}/${item.id}`"
     variant="text"
+    data-testid="read-item-button"
   >
     <v-icon :color="color" :icon="icon" :size="size" />
     <v-tooltip activator="parent" location="bottom">View item</v-tooltip>

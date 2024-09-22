@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import useUserPasswordDialog from '~/composables/form/useUserPasswordDialog'
+import { useOnMountedPopRouteStackState } from '~/composables/states/useOnMountedPopRouteStackState'
 
 const route = useRoute()
 
+useOnMountedPopRouteStackState()
 const id = ref(routeParamIdToString(route.params.id))
 const { resourceConfig, fetchItem, itemLabel, patchItem } =
   await useResource('users')
@@ -62,10 +64,11 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
         :item="item"
         :app-path="resourceConfig.appPath"
         size="large"
+        :from-item="true"
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list />
+      <lazy-navigation-resource-collection-back />
     </template>
     <template #default>
       <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">

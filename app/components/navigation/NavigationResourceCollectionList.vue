@@ -17,7 +17,7 @@ const to = computed(() => history.state?.back || '/')
 <template>
   <v-tooltip location="bottom" :text="tooltipText">
     <template #activator="{ props }">
-      <NuxtLink :to>
+      <NuxtLink :to replace>
         <v-icon class="mx-3" v-bind="props" icon="fas fa-arrow-left" />
       </NuxtLink>
     </template>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useResourceFiltersState } from '~/composables'
+import { useOnMountedPopRouteStackState } from '~/composables/states/useOnMountedPopRouteStackState'
 
 definePageMeta({
   auth: false,
 })
+useOnMountedPopRouteStackState()
 const { hasRoleAdmin, isAuthenticated } = useAppAuth()
 const { resourcePageKey, resourceConfig, collectionLabel, exportCollection } =
   await useResource('sites', { resourceOperationType: 'collection' })

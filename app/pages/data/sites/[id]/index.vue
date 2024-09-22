@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useResourceTabState } from '~/composables/states/useResourceTabState'
+import { useOnMountedPopRouteStackState } from '~/composables/states/useOnMountedPopRouteStackState'
 
 definePageMeta({
   auth: false,
 })
 
+useOnMountedPopRouteStackState()
 const route = useRoute()
 
 const id = ref(routeParamIdToInt(route.params.id))
@@ -37,10 +39,11 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
         :item="item"
         :app-path="resourceConfig.appPath"
         size="large"
+        :from-item="true"
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list />
+      <navigation-resource-collection-back />
     </template>
     <template #default>
       <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useResourceFiltersState } from '~/composables'
+import { useOnMountedPopRouteStackState } from '~/composables/states/useOnMountedPopRouteStackState'
 
+useOnMountedPopRouteStackState()
 const { resourcePageKey, resourceConfig, collectionLabel } = await useResource(
   'sitesUsers',
   { resourceOperationType: 'collection' },

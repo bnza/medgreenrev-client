@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useOnMountedPopRouteStackState } from '~/composables/states/useOnMountedPopRouteStackState'
+
+useOnMountedPopRouteStackState()
 const route = useRoute()
 
 const id = ref(routeParamIdToString(route.params.id))
@@ -25,10 +28,11 @@ const { item, error, code } = await fetchItem(id)
         :item="item"
         :app-path="resourceConfig.appPath"
         size="large"
+        :from-item="true"
       />
     </template>
     <template #toolbar-prepend>
-      <navigation-resource-collection-list />
+      <lazy-navigation-resource-collection-back />
     </template>
     <template #default>
       <lazy-data-item-sites-users-form v-if="item" :item="item" mode="read" />
