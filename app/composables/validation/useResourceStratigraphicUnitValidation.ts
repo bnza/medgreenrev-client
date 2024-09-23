@@ -23,6 +23,7 @@ const useValidation = <RT extends ApiResourceStratigraphicUnit>(
     number: {
       required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
       integer,
+      minValue: minValue(1),
       unique: useAsyncUniqueValidator({
         path: 'stratigraphic-units',
         message: 'Duplicate (site, year, number) tuple',

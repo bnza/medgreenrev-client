@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import useSubmitForm from '~/composables/form/useSubmitForm'
+import { useFetchItem } from '~/composables/api/useFetchItem'
 
 const props = defineProps<{
   triggerSubmit?: boolean
@@ -33,36 +34,42 @@ const parentId: ApiId | undefined =
   parent && Object.values(parent).length > 0
     ? Object.values(parent)[0]
     : undefined
+
+const { error } = await useFetchItem({
+  id: parentId,
+  resourceKey: 'stratigraphicUnits',
+  state,
+  key: 'stratigraphicUnit',
+})
 </script>
 
 <template>
   <v-form :readonly="readonly" @submit.prevent>
     <v-container>
       <slot name="alert" />
-      <v-row v-if="isAuthenticated" no-gutters justify="end">
-        <v-col cols="12" sm="3" class="px-2">
-          <v-checkbox label="public" v-model="state.public" />
-        </v-col>
-      </v-row>
+      <!--      <v-row v-if="isAuthenticated" no-gutters justify="end">-->
+      <!--        <v-col cols="12" sm="3" class="px-2">-->
+      <!--          <v-checkbox label="public" v-model="state.public" />-->
+      <!--        </v-col>-->
+      <!--      </v-row>-->
       <v-row no-gutters>
         <v-col cols="12" xs="6" sm="2" class="px-2">
           <v-text-field
-            v-if="['read', 'delete', 'update'].includes(mode)"
             class="text-input-secondary"
             variant="underlined"
             v-model="state.stratigraphicUnit.code"
             label="SU"
           />
-          <autocomplete-parent-api
-            v-else
-            resource-key="stratigraphicUnits"
-            :id="parentId"
-            label="SU"
-            @fetched="state.stratigraphicUnit = $event"
-            :error-messages="
-              v$.stratigraphicUnit.$errors.map((e) => e.$message)
-            "
-          />
+          <!--          <autocomplete-parent-api-->
+          <!--            v-else-->
+          <!--            resource-key="stratigraphicUnits"-->
+          <!--            :id="parentId"-->
+          <!--            label="SU"-->
+          <!--            @fetched="state.stratigraphicUnit = $event"-->
+          <!--            :error-messages="-->
+          <!--              v$.stratigraphicUnit.$errors.map((e) => e.$message)-->
+          <!--            "-->
+          <!--          />-->
         </v-col>
         <v-col cols="12" xs="12" sm="10" class="px-2">
           <v-text-field

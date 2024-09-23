@@ -28,13 +28,14 @@ const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
         rounded="false"
         variant="text"
         :icon="true"
+        data-testid="submit-request-button"
         @click="triggerSubmit = true"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket" />
         <v-tooltip activator="parent" location="bottom">Submit</v-tooltip>
       </v-btn>
     </template>
-    <template #default v-if="!isSubmitPending">
+    <template #default v-show="!isSubmitPending">
       <lazy-data-item-sample-form
         v-if="item"
         :item="item"

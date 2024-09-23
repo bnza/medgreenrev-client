@@ -39,6 +39,7 @@ const barColor = DATA_API_ACTIONS_BAR_COLOR[mode]
         rounded="false"
         variant="text"
         :icon="true"
+        data-testid="submit-request-button"
         @click="triggerSubmit = true"
       >
         <v-icon icon="fas fa-arrow-up-from-bracket" />

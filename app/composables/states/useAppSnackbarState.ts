@@ -32,6 +32,7 @@ export const useAppSnackbarState = () => {
   }
 
   const show = (newState: Partial<SnackbarState>) => {
+    // console.log(newState)
     set(Object.assign({ visible: true }, newState))
   }
 

@@ -68,6 +68,7 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
           <v-tabs-window-item value="samples" data-testid="tabs-window-samples">
             <lazy-data-collection-child-card
               :parent="{ 'stratigraphicUnit.id': id }"
+              :create-button="item?._acl?.canUpdate"
               resource-key="samples"
             />
           </v-tabs-window-item>
