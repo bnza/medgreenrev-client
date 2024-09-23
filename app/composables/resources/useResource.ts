@@ -80,26 +80,22 @@ async function useResource<RT extends ApiResources>(
     resourceConfig,
   })
 
-  const getFetchCollectionParams = () => {
-    parent = parent || {}
-    return computed(() =>
-      Object.assign(
-        {},
-        parent,
-        queryPaginationOptionsParams.value,
-        resourceFilterParams.value,
-      ),
-    )
-  }
+  const fetchCollectionsParams = computed(() =>
+    Object.assign(
+      {},
+      parent,
+      queryPaginationOptionsParams.value,
+      resourceFilterParams.value,
+    ),
+  )
 
   const totalItemsState = useResourceTotalItemsState(resourcePageKey)
   const fetchCollection = async () => {
-    const params = getFetchCollectionParams()
     const { data, pending, error, refresh } = await repository.fetchCollection(
       {
-        params,
+        params: fetchCollectionsParams,
       },
-      { watch: [params] },
+      { watch: [fetchCollectionsParams] },
     )
     const items = computed(() => data.value?.['hydra:member'])
     const totalItems = computed(() => data.value?.['hydra:totalItems'] || 0)
@@ -117,8 +113,7 @@ async function useResource<RT extends ApiResources>(
   }
 
   const exportCollection = async () => {
-    const params = getFetchCollectionParams()
-    return await repository.exportCollection({ params })
+    return await repository.exportCollection({ fetchCollectionsParams })
   }
 
   const fetchItem = async (id: Ref<string | number>) => {
