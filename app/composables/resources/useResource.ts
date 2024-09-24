@@ -93,7 +93,7 @@ async function useResource<RT extends ApiResources>(
   const fetchCollection = async () => {
     const { data, pending, error, refresh } = await repository.fetchCollection(
       {
-        params: fetchCollectionsParams,
+        query: fetchCollectionsParams,
       },
       { watch: [fetchCollectionsParams] },
     )

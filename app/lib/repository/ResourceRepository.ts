@@ -20,14 +20,11 @@ class ResourceRepository<
     >,
   ) {
     const url = this.resourceConfig.apiPath
+    fetchOptions.method = 'get'
     return useAsyncData(
       url,
-      () =>
-        this.$fetch(url, {
-          // @ts-ignore
-          method: 'GET',
-          ...fetchOptions,
-        }),
+      // @ts-ignore
+      () => this.$fetch(url, fetchOptions),
       asyncDataOptions,
     )
   }
@@ -55,7 +52,7 @@ class ResourceRepository<
         this.$fetch(url, {
           // @ts-ignore
           method: 'GET',
-          ...fetchOptions,
+          fetchOptions,
         }),
       asyncDataOptions,
     )

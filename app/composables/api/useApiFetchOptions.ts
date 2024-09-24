@@ -14,9 +14,7 @@ export function useApiFetchOptions() {
     baseURL: config.public.apiBaseURL,
     onRequest({ options }) {
       if (token.value) {
-        options.headers = Object.assign(options.headers ?? {}, {
-          Authorization: token.value,
-        })
+        options.headers.set('Authorization', token.value)
       }
       fetchOptionsParamsToUrl(options)
     },
@@ -44,11 +42,17 @@ export function useApiFetchOptions() {
   }
 
   const fetchOptionsParamsToUrl = (options: Record<string, any>) => {
-    if (options?.params) {
-      const convertedOptions = new URLSearchParams(
-        stringify(unref(options.params)),
-      )
-      options.params = Object.fromEntries(convertedOptions)
+    // if (options?.params) {
+    //   const params =
+    //     'fn' in options.params ? options.params.fn() : unref(options.params)
+    //   const convertedOptions = new URLSearchParams(stringify(params))
+    //   options.params = Object.fromEntries(convertedOptions)
+    // }
+    if (options?.query) {
+      const params =
+        'fn' in options.query ? options.query.fn() : unref(options.query)
+      const convertedOptions = new URLSearchParams(stringify(params))
+      options.query = Object.fromEntries(convertedOptions)
     }
   }
 
