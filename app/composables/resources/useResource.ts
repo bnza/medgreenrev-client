@@ -91,10 +91,14 @@ async function useResource<RT extends ApiResources>(
 
   const totalItemsState = useResourceTotalItemsState(resourcePageKey)
   const fetchCollection = async () => {
-    const { data, pending, error, refresh } = await repository.fetchCollection(
-      {
-        query: fetchCollectionsParams,
-      },
+    const key = resourceConfig.apiPath + parentKey ? '/' + parentKey : ''
+    const { data, pending, status, error, refresh } = await useAsyncData(
+      key,
+      () =>
+        repository.fetch(resourceConfig.apiPath, {
+          method: 'get',
+          query: fetchCollectionsParams.value,
+        }),
       { watch: [fetchCollectionsParams] },
     )
     const items = computed(() => data.value?.['hydra:member'])
@@ -102,6 +106,7 @@ async function useResource<RT extends ApiResources>(
     totalItemsState.value = totalItems.value
     return {
       data,
+      status,
       pending,
       error,
       items,
@@ -116,8 +121,30 @@ async function useResource<RT extends ApiResources>(
     return await repository.exportCollection({ fetchCollectionsParams })
   }
 
+  // const fetchItem = async (id: Ref<string | number>) => {
+  //   const url = repository.getItemUrl(id)
+  //   const { data, status, pending, error, refresh } = useAsyncData(
+  //     url,
+  //     () =>
+  //       repository.fetch(url, {
+  //         method: 'get',
+  //       }),
+  //     { watch: [id] },
+  //   )
+  //   // const a = await repository.$fetchItem(id)
+  //   // const { data, pending, error } = await repository.$fetchItem(id)
+  //   // const { data, pending, error } = await repository.fetchItem(
+  //   //   id,
+  //   //   {},
+  //   //   {
+  //   //     watch: [id],
+  //   //   },
+  //   // )
+  //   const code = computed(() => resourceConfig.getCodeFn(data.value)())
+  //   return { item: data, pending, status, error, code }
+  // }
   const fetchItem = async (id: Ref<string | number>) => {
-    const { data, pending, error } = await repository.fetchItem(
+    const { data, pending, status, error } = await repository.fetchItem(
       id,
       {},
       {
@@ -125,7 +152,7 @@ async function useResource<RT extends ApiResources>(
       },
     )
     const code = computed(() => resourceConfig.getCodeFn(data.value)())
-    return { item: data, pending, error, code }
+    return { item: data, pending, status, error, code }
   }
 
   const patchItem = async ({

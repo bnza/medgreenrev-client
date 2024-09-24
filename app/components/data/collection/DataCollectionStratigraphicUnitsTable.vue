@@ -13,14 +13,14 @@ const { fetchCollection, headers, resourceConfig, resourcePageKey } =
     parent: props.parent,
     resourceOperationType: 'collection',
   })
-const { pending, error, paginationOptions, items, totalItems } =
+const { error, paginationOptions, items, status, totalItems } =
   await fetchCollection()
 const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
 </script>
 
 <template>
   <resource-not-found
-    v-if="error"
+    v-if="status === 'error'"
     path="/"
     :error
     tooltip-text="Back to home"
@@ -33,7 +33,7 @@ const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
     :items-length="totalItems"
     :items="items"
     :page="paginationOptions.page"
-    :loading="pending"
+    :loading="status === 'pending'"
     :sort-by="paginationOptions.sortBy"
     :fixed-header="true"
     density="compact"
@@ -45,9 +45,9 @@ const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
         :item
       />
     </template>
-    <template #[`item.code`]="{ item }">
-      <p>{{ resourceConfig.getCodeFn(item)() }}</p>
-    </template>
+    <!--    <template #[`item.code`]="{ item }">-->
+    <!--      <p>{{ resourceConfig.getCodeFn(item)() }}</p>-->
+    <!--    </template>-->
     <template #[`item.public`]="{ item }">
       <v-checkbox-btn
         density="compact"

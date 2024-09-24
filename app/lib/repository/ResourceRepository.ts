@@ -13,21 +13,21 @@ class ResourceRepository<
     this.resourceConfig = getResourceConfig(resourceKey)
   }
 
-  async fetchCollection(
-    fetchOptions: FetchOptions,
-    asyncDataOptions: AsyncDataOptions<
-      ApiLdResourceCollection<ApiAclItem<ResourceType>>
-    >,
-  ) {
-    const url = this.resourceConfig.apiPath
-    fetchOptions.method = 'get'
-    return useAsyncData(
-      url,
-      // @ts-ignore
-      () => this.$fetch(url, fetchOptions),
-      asyncDataOptions,
-    )
-  }
+  // async fetchCollection(
+  //   fetchOptions: FetchOptions,
+  //   asyncDataOptions: AsyncDataOptions<
+  //     ApiLdResourceCollection<ApiAclItem<ResourceType>>
+  //   >,
+  // ) {
+  //   const url = this.resourceConfig.apiPath
+  //   fetchOptions.method = 'get'
+  //   return useAsyncData(
+  //     url,
+  //     // @ts-ignore
+  //     () => this.$fetch(url, fetchOptions),
+  //     asyncDataOptions,
+  //   )
+  // }
 
   getItemUrl(id: MaybeRef<string | number>) {
     return `${this.resourceConfig.apiPath}/${unref(id)}`

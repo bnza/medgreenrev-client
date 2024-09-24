@@ -6,6 +6,10 @@ abstract class AbstractRepository {
   constructor($fetch: $Fetch) {
     this.$fetch = $fetch
   }
+
+  get fetch() {
+    return this.$fetch
+  }
 }
 
 export default AbstractRepository
