@@ -6,10 +6,10 @@ export const useResourceTotalItemsState = (
   const { resourcePageState } = useAppResourcePageState(resourcePageKey)
   return computed({
     get() {
-      return resourcePageState.value.totalItems
+      return resourcePageState.totalItems
     },
     set(value: number) {
-      resourcePageState.value.totalItems = value
+      resourcePageState.totalItems = value
     },
   })
 }

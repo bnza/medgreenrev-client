@@ -27,12 +27,10 @@ export const useResourceFiltersState = ({
   const { resourcePageState } = useAppResourcePageState(resourcePageKey)
 
   const workData: ResourcePageState = reactive(
-    structuredClone(toRaw(resourcePageState.value)),
+    structuredClone(toRaw(resourcePageState)),
   )
 
-  const isFiltered = computed(() =>
-    Boolean(resourcePageState.value.filters.length),
-  )
+  const isFiltered = computed(() => Boolean(resourcePageState.filters.length))
 
   const isEmpty = computed(() => workData.filters.length === 0)
 
@@ -44,7 +42,7 @@ export const useResourceFiltersState = ({
   )
 
   const isChanged = computed(() => {
-    const diffObj = diff(filters.value, resourcePageState.value.filters)
+    const diffObj = diff(filters.value, resourcePageState.filters)
     return !Boolean(Object.keys(diffObj).length === 0)
   })
 
@@ -77,14 +75,14 @@ export const useResourceFiltersState = ({
   }
 
   const persistFilters = () => {
-    resourcePageState.value.filters = structuredClone(
+    resourcePageState.filters = structuredClone(
       toRaw(workData.filters.map(toRaw)),
     )
   }
 
   const resourceFilterParams = computed(() => {
     const obj = {}
-    for (const filter of resourcePageState.value.filters) {
+    for (const filter of resourcePageState.filters) {
       API_FILTERS[filter.filter].addToObject(obj, filter)
     }
     return obj

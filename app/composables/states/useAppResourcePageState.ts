@@ -36,7 +36,7 @@ export const useAppResourcePageState = (resourcePageKey: ResourcePageKey) => {
     return state.value[resourcePageKey]
   }
 
-  const resourcePageState = computed(getResourcePageState)
+  const resourcePageState = getResourcePageState()
 
   return { resourcePageState }
 }

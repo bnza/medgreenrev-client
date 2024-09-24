@@ -2,7 +2,7 @@ import { useAppResourcePageState } from '~/composables/states/useAppResourcePage
 
 export default function (resourcePageKey: ResourcePageKey) {
   const { resourcePageState } = useAppResourcePageState(resourcePageKey)
-  const paginationOptions = reactive(resourcePageState.value.pagination)
+  const paginationOptions = reactive(resourcePageState.pagination)
   const queryPaginationOptionsParams = computed(() =>
     vuetifyPaginationOptionToQsObject(paginationOptions),
   )
