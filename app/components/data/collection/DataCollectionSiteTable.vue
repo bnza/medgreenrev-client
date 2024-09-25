@@ -6,18 +6,25 @@ const props = withDefaults(
   {},
 )
 const resourceKey: ResourceKey = 'sites'
-const { fetchCollection, headers, resourceConfig, resourcePageKey } =
+const { fetchCollection, headers, resourcePageKey } =
   await useResource<ApiResourceSite>(resourceKey, {
     resourceOperationType: 'collection',
   })
-const { pending, error, paginationOptions, items, totalItems } =
-  await fetchCollection()
+const {
+  pending,
+  error,
+  status,
+  paginationOptions,
+  setPaginationOptions,
+  items,
+  totalItems,
+} = await fetchCollection()
 const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
 </script>
 
 <template>
   <resource-not-found
-    v-if="error"
+    v-if="status === 'error'"
     path="/"
     :error
     tooltip-text="Back to home"
@@ -34,7 +41,7 @@ const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
     :sort-by="paginationOptions.sortBy"
     :fixed-header="true"
     density="compact"
-    @update:options="Object.assign(paginationOptions, $event)"
+    @update:options="setPaginationOptions($event)"
   >
     <template #[`item.id`]="{ item }">
       <navigation-resource-item

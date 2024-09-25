@@ -4,8 +4,8 @@ export type PaginationOptionsState = {
   sortBy: Array<{ key: string; order: 'asc' | 'desc' }>
 }
 export const defaultPaginationOptions: Readonly<PaginationOptionsState> = {
-  itemsPerPage: 10,
   page: 1,
+  itemsPerPage: 10,
   sortBy: [
     {
       key: 'id',

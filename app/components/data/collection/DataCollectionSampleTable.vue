@@ -6,13 +6,20 @@ const props = withDefaults(
   {},
 )
 const resourceKey: ResourceKey = 'samples'
-const { fetchCollection, headers, resourceConfig, resourcePageKey } =
+const { fetchCollection, headers, resourcePageKey } =
   await useResource<ApiResourceSample>(resourceKey, {
     parent: props.parent,
     resourceOperationType: 'collection',
   })
-const { pending, error, paginationOptions, items, totalItems } =
-  await fetchCollection()
+const {
+  pending,
+  error,
+  paginationOptions,
+  setPaginationOptions,
+  items,
+  totalItems,
+  status,
+} = await fetchCollection()
 const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
 </script>
 
@@ -24,7 +31,7 @@ const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
     tooltip-text="Back to home"
   />
   <v-data-table-server
-    v-else
+    v-else-if="['success', 'pending'].includes(status)"
     :items-per-page-options
     :items-per-page="paginationOptions.itemsPerPage"
     :headers="headers"
@@ -35,7 +42,7 @@ const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
     :sort-by="paginationOptions.sortBy"
     :fixed-header="true"
     density="compact"
-    @update:options="Object.assign(paginationOptions, $event)"
+    @update:options="setPaginationOptions($event)"
   >
     <template #[`item.id`]="{ item }">
       <navigation-resource-item

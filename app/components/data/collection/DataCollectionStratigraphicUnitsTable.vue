@@ -13,8 +13,14 @@ const { fetchCollection, headers, resourceConfig, resourcePageKey } =
     parent: props.parent,
     resourceOperationType: 'collection',
   })
-const { error, paginationOptions, items, status, totalItems } =
-  await fetchCollection()
+const {
+  error,
+  paginationOptions,
+  setPaginationOptions,
+  items,
+  status,
+  totalItems,
+} = await fetchCollection()
 const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
 </script>
 
@@ -37,7 +43,7 @@ const itemsPerPageOptions = ITEMS_PER_PAGE_OPTIONS
     :sort-by="paginationOptions.sortBy"
     :fixed-header="true"
     density="compact"
-    @update:options="Object.assign(paginationOptions, $event)"
+    @update:options="setPaginationOptions($event)"
   >
     <template #[`item.id`]="{ item }">
       <navigation-resource-item

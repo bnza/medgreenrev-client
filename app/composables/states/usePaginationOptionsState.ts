@@ -2,7 +2,7 @@ import { useAppResourcePageState } from '~/composables/states/useAppResourcePage
 
 export default function (resourcePageKey: ResourcePageKey) {
   const { resourcePageState } = useAppResourcePageState(resourcePageKey)
-  const paginationOptions = reactive(resourcePageState.pagination)
+  const paginationOptions = resourcePageState.pagination
   const queryPaginationOptionsParams = computed(() =>
     vuetifyPaginationOptionToQsObject(paginationOptions),
   )
@@ -29,5 +29,17 @@ export default function (resourcePageKey: ResourcePageKey) {
     }
   }
 
-  return { paginationOptions, queryPaginationOptionsParams }
+  const setPaginationOptions = (options: PaginationOptionsState) => {
+    if (
+      JSON.stringify(resourcePageState.pagination) !== JSON.stringify(options)
+    ) {
+      Object.assign(resourcePageState.pagination, options)
+    }
+  }
+
+  return {
+    paginationOptions,
+    queryPaginationOptionsParams,
+    setPaginationOptions,
+  }
 }

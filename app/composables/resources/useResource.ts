@@ -72,8 +72,11 @@ async function useResource<RT extends ApiResources>(
 
   const repository = useNuxtApp().$api.getRepository<RT>(resourceKey)
 
-  const { paginationOptions, queryPaginationOptionsParams } =
-    usePaginationOptionsState(resourcePageKey)
+  const {
+    paginationOptions,
+    queryPaginationOptionsParams,
+    setPaginationOptions,
+  } = usePaginationOptionsState(resourcePageKey)
 
   const { resourceFilterParams } = useResourceFiltersState({
     resourcePageKey,
@@ -113,6 +116,7 @@ async function useResource<RT extends ApiResources>(
       refresh,
       totalItems,
       paginationOptions,
+      setPaginationOptions,
       resourceFilterParams,
     }
   }
@@ -121,28 +125,6 @@ async function useResource<RT extends ApiResources>(
     return await repository.exportCollection({ fetchCollectionsParams })
   }
 
-  // const fetchItem = async (id: Ref<string | number>) => {
-  //   const url = repository.getItemUrl(id)
-  //   const { data, status, pending, error, refresh } = useAsyncData(
-  //     url,
-  //     () =>
-  //       repository.fetch(url, {
-  //         method: 'get',
-  //       }),
-  //     { watch: [id] },
-  //   )
-  //   // const a = await repository.$fetchItem(id)
-  //   // const { data, pending, error } = await repository.$fetchItem(id)
-  //   // const { data, pending, error } = await repository.fetchItem(
-  //   //   id,
-  //   //   {},
-  //   //   {
-  //   //     watch: [id],
-  //   //   },
-  //   // )
-  //   const code = computed(() => resourceConfig.getCodeFn(data.value)())
-  //   return { item: data, pending, status, error, code }
-  // }
   const fetchItem = async (id: Ref<string | number>) => {
     const { data, pending, status, error } = await repository.fetchItem(
       id,
