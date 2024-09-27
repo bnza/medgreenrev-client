@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Map, Layers, Sources } from 'vue3-openlayers'
 const center = ref([40, 40])
 const projection = ref('EPSG:4326')
 const zoom = ref(8)
@@ -7,12 +6,12 @@ const rotation = ref(0)
 </script>
 
 <template>
-  <Map.OlMap
+  <ol-map
     :loadTilesWhileAnimating="true"
     :loadTilesWhileInteracting="true"
     style="height: 100%; width: 100%"
   >
-    <Map.OlView
+    <ol-view
       ref="view"
       :center.sync="center"
       :rotation="rotation"
@@ -20,8 +19,8 @@ const rotation = ref(0)
       :projection="projection"
     />
 
-    <Layers.OlTileLayer>
-      <Sources.OlSourceOsm />
-    </Layers.OlTileLayer>
-  </Map.OlMap>
+    <ol-tile-layer>
+      <ol-source-osm />
+    </ol-tile-layer>
+  </ol-map>
 </template>

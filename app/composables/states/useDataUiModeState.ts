@@ -1,13 +1,29 @@
+import type { AppUiMode } from '~~/types'
+
 export const useDataUiModeState = () => {
-  const mode: Ref<AppUiMode> = useState(STATE_DATA_UI_MODE, () => 'default')
+  const _mode: Ref<[AppUiMode, AppUiMode]> = useState(States.AppUiMode, () => [
+    'default',
+    'default',
+  ])
 
   const icon = computed(() =>
-    mode.value === 'default' ? 'fas fa-globe' : 'fas fa-table',
+    _mode.value[0] === 'default' ? 'fas fa-globe' : 'fas fa-table',
   )
   const toggle = () =>
-    (mode.value = mode.value === 'default' ? 'map' : 'default')
-  const set = (newMode: AppUiMode) => {
-    mode.value = newMode
+    (_mode.value[0] = _mode.value[0] === 'default' ? 'map' : 'default')
+  const set = (value: AppUiMode) => {
+    _mode.value[1] = _mode.value[0]
+    _mode.value[0] = value
   }
-  return { icon, mode, set, toggle }
+  const prev = () => {
+    _mode.value[0] = _mode.value[1]
+  }
+
+  const mode = computed({
+    get() {
+      return _mode.value[0]
+    },
+    set,
+  })
+  return { icon, mode, prev, toggle }
 }

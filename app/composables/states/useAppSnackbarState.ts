@@ -1,68 +1,32 @@
-// @TODO handle concurrent messages
+import { type SnackbarState, getDefault } from '~/utils/constants/snackbar'
 
-export type ResponseError = {
-  status: number
-  _data?: {
-    '@type'?: string
-    violations: Array<{ message: string }>
-  }
-}
+export default function () {
+  const stack: Ref<Record<number, SnackbarState>> = useState(
+    States.AppSnackbar,
+    () => ({}),
+  )
+  const { increment } = useGlobalSequence()
 
-export const useAppSnackbarState = () => {
-  const _default = {
-    visible: false,
-    vertical: false,
-    title: '',
-    text: '',
-    color: 'info',
-    timeout: -1,
-    multiline: false,
+  const set = (value: SnackbarState) => {
+    const key = increment()
+    stack.value[key] = value
+    return key
   }
 
-  type SnackbarState = typeof _default
-  const defaultFn = () => structuredClone(_default)
-  const state = useState(STATE_APP_SNACKBAR, defaultFn)
-
-  const reset = () => {
-    state.value = defaultFn()
+  const success = (value: Pick<SnackbarState, 'text'>) => {
+    set(Object.assign(getDefault(), { color: 'success', timeout: 5000 }, value))
   }
 
-  const set = (newState: Partial<SnackbarState>) => {
-    state.value = Object.assign({}, defaultFn(), newState)
+  const unset = (key: number) => {
+    delete stack.value[key]
   }
 
-  const show = (newState: Partial<SnackbarState>) => {
-    // console.log(newState)
-    set(Object.assign({ visible: true }, newState))
+  const snackbars = computed(() => Object.entries(stack.value))
+
+  const getMargin = (key: string) => {
+    const index = snackbars.value.findIndex((current) => current[0] == key)
+    return index * 60
   }
 
-  const showError = (e: Error & { response?: ResponseError }) => {
-    let text: string = e.message
-    let response: ResponseError | undefined = e.response
-
-    if (
-      response?.status === 422 &&
-      '@type' in response._data &&
-      response._data['@type'] === 'ConstraintViolationList'
-    ) {
-      text = response._data.violations.reduce(
-        (
-          acc: string,
-          curr: {
-            message: string
-          },
-          i: number,
-        ) => (acc += (i > 0 ? ',' : '') + curr.message),
-        '',
-      )
-    }
-
-    show({
-      color: 'error',
-      text,
-      timeout: -1,
-    })
-  }
-
-  return { state, show, showError, reset }
+  return { snackbars, success, unset, getMargin }
 }

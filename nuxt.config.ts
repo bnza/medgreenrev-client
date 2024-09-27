@@ -54,9 +54,6 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  imports: {
-    dirs: ['./lib', './lib/constants'],
-  },
   modules: [
     '@nuxt/eslint',
     'vuetify-nuxt-module',

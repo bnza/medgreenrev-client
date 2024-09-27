@@ -1,11 +1,15 @@
-<script setup>
-const {toggle} = useAppNavigationDrawerVisibleState()
+<script setup lang="ts">
+import UiModeSwitcher from '~/components/UiModeSwitcher.vue'
+
+const { visible, toggle } = useAppNavigationDrawerVisibleState()
+const text = computed(() => `${visible.value ? 'close' : 'open'} navigation`)
+const { mode } = useDataUiModeState()
 </script>
 
 <template>
   <v-app-bar color="primary" height="48" :flat="true">
     <template #prepend>
-      <v-tooltip location="bottom" text="toggle navigation">
+      <v-tooltip v-if="mode !== 'login'" location="bottom" :text>
         <template #activator="{ props }">
           <v-app-bar-nav-icon
             v-bind="props"
@@ -15,10 +19,9 @@ const {toggle} = useAppNavigationDrawerVisibleState()
         </template>
       </v-tooltip>
     </template>
-    <!--    <v-img class="mx-2" src="logowhite35.png" max-height="40" contain />-->
-    <slot name="center"/>
+    <ui-mode-switcher />
     <template #append>
-      <auth-app-bar-icon/>
+      <auth-app-bar-icon />
     </template>
   </v-app-bar>
 </template>

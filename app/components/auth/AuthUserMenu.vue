@@ -21,13 +21,13 @@ const { userIdentifier, roleColor } = useAppAuth()
       </v-tooltip>
     </template>
     <v-list>
-      <v-list-item
-        data-testid="user-settings-me-link"
-        prepend-icon="fas fa-user-gear"
-        :title="userIdentifier"
-        nuxt
-        to="/settings/me"
-      />
+      <!--      <v-list-item-->
+      <!--        data-testid="user-settings-me-link"-->
+      <!--        prepend-icon="fas fa-user-gear"-->
+      <!--        :title="userIdentifier"-->
+      <!--        nuxt-->
+      <!--        to="/settings/me"-->
+      <!--      />-->
       <v-divider />
       <v-list-item
         prepend-icon="fas fa-right-from-bracket"
@@ -36,5 +36,5 @@ const { userIdentifier, roleColor } = useAppAuth()
       />
     </v-list>
   </v-menu>
-  <auth-logout-confirmation-dialog v-model:is-open="isLogoutDialogOpen" />
+  <auth-logout-confirmation-dialog v-model="isLogoutDialogOpen" />
 </template>

@@ -1,22 +1,17 @@
-<script setup>
-const route = useRoute()
-const { set } = useLoginRedirectUrlState()
-
-watch(
-  () => route.fullPath,
-  () => {
-    set(route)
-  },
-  { immediate: true },
-)
+<script setup lang="ts">
+const { mode } = useDataUiModeState()
 </script>
 
 <template>
   <v-tooltip text="login">
     <template #activator="{ props }">
-      <NuxtLink to="/login" data-testid="login-button">
-        <v-icon class="mr-6" v-bind="props" icon="fas fa-right-to-bracket" />
-      </NuxtLink>
+      <v-btn
+        class="mr-4"
+        icon="fas fa-right-to-bracket"
+        v-bind="props"
+        data-testid="login-button"
+        @click="mode = 'login'"
+      />
     </template>
   </v-tooltip>
 </template>

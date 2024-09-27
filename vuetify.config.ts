@@ -1,14 +1,22 @@
 import { md3 } from 'vuetify/blueprints'
 import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration'
-import { COLORS } from './app/lib/constants/enums'
+import { COLORS } from './app/utils/constants/colors'
+import type { ThemeDefinition } from 'vuetify'
 
-const darkTheme = {
+const darkTheme: ThemeDefinition = {
   dark: true,
   colors: COLORS,
   variables: {
     'border-color': '#FFF',
     'border-opacity': 0.12,
   },
+}
+
+const VCard = {
+  variant: 'flat',
+}
+const VBtn = {
+  flat: true,
 }
 
 export default defineVuetifyConfiguration({
@@ -20,13 +28,11 @@ export default defineVuetifyConfiguration({
   theme: {
     defaultTheme: 'dark',
     themes: {
-      light: { colors: {} },
       dark: darkTheme,
     },
   },
   defaults: {
-    VCard: {
-      flat: true,
-    },
+    VCard,
+    VBtn,
   },
 })

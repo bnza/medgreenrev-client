@@ -1,12 +1,20 @@
+<script setup lang="ts">
+import LoginDataCard from '~/components/LoginDataCard.vue'
+
+const { mode } = useDataUiModeState()
+</script>
+
 <template>
-  <app-bar>
-    <template #center>
-      <slot name="app-bar-center" />
-    </template>
-  </app-bar>
+  <app-bar />
   <app-navigation-drawer />
-  <NuxtLayout name="empty">
-    <slot />
-  </NuxtLayout>
+  <v-main class="d-flex align-center justify-center">
+    <KeepAlive>
+      <app-map v-if="mode === 'map'" />
+    </KeepAlive>
+    <KeepAlive>
+      <slot v-if="mode === 'default'" />
+    </KeepAlive>
+    <login-data-card v-if="mode === 'login'" />
+  </v-main>
   <app-snackbar />
 </template>
