@@ -27,6 +27,7 @@
     "vuetify-nuxt-module": "^0.14.1"
   },
   "devDependencies": {
+    "@types/qs": "^6.9.16",
     "@volar/language-core": "2.4.0-alpha.20",
     "@volar/language-server": "2.4.0-alpha.20",
     "@vue/language-server": "^2.0.29",

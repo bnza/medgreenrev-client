@@ -6,7 +6,9 @@ const { mode } = useDataUiModeState()
 
 <template>
   <app-bar />
-  <app-navigation-drawer />
+  <KeepAlive>
+    <app-navigation-drawer v-if="mode !== 'login'" />
+  </KeepAlive>
   <v-main class="d-flex align-center justify-center">
     <KeepAlive>
       <app-map v-if="mode === 'map'" />

@@ -1,6 +1,6 @@
 import type { AppUiMode } from '~~/types'
 
-export const useDataUiModeState = () => {
+export default function () {
   const _mode: Ref<[AppUiMode, AppUiMode]> = useState(States.AppUiMode, () => [
     'default',
     'default',

@@ -16,6 +16,9 @@ export default function () {
   const success = (value: Pick<SnackbarState, 'text'>) => {
     set(Object.assign(getDefault(), { color: 'success', timeout: 5000 }, value))
   }
+  const error = (value: Pick<SnackbarState, 'text'>) => {
+    set(Object.assign(getDefault(), { color: 'error', timeout: -1 }, value))
+  }
 
   const unset = (key: number) => {
     delete stack.value[key]
@@ -28,5 +31,5 @@ export default function () {
     return index * 60
   }
 
-  return { snackbars, success, unset, getMargin }
+  return { error, snackbars, success, unset, getMargin }
 }
