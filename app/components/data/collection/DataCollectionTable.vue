@@ -21,7 +21,7 @@ const { items, paginationOptions, totalItems, status } = await fetchCollection()
     :items-length="totalItems"
     :items-per-page="paginationOptions.itemsPerPage"
     :items-per-page-options
-    :page="paginationOptions.itemsPerPage"
+    :page="paginationOptions.page"
     :sort-by="paginationOptions.sortBy"
     @update:options="paginationOptions = $event"
   >

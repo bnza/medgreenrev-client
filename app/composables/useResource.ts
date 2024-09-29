@@ -24,6 +24,24 @@ function useResource<RT extends ApiResourceItem>(
     ? `${resourceKey}/collection/${parentKey}`
     : `${resourceKey}/${resourceOperationType}`
 
+  const cache = useNuxtApp().$cache.useResource
+  if (!cache.has(resourcePageKey)) {
+    cache.set(
+      resourcePageKey,
+      _useResource({ resourceKey, resourcePageKey, parent, parentKey }),
+    )
+  }
+  return cache.get(resourcePageKey)
+}
+
+export type UseResourceReturnType = ReturnType<typeof _useResource>
+
+function _useResource<RT extends ApiResourceItem>({
+  resourceKey,
+  resourcePageKey,
+  parent,
+  parentKey,
+}) {
   const repository = useNuxtApp().$api.getRepository<RT>(resourceKey)
   const resourceConfig = repository.resourceConfig
 

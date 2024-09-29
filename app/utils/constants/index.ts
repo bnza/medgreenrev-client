@@ -7,6 +7,8 @@ export const defaultPaginationOptions: Readonly<PaginationOptionsState> =
   Object.freeze({
     page: 1,
     itemsPerPage: 10,
+    search: undefined,
+    groupBy: [],
     sortBy: [
       {
         key: 'id',
