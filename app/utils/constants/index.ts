@@ -1,8 +1,7 @@
 import type { PaginationOptionsState } from '~~/types'
-
+export * from './auth'
 export * from './colors'
 export * from './states'
-export * from './auth'
 export const defaultPaginationOptions: Readonly<PaginationOptionsState> =
   Object.freeze({
     page: 1,

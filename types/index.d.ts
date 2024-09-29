@@ -1,6 +1,7 @@
 export type ReadonlyHeaders = VDataTable['$props']['headers']
 export * from './api'
 export * from './api-jsonld'
+export * from './filters'
 export * from './resources'
 export type AppUiMode = 'default' | 'map' | 'login'
 

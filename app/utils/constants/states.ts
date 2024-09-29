@@ -5,6 +5,7 @@ export enum States {
   AppNavigationDrawerVisible = 'appNavigationDrawerVisible',
   AppResourcePageState = 'appResourcePageState',
   AppResourcePagePagination = 'appResourcePagePagination',
+  AppResourceFilter = 'appResourceFilter',
   AppSnackbar = 'appSnackBar',
   GlobalSequence = 'globalSequence',
 }

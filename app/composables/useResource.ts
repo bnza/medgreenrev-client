@@ -5,6 +5,7 @@ import type {
   ResourceOperationType,
   ResourcePageKey,
 } from '~~/types'
+import useResourceFilterState from '~/composables/states/useResourceFilterState'
 
 type UseResourceOptions = {
   parent?: ApiResourceCollectionParent
@@ -63,11 +64,17 @@ function _useResource<RT extends ApiResourceItem>({
   const { paginationOptions, queryPaginationOptionsParams } =
     usePaginationOptionsState(resourcePageKey)
 
+  const { resourceFilterParams } = useResourceFilterState(
+    resourcePageKey,
+    resourceConfig,
+  )
+
   const fetchCollectionsParams = computed(() =>
     Object.assign(
       {},
       Object.fromEntries([parent || []]),
       queryPaginationOptionsParams.value,
+      resourceFilterParams.value,
     ),
   )
 
