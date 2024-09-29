@@ -3,7 +3,7 @@ interface JsonLdItem {
   '@type': string
 }
 
-interface JsonLdDocument extends JsonLdItem{
+interface JsonLdDocument extends JsonLdItem {
   '@context': string | Record<string, string>
 }
 
@@ -45,4 +45,14 @@ interface JsonLdApiDocumentation extends JsonLdDocument, JsonLdContext {
   'hydra:title': string
   'hydra:entrypoint': string
   'hydra:supportedClass': Array<HydraSupportedClass>
+}
+
+interface JsonLdResourceItem<T extends Record<string, any>>
+  extends JsonLdItem,
+    T {}
+
+interface JsonLdResourceCollection<T extends Record<string, any>>
+  extends JsonLdDocument {
+  'hydra:totalItems': number
+  'hydra:member': Array<JsonLdResourceItem<T>>
 }

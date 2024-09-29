@@ -1,5 +1,4 @@
 import { defineNuxtPlugin } from '#app'
-// import useApiDocsState from '~/composables/states/useApiDocsState'
 
 export default defineNuxtPlugin({
   name: 'api-index',
@@ -11,7 +10,7 @@ export default defineNuxtPlugin({
     await callOnce(async () => {
       try {
         const index = await $fetch<JsonLdApiDocumentation>(
-          `${config.public.apiBaseURL}/index.jsonld`,
+          `${config.public.apiBaseURL}/api/index.jsonld`,
         )
         set(index)
       } catch (e) {

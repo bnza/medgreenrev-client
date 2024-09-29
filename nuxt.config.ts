@@ -26,9 +26,9 @@ export default defineNuxtConfig({
         signOut: { path: 'logout', method: 'post' },
         getSession: { path: 'users/me', method: 'get' },
       },
-      pages: {
-        login: '/login',
-      },
+      // pages: {
+      //   login: '/login',
+      // },
       session: {
         dataType: {
           id: 'string',
@@ -45,8 +45,8 @@ export default defineNuxtConfig({
       // Whether to refresh the session every `X` milliseconds. Set this to `false` to turn it off. The session will only be refreshed if a session already exists.
       enablePeriodically: false,
     },
-    // disableServerSideAuth: true,
-    globalAppMiddleware: true,
+    disableServerSideAuth: true,
+    globalAppMiddleware: false,
     baseURL: process.env.API_BASE_URL || 'http://localhost:80/api',
   },
   css: ['~/assets/styles/index.css'],
@@ -60,14 +60,9 @@ export default defineNuxtConfig({
     ['@nuxtjs/google-fonts', googleFonts],
     '@sidebase/nuxt-auth',
   ],
-  router: {
-    options: {
-      hashMode: true,
-    },
-  },
   runtimeConfig: {
     public: {
-      apiBaseURL: 'http://localhost:80/api',
+      apiBaseURL: 'http://localhost:80',
     },
   },
   ssr: false,

@@ -29,6 +29,10 @@ export default class Api {
     this.#resources = new Map<DataResourceKey, any>()
   }
 
+  getResourceConfig(key: ResourceKey) {
+    return this.#configs[key]
+  }
+
   // get autocomplete() {
   //   if (!this.#autocomplete) {
   //     this.#autocomplete = new AutocompleteRepository(this.#fetcher)

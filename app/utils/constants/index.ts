@@ -1,3 +1,26 @@
+import type { PaginationOptionsState } from '~~/types'
+
 export * from './colors'
 export * from './states'
 export * from './auth'
+export const defaultPaginationOptions: Readonly<PaginationOptionsState> =
+  Object.freeze({
+    page: 1,
+    itemsPerPage: 10,
+    sortBy: [
+      {
+        key: 'id',
+        order: 'asc' as 'asc', //?
+      },
+    ],
+  })
+
+export const itemsPerPageOptions: ReadonlyArray<{
+  value: number
+  title: string
+}> = Object.freeze([
+  { value: 10, title: '10' },
+  { value: 25, title: '25' },
+  { value: 50, title: '50' },
+  { value: 100, title: '100' },
+])

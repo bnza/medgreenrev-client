@@ -1,4 +1,3 @@
-import type { FetchOptions } from 'ofetch'
 import type { $Fetch } from 'nitropack'
 import type { AsyncDataOptions } from '#app'
 import type { ApiResourceItem, DataResourceKey, ResourceConfig } from '~~/types'
@@ -6,7 +5,7 @@ import AbstractRepository from '~/utils/repository/AbstractRepository'
 class ResourceRepository<
   ResourceType extends ApiResourceItem,
 > extends AbstractRepository {
-  protected resourceConfig: ResourceConfig
+  readonly resourceConfig: ResourceConfig
 
   constructor(resourceConfig: ResourceConfig, $fetch: $Fetch) {
     super($fetch)
