@@ -7,6 +7,11 @@ const props = defineProps<{
 const { isEmpty, isChanged, setFiltersAndClose, clearFilters } = inject(
   resourceFilterStateInjectionKey,
 )
+const disabled = ref(true)
+const submit = () => {
+  setFiltersAndClose()
+  disabled.value = false
+}
 </script>
 
 <template>
@@ -37,9 +42,8 @@ const { isEmpty, isChanged, setFiltersAndClose, clearFilters } = inject(
   <v-btn
     data-testid="submit-button"
     class="mx-4"
-    color="anchor"
-    variant="text"
-    :disabled="!isChanged"
+    color="primary"
+    :disabled="!isChanged && disabled"
     :icon="true"
     @click="setFiltersAndClose()"
   >

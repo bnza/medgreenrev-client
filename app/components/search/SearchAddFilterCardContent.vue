@@ -5,7 +5,6 @@ import { API_FILTERS } from '~/utils/constants/filters'
 import useFilterValidation from '~/composables/validation/useFilterValidation'
 import { helpers, minLength, required } from '@vuelidate/validators'
 import { FORM_REQUIRED_FIELD } from '~/composables/validation/messages'
-import useVuelidate from '@vuelidate/core'
 
 const {
   setFilter,

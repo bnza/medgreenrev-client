@@ -73,7 +73,7 @@ const useResourceFilterState = (
   }
 
   const clearFilters = () => {
-    Object.keys(_filters).forEach((key) => _filters[key])
+    Object.keys(_filters).forEach((key) => delete _filters[key])
   }
 
   const resourceFilterParams = computed(() => {
