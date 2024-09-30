@@ -1,5 +1,4 @@
 import type { $Fetch } from 'nitropack'
-import type { AsyncDataOptions } from '#app'
 import type { ApiResourceItem, DataResourceKey, ResourceConfig } from '~~/types'
 import AbstractRepository from '~/utils/repository/AbstractRepository'
 class ResourceRepository<
@@ -12,50 +11,14 @@ class ResourceRepository<
     this.resourceConfig = resourceConfig
   }
 
-  // async fetchCollection(
-  //   fetchOptions: FetchOptions,
-  //   asyncDataOptions: AsyncDataOptions<
-  //     ApiLdResourceCollection<ApiAclItem<ResourceType>>
-  //   >,
-  // ) {
-  //   const url = this.resourceConfig.apiPath
-  //   fetchOptions.method = 'get'
-  //   return useAsyncData(
-  //     url,
-  //     // @ts-ignore
-  //     () => this.$fetch(url, fetchOptions),
-  //     asyncDataOptions,
-  //   )
-  // }
-
-  getItemUrl(id: MaybeRef<string | number>) {
-    return `${this.resourceConfig.apiPath}/${unref(id)}`
+  getItemUrl(id: string | number) {
+    return `${this.resourceConfig.apiPath}/${id}`
   }
 
-  async $fetchItem(id: MaybeRef<string | number>) {
+  fetchItem(id: string | number) {
     const url = this.getItemUrl(id)
-    return this.$fetch<ResourceType>(url, { method: 'GET' })
+    return this.$fetch<JsonLdResourceItem<ResourceType>>(url, { method: 'GET' })
   }
-
-  // async fetchItem(
-  //   id: MaybeRef<string | number>,
-  //   fetchOptions: FetchOptions,
-  //   asyncDataOptions: AsyncDataOptions<
-  //     ResourceAclItem & ApiLdResourceItem<ResourceType>
-  //   >,
-  // ) {
-  //   const url = this.getItemUrl(id)
-  //   return useAsyncData(
-  //     url,
-  //     () =>
-  //       this.$fetch(url, {
-  //         // @ts-ignore
-  //         method: 'GET',
-  //         fetchOptions,
-  //       }),
-  //     asyncDataOptions,
-  //   )
-  // }
 
   // async exportCollection(fetchOptions: FetchOptions) {
   //   return this.$fetch<string>(`${this.resourceConfig.apiPath}/export`, {
@@ -83,28 +46,31 @@ class ResourceRepository<
     })
   }
 
-  // async postItem(
-  //   newItem: Record<string, any>,
-  //   contentType = 'application/ld+json',
-  // ): Promise<ApiLdResourceItem<ResourceType>> {
-  //   // For multipart/form-data requests Content-Type header value MUST be undefined
-  //   // in order to avoid boundary problems
-  //   // @see https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
-  //   const headers = {
-  //     Accept: 'application/ld+json',
-  //   }
-  //   if (contentType !== 'multipart/form-data') {
-  //     headers['Content-Type'] = contentType
-  //   }
-  //   return this.$fetch(this.resourceConfig.apiPath, {
-  //     method: 'POST',
-  //     headers,
-  //     body: newItem,
-  //   })
-  // }
+  async postItem(
+    item: Record<string, any>,
+    contentType = 'application/ld+json',
+  ) {
+    const headers = {
+      Accept: 'application/ld+json',
+    }
+    // For multipart/form-data requests Content-Type header value MUST be undefined
+    // in order to avoid boundary problems
+    // @see https://stackoverflow.com/questions/39280438/fetch-missing-boundary-in-multipart-form-data-post
+    if (contentType !== 'multipart/form-data') {
+      headers['Content-Type'] = contentType
+    }
+    return this.$fetch<JsonLdResourceItem<ResourceType>>(
+      this.resourceConfig.apiPath,
+      {
+        method: 'POST',
+        headers,
+        body: item,
+      },
+    )
+  }
 
-  async deleteItem(oldItem: Partial<ResourceType>) {
-    return this.$fetch(this.getItemUrl(oldItem.id), {
+  async deleteItem(item: ApiResourceItem) {
+    return this.$fetch<void>(this.getItemUrl(item.id), {
       method: 'DELETE',
       headers: {
         Accept: 'application/ld+json',

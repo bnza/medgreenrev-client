@@ -5,9 +5,8 @@ export function useApiFetchOptions() {
   const config = useRuntimeConfig()
 
   const { token } = useAuth()
-  const { error: showError } = useAppSnackbarState()
+  const { showError } = useAppSnackbarState()
   const { signOut } = useAuth()
-  // const route = useRoute()
   const { mode } = useDataUiModeState()
 
   const fetchOptions: FetchOptions = {
@@ -32,6 +31,15 @@ export function useApiFetchOptions() {
         })
         await signOut({ redirect: false })
         mode.value = 'login'
+      }
+      if (response.status === 500) {
+        const text =
+          response._data && 'hydra:description' in response._data
+            ? response._data['hydra:description']
+            : response.statusText
+        showError({
+          text,
+        })
       }
     },
   }

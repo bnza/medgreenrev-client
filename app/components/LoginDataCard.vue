@@ -5,7 +5,7 @@ const password = ref('')
 const loginFailed = ref(false)
 
 const { signIn, status } = useAuth()
-const { success } = useAppSnackbarState()
+const { showSuccess } = useAppSnackbarState()
 
 const disabled = computed(() => {
   return !password.value || !email.value || pending.value
@@ -18,7 +18,7 @@ const signInAndFeedback = async ({
   loginFailed.value = false
   try {
     await signIn({ email, password }, { redirect: false })
-    success({
+    showSuccess({
       text: `User ${email} successfully logged in`,
     })
     prev()
@@ -30,11 +30,15 @@ const signInAndFeedback = async ({
 }
 
 const { prev } = useDataUiModeState()
-watch(status, () => {
-  if (status.value === 'authenticated') {
-    prev()
-  }
-}, {immediate: true})
+watch(
+  status,
+  () => {
+    if (status.value === 'authenticated') {
+      prev()
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

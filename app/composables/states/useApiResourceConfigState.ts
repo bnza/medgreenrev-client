@@ -1,5 +1,5 @@
 import type { ResourceConfig, ResourceKey } from '~~/types'
-import resources from '~/utils/constants/resources'
+import { getResourceConfig as _getResourceConfig } from '~/utils/constants/resources'
 
 export default function () {
   const state: Ref<Record<ResourceKey, ResourceConfig> | {}> = useState(
@@ -12,7 +12,7 @@ export default function () {
     if (['@context', '@id', '@type'].includes(key)) {
       return false
     }
-    if (key in resources) {
+    if (isResourceKey(key)) {
       return true
     }
     unsupportedResources.push(key)
@@ -28,8 +28,10 @@ export default function () {
     const configEntries = Object.entries(fetched)
       .filter(filterFetched)
       .map(([name, apiPath]) => {
-        const config = resources[name]
-        return [name, Object.freeze(Object.assign({ name, apiPath }, config))]
+        if (isResourceKey(name)) {
+          const config = _getResourceConfig(name)
+          return [name, Object.freeze(Object.assign({ name, apiPath }, config))]
+        }
       })
     state.value = Object.fromEntries(configEntries)
     if (unsupportedResources) {

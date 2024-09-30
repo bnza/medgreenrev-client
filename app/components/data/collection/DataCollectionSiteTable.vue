@@ -6,7 +6,13 @@ const resourceKey: DataResourceKey = 'site'
 
 <template>
   <lazy-data-collection-table :resource-key>
-    <template #[`item.id`]="{ item }"> id </template>
+    <template #[`item.id`]="{ item, resourceConfig }">
+      <navigation-resource-item
+        :id="item.id"
+        :acl="item._acl"
+        :app-path="resourceConfig.appPath"
+      />
+    </template>
   </lazy-data-collection-table>
 </template>
 

@@ -1,3 +1,5 @@
+import type { BaseAcl } from '~~/types/index'
+
 export type ApiId = string | number
 
 export interface ApiResourceItem {
@@ -5,6 +7,9 @@ export interface ApiResourceItem {
 }
 export type ApiResourceCollectionParent = [string, ApiId]
 
+export interface ApiAclResource {
+  _acl: BaseAcl
+}
 export interface ApiResourceSite extends ApiResourceItem {
   code: string
   name: string

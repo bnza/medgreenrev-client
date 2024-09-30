@@ -1,4 +1,4 @@
-import type { PaginationOptionsState } from '~~/types'
+import type { BaseAcl, PaginationOptionsState } from '~~/types'
 export * from './auth'
 export * from './colors'
 export * from './states'
@@ -25,3 +25,9 @@ export const itemsPerPageOptions: ReadonlyArray<{
   { value: 50, title: '50' },
   { value: 100, title: '100' },
 ])
+
+export const defaultBaseAcl: Readonly<BaseAcl> = Object.freeze({
+  canRead: true,
+  canUpdate: false,
+  canDelete: false,
+})

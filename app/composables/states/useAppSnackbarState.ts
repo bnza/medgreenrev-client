@@ -13,10 +13,10 @@ export default function () {
     return key
   }
 
-  const success = (value: Pick<SnackbarState, 'text'>) => {
+  const showSuccess = (value: Pick<SnackbarState, 'text'>) => {
     set(Object.assign(getDefault(), { color: 'success', timeout: 5000 }, value))
   }
-  const error = (value: Pick<SnackbarState, 'text'>) => {
+  const showError = (value: Pick<SnackbarState, 'text'>) => {
     set(Object.assign(getDefault(), { color: 'error', timeout: -1 }, value))
   }
 
@@ -31,5 +31,5 @@ export default function () {
     return index * 60
   }
 
-  return { error, snackbars, success, unset, getMargin }
+  return { showError, snackbars, showSuccess, unset, getMargin }
 }

@@ -4,7 +4,7 @@ export default defineNuxtPlugin({
   name: 'api-index',
   async setup(nuxtApp) {
     const { set } = useApiResourceConfigState()
-    const { error } = useAppSnackbarState()
+    const { showError } = useAppSnackbarState()
 
     const config = useRuntimeConfig()
     await callOnce(async () => {
@@ -14,7 +14,9 @@ export default defineNuxtPlugin({
         )
         set(index)
       } catch (e) {
-        error({ text: 'API problem. Please contact your server administrator' })
+        showError({
+          text: 'API problem. Please contact your server administrator',
+        })
       }
     })
   },

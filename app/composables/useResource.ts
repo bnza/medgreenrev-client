@@ -104,12 +104,26 @@ function _useResource<RT extends ApiResourceItem>({
     }
   }
 
+  const fetchItem = async (id: Ref<string | number>) => {
+    const key = resourceConfig.apiPath + id.value
+    const { data, error, status } = await useAsyncData(
+      key,
+      () => repository.fetchItem(id.value),
+      { watch: [id] },
+    )
+    return { item: data, status, error }
+  }
+
   return {
+    deleteItem: repository.deleteItem.bind(repository),
     headers,
     itemLabel,
     collectionLabel,
     resourcePageKey,
     fetchCollection,
+    fetchItem,
+    patchItem: repository.patchItem.bind(repository),
+    postItem: repository.postItem.bind(repository),
     resourceConfig,
   }
 }

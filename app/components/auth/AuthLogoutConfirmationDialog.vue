@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const isOpen = defineModel<boolean>()
-const { success } = useAppSnackbarState()
+const { showSuccess } = useAppSnackbarState()
 const { signOut } = useAuth()
 const signOutAndFeedBack = async () => {
   await signOut({ callbackUrl: '/' })
-  success({
+  showSuccess({
     text: `User successfully logged out`,
   })
 }

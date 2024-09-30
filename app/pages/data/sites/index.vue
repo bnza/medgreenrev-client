@@ -13,6 +13,9 @@ const { collectionLabel, resourceConfig } = useResource<ApiResourceSite>(
 <template>
   <data-card :title="collectionLabel">
     <template #toolbar-append>
+      <lazy-navigation-resource-item-create
+        :app-path="resourceConfig.appPath"
+      />
       <lazy-navigation-resource-collection-search
         :base-path="resourceConfig.appPath"
       />
@@ -20,5 +23,3 @@ const { collectionLabel, resourceConfig } = useResource<ApiResourceSite>(
     <lazy-data-collection-site-table />
   </data-card>
 </template>
-
-<style scoped></style>

@@ -8,4 +8,5 @@ export enum States {
   AppResourceFilter = 'appResourceFilter',
   AppSnackbar = 'appSnackBar',
   GlobalSequence = 'globalSequence',
+  NavigationFrom = 'navigationFrom',
 }

@@ -62,35 +62,6 @@ const operandsComponent = computed(() => {
   return operandsComponentsMap[operandsKey]
 })
 
-const rules = computed(() => {
-  const localRules = {
-    property: {
-      required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
-    },
-    filter: {
-      required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
-    },
-  }
-  if (filter.filter) {
-    const operandsNumber = API_FILTERS[filter.filter].operandsNumber
-    if (operandsNumber > 0) {
-      localRules.operands = {
-        required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
-        minLength: minLength(operandsNumber),
-      }
-    }
-  }
-  return localRules
-})
-const localRules = {
-  property: {
-    required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
-  },
-  filter: {
-    required: helpers.withMessage(FORM_REQUIRED_FIELD, required),
-  },
-}
-
 const emit = defineEmits(['update:invalid'])
 const { v$ } = useFilterValidation(filter, emit)
 

@@ -39,8 +39,9 @@ const site: StaticResourceConfig = {
   ],
 }
 
-const data: Record<DataResourceKey, StaticResourceConfig> = {
-  site,
-}
+const data: Readonly<Record<DataResourceKey, StaticResourceConfig>> =
+  Object.freeze({
+    site,
+  })
 
 export default data
