@@ -1,7 +1,5 @@
 import type { FetchOptions } from 'ofetch'
 import type { $Fetch } from 'nitropack'
-// import AutocompleteRepository from './AutocompleteRepository'
-import ResourceRepository from './ResourceRepository'
 import type {
   ApiResourceItem,
   DataResourceKey,
@@ -9,29 +7,31 @@ import type {
   ResourceKey,
   ResourceConfigMap,
 } from '~~/types'
-// import ValidatorRepository from '~/lib/repository/ValidatorRepository'
+// import AutocompleteRepository from './AutocompleteRepository'
+import ResourceRepository from './ResourceRepository'
+import ValidatorRepository from './ValidatorRepository'
 // import UserRepository from '~/lib/repository/UserRepository'
 
 export default class Api {
   readonly #fetcher: $Fetch
-  readonly #configs: ResourceConfigMap
+  readonly paths: Readonly<Record<ResourceKey, string>>
   // #autocomplete: AutocompleteRepository
   #resources: Map<DataResourceKey, any>
-  // #validator: ValidatorRepository
+  #validator: ValidatorRepository
   // #userRepository: UserRepository
 
   constructor(
-    resourceConfigs: ResourceConfigMap,
+    index: Record<ResourceKey, string>,
     private readonly fetchOptions: FetchOptions,
   ) {
-    this.#configs = resourceConfigs
+    this.paths = Object.freeze(index)
     this.#fetcher = $fetch.create(fetchOptions)
     this.#resources = new Map<DataResourceKey, any>()
   }
 
-  getResourceConfig(key: ResourceKey) {
-    return this.#configs[key]
-  }
+  // getResourceConfig(key: ResourceKey) {
+  //   return this.#configs[key]
+  // }
 
   // get autocomplete() {
   //   if (!this.#autocomplete) {
@@ -40,12 +40,12 @@ export default class Api {
   //   return this.#autocomplete
   // }
 
-  // get validator() {
-  //   if (!this.#validator) {
-  //     this.#validator = new ValidatorRepository(this.#fetcher)
-  //   }
-  //   return this.#validator
-  // }
+  get validator() {
+    if (!this.#validator) {
+      this.#validator = new ValidatorRepository(this.#fetcher)
+    }
+    return this.#validator
+  }
 
   // get userRepository() {
   //   if (!this.#userRepository) {
@@ -60,7 +60,7 @@ export default class Api {
     if (!this.#resources.has(resourceKey)) {
       this.#resources.set(
         resourceKey,
-        new ResourceRepository<RT>(this.#configs[resourceKey], this.#fetcher),
+        new ResourceRepository<RT>(this.paths[resourceKey], this.#fetcher),
       )
     }
     return this.#resources.get(resourceKey)

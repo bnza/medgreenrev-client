@@ -1,18 +1,18 @@
 import type { $Fetch } from 'nitropack'
-import type { ApiResourceItem, DataResourceKey, ResourceConfig } from '~~/types'
+import type { ApiResourceItem } from '~~/types'
 import AbstractRepository from '~/utils/repository/AbstractRepository'
 class ResourceRepository<
   ResourceType extends ApiResourceItem,
 > extends AbstractRepository {
-  readonly resourceConfig: ResourceConfig
+  readonly baseUrl: string
 
-  constructor(resourceConfig: ResourceConfig, $fetch: $Fetch) {
+  constructor(baseUrl: string, $fetch: $Fetch) {
     super($fetch)
-    this.resourceConfig = resourceConfig
+    this.baseUrl = baseUrl
   }
 
   getItemUrl(id: string | number) {
-    return `${this.resourceConfig.apiPath}/${id}`
+    return `${this.baseUrl}/${id}`
   }
 
   fetchItem(id: string | number) {
@@ -59,14 +59,11 @@ class ResourceRepository<
     if (contentType !== 'multipart/form-data') {
       headers['Content-Type'] = contentType
     }
-    return this.$fetch<JsonLdResourceItem<ResourceType>>(
-      this.resourceConfig.apiPath,
-      {
-        method: 'POST',
-        headers,
-        body: item,
-      },
-    )
+    return this.$fetch<JsonLdResourceItem<ResourceType>>(this.baseUrl, {
+      method: 'POST',
+      headers,
+      body: item,
+    })
   }
 
   async deleteItem(item: ApiResourceItem) {

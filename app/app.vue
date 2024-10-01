@@ -1,7 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import HomePageLogo from '~/components/HomePageLogo.vue'
+import useApiResourcesIndexState from '~/composables/states/useApiResourcesIndexState'
 
-const { ready } = useApiResourceConfigState()
+const { ready } = useApiResourcesIndexState()
 </script>
 <template>
   <v-app theme="dark">

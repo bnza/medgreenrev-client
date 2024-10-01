@@ -1,4 +1,5 @@
 import type { Validation } from '@vuelidate/core'
+import type { VDataTable } from 'vuetify/lib/components/VDataTable'
 
 export type ReadonlyHeaders = VDataTable['$props']['headers']
 export * from './api'
@@ -6,8 +7,6 @@ export * from './api-jsonld'
 export * from './filters'
 export * from './resources'
 export type AppUiMode = 'default' | 'map' | 'login'
-
-type InferValidation<T> = T extends Validation<infer U> ? U : never
 
 export type UseResourceTypeOptions = Readonly<{
   defaultHeaders: ReadonlyHeaders
@@ -24,8 +23,4 @@ export type BaseAcl = {
   canUpdate: boolean
   canDelete: boolean
 }
-
-export type UpdateInvalidEvent = (
-  event: 'update:invalid',
-  ...args: any[]
-) => void
+export type AsyncValidationType = 'unique'

@@ -18,6 +18,9 @@ const VCard = {
 const VBtn = {
   flat: true,
 }
+const VTextField = {
+  variant: 'underlined',
+}
 
 export default defineVuetifyConfiguration({
   blueprint: md3,
@@ -34,5 +37,6 @@ export default defineVuetifyConfiguration({
   defaults: {
     VCard,
     VBtn,
+    VTextField,
   },
 })

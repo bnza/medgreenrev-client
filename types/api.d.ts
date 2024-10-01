@@ -1,5 +1,14 @@
 import type { ReadonlyHeaders } from '~~/types/index'
 
+export type NormalizePostItem = (
+  item: Record<string, any>,
+) => Record<string, any>
+export type NormalizePatchItem = (
+  newItem: Record<string, any>,
+  oldItem: Record<string, any>,
+  diffItem: Record<string, any>,
+) => Record<string, any>
+
 export type ApiAction = 'create' | 'update' | 'read' | 'delete'
 export type ResourceConfig = Readonly<{
   apiPath: string
@@ -8,24 +17,29 @@ export type ResourceConfig = Readonly<{
   labels: [string, string]
   protectedFields?: Array<string>
   defaultHeaders: ReadonlyHeaders
-  normalizePostItem: (item: Record<string, any>) => Record<string, any>
-  normalizePatchItem: (
-    newItem: Record<string, any>,
-    oldItem: Record<string, any>,
-    diffItem: Record<string, any>,
-  ) => Record<string, any>
+  normalizePostItem: NormalizePostItem
+  normalizePatchItem: NormalizePatchtItem
 }>
+export type ResourceNormalizers = {
+  normalizePostItem: NormalizePostItem
+  normalizePatchItem: NormalizePatchItem
+}
+
+export type OptionalResourceNormalizers = {
+  normalizePostItem?: NormalizePostItem
+  normalizePatchItem?: NormalizePatchItem
+}
 
 export type StaticResourceConfig = Omit<
   ResourceConfig,
-  'apiPath' | 'name' | 'normalizePatchItem' | 'normalizePostItem'
+  'apiPath' | 'name' | 'normalizePostItem' | 'normalizePatchItem'
 >
 
 export type DataResourceKey =
   // | 'sample'
-  'site'
-// | 'user'
-// | 'stratigraphicUnit'
+  | 'site'
+  // | 'user'
+  | 'stratigraphicUnit'
 // | 'sitesUser'
 // | 'stratigraphicUnitsRelationship'
 // | 'stratigraphicUnitsMediaObject'

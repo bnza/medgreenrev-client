@@ -6,6 +6,7 @@ import type {
   ResourcePageKey,
 } from '~~/types'
 import useResourceFilterState from '~/composables/states/useResourceFilterState'
+import useResourceConfig from '~/composables/useResourceConfig'
 
 type UseResourceOptions = {
   parent?: ApiResourceCollectionParent
@@ -44,7 +45,8 @@ function _useResource<RT extends ApiResourceItem>({
   parentKey,
 }) {
   const repository = useNuxtApp().$api.getRepository<RT>(resourceKey)
-  const resourceConfig = repository.resourceConfig
+  const resourceConfig = useResourceConfig(resourceKey)
+  // const resourceConfig = repository.resourceConfig
 
   const itemLabel = resourceConfig.labels[0]
   const collectionLabel = resourceConfig.labels[1]

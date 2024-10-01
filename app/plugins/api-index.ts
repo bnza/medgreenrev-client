@@ -1,9 +1,10 @@
 import { defineNuxtPlugin } from '#app'
+import useApiResourcesIndexState from '~/composables/states/useApiResourcesIndexState'
 
 export default defineNuxtPlugin({
   name: 'api-index',
   async setup(nuxtApp) {
-    const { set } = useApiResourceConfigState()
+    const { set } = useApiResourcesIndexState()
     const { showError } = useAppSnackbarState()
 
     const config = useRuntimeConfig()

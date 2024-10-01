@@ -1,8 +1,7 @@
-import type { ResourceConfig, ResourceKey } from '~~/types'
-import { getResourceConfig as _getResourceConfig } from '~/utils/constants/resources'
+import type { ResourceKey } from '~~/types'
 
 export default function () {
-  const state: Ref<Record<ResourceKey, ResourceConfig> | {}> = useState(
+  const state: Ref<Record<ResourceKey, string> | {}> = useState(
     States.ApiResourceConfig,
     () => ({}),
   )
@@ -25,24 +24,24 @@ export default function () {
       console.warn('API resources config already set. Skipped')
       return
     }
-    const configEntries = Object.entries(fetched)
-      .filter(filterFetched)
-      .map(([name, apiPath]) => {
-        if (isResourceKey(name)) {
-          const config = _getResourceConfig(name)
-          return [name, Object.freeze(Object.assign({ name, apiPath }, config))]
-        }
-      })
+    const configEntries = Object.entries(fetched).filter(filterFetched)
+    // .map(([name, apiPath]) => {
+    //   if (isResourceKey(name)) {
+    //     const config = getResourceStaticConfig(name)
+    //     // const normalizers = getResourceNormalizer(name)
+    //     return [name, Object.freeze(Object.assign({ name, apiPath }, config))]
+    //   }
+    // })
     state.value = Object.fromEntries(configEntries)
     if (unsupportedResources) {
       console.warn('Unsupported API resources:', unsupportedResources)
     }
   }
 
-  const getResourceConfig = (key: ResourceKey): ResourceConfig =>
-    state.value[key]
+  // const getResourceIri = (key: ResourceKey, id: ApiId) =>
+  //   `${getResourceConfig(key).apiPath}/${id}`
 
-  const configs = computed(() => state.value)
+  const index = computed(() => state.value)
 
-  return { configs, ready, set, getResourceConfig }
+  return { index, ready, set }
 }

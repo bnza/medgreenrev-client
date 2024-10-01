@@ -1,6 +1,7 @@
 export enum States {
   ApiDocs = 'apiDocs',
   ApiResourceConfig = 'apiResourceConfig',
+  ApiResourcesIndex = 'apiResourcesIndex',
   AppUiMode = 'appUiMode',
   AppNavigationDrawerVisible = 'appNavigationDrawerVisible',
   AppResourcePageState = 'appResourcePageState',
