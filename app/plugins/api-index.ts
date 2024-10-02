@@ -4,16 +4,15 @@ import useApiResourcesIndexState from '~/composables/states/useApiResourcesIndex
 export default defineNuxtPlugin({
   name: 'api-index',
   async setup(nuxtApp) {
-    const { set } = useApiResourcesIndexState()
     const { showError } = useAppSnackbarState()
 
     const config = useRuntimeConfig()
     await callOnce(async () => {
       try {
-        const index = await $fetch<JsonLdApiDocumentation>(
+        const index = await $fetch<JsonLdDocument>(
           `${config.public.apiBaseURL}/api/index.jsonld`,
         )
-        set(index)
+        useApiResourcesIndexState(index)
       } catch (e) {
         showError({
           text: 'API problem. Please contact your server administrator',

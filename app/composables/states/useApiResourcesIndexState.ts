@@ -1,8 +1,8 @@
 import type { ResourceKey } from '~~/types'
 
-export default function () {
-  const state: Ref<Record<ResourceKey, string> | {}> = useState(
-    States.ApiResourceConfig,
+export default function (fetched?: JsonLdDocument) {
+  const state = useState<Readonly<Record<ResourceKey, string> | {}>>(
+    States.ApiResourcesIndex,
     () => ({}),
   )
 
@@ -25,23 +25,19 @@ export default function () {
       return
     }
     const configEntries = Object.entries(fetched).filter(filterFetched)
-    // .map(([name, apiPath]) => {
-    //   if (isResourceKey(name)) {
-    //     const config = getResourceStaticConfig(name)
-    //     // const normalizers = getResourceNormalizer(name)
-    //     return [name, Object.freeze(Object.assign({ name, apiPath }, config))]
-    //   }
-    // })
-    state.value = Object.fromEntries(configEntries)
+    state.value = Object.freeze(Object.fromEntries(configEntries))
     if (unsupportedResources) {
       console.warn('Unsupported API resources:', unsupportedResources)
     }
   }
 
-  // const getResourceIri = (key: ResourceKey, id: ApiId) =>
-  //   `${getResourceConfig(key).apiPath}/${id}`
+  if (fetched) {
+    if (ready.value) {
+      console.warn('Resource index state already set. Skipped')
+    } else {
+      set(fetched)
+    }
+  }
 
-  const index = computed(() => state.value)
-
-  return { index, ready, set }
+  return { index: state, ready }
 }

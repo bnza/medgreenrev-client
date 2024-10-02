@@ -1,4 +1,4 @@
-interface JsonLdItem {
+interface JsonLdItem extends Record<string, any> {
   '@id': string
   '@type': string
 }
