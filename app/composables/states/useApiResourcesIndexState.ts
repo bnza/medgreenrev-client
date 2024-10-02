@@ -1,7 +1,7 @@
-import type { ResourceKey } from '~~/types'
+import type { ApiId, ApiResourceIndex, ResourceKey } from '~~/types'
 
 export default function (fetched?: JsonLdDocument) {
-  const state = useState<Readonly<Record<ResourceKey, string> | {}>>(
+  const state = useState<ApiResourceIndex | {}>(
     States.ApiResourcesIndex,
     () => ({}),
   )
@@ -39,5 +39,8 @@ export default function (fetched?: JsonLdDocument) {
     }
   }
 
-  return { index: state, ready }
+  const getResourceIri = (key: ResourceKey, id: ApiId) =>
+    `${state.value[key]}/${id}`
+
+  return { index: state, ready, getResourceIri }
 }

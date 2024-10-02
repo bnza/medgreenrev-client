@@ -43,10 +43,14 @@ function _useResource<RT extends ApiResourceItem>({
   resourcePageKey,
   parent,
   parentKey,
+}: {
+  resourceKey: DataResourceKey
+  resourcePageKey: ResourcePageKey
+  parent?: ApiResourceCollectionParent
+  parentKey: string
 }) {
   const repository = useNuxtApp().$api.getRepository<RT>(resourceKey)
   const resourceConfig = useResourceConfig(resourceKey)
-  // const resourceConfig = repository.resourceConfig
 
   const itemLabel = resourceConfig.labels[0]
   const collectionLabel = resourceConfig.labels[1]

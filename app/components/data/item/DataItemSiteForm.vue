@@ -9,28 +9,10 @@ const props = defineProps<{
   item: Partial<RT>
 }>()
 
-// const rules = {
-//   code: [
-//     (value: string | undefined) => Boolean(value) || 'This field is required',
-//     (value: string) => value.length <= 3 || 'Must be less than 3 char',
-//     async (value: string) => {
-//       return await Promise.resolve(value).then(
-//         (value) => Boolean(value) || 'Async validation failed ailed',
-//       )
-//     },
-//   ],
-//   name: [
-//     (value: string[] | undefined[]) => {
-//       return Boolean(value[0]) || 'This field is required'
-//     },
-//   ],
-// }
-
+const { isAuthenticated } = useAppAuth()
 const state = reactive(clone(props.item))
 
 const validation = useSiteValidation(props.item)
-
-// const combo = computed(() => [state.code, state.name])
 
 const { triggerSubmit, submittingItem } = inject(dataItemPageInjectionKey)
 useDataItemResourcePageWatchTriggerSubmit(triggerSubmit, state, submittingItem)
@@ -38,6 +20,11 @@ useDataItemResourcePageWatchTriggerSubmit(triggerSubmit, state, submittingItem)
 
 <template>
   <lazy-data-item-form :mode>
+    <v-row v-if="isAuthenticated" no-gutters justify="end">
+      <v-col cols="12" sm="3" class="px-2">
+        <v-checkbox label="public" v-model="state.public" />
+      </v-col>
+    </v-row>
     <v-row no-gutters>
       <v-col cols="12" xs="6" sm="2" class="px-2">
         <v-text-field

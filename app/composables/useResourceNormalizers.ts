@@ -3,6 +3,7 @@ import type {
   ResourceKey,
   ResourceNormalizers,
 } from '~~/types'
+import useApiResourcesIndexState from '~/composables/states/useApiResourcesIndexState'
 
 const normalizePostItem = (item: Record<string, any>): Record<string, any> =>
   clone(item)
@@ -13,13 +14,14 @@ const normalizePatchItem = (
   diffItem: Record<string, any>,
 ): Record<string, any> => diffItem
 export default function () {
+  const { getResourceIri } = useApiResourcesIndexState()
   const normalizers: Partial<Record<ResourceKey, OptionalResourceNormalizers>> =
     {
       stratigraphicUnit: {
         normalizePostItem: (item) => {
           item = clone(item)
           if (item?.site?.id) {
-            item.site = item.site.id
+            item.site = getResourceIri('site', item.site.id)
           }
           if (item?.year) {
             item.year = Number(item.year)

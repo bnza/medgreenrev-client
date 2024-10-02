@@ -7,6 +7,7 @@ import type {
 } from '~~/types'
 import useNavigationFromState from '~/composables/states/useNavigationFromState'
 import useDiffItem from '~/composables/api/useDiffItem'
+import type { AsyncDataRequestStatus } from '#app'
 
 const props = withDefaults(
   defineProps<{
@@ -30,16 +31,14 @@ const {
   postItem,
 } = useResource<RT>(props.resourceKey, {})
 
-let item = ref({})
-let error = ref(undefined)
-let status = ref(props.mode === 'create' ? 'success' : 'idle')
-
-if (props.mode !== 'create') {
-  const { item: _item, error: _error, status: _status } = await fetchItem(id)
-  item.value = _item.value
-  error.value = _error.value
-  status.value = _status.value
-}
+const { item, error, status } =
+  props.mode === 'create'
+    ? {
+        item: ref({}),
+        error: ref(undefined),
+        status: ref('success' as AsyncDataRequestStatus),
+      }
+    : await fetchItem(id)
 
 const code = computed(() =>
   props.mode === 'create'

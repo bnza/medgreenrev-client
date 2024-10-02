@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DataResourceKey } from '~~/types'
 
-const resourceKey: DataResourceKey = 'site'
+const resourceKey: DataResourceKey = 'stratigraphicUnit'
 </script>
 
 <template>

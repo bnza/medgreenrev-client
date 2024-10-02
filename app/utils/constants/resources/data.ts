@@ -40,7 +40,7 @@ const site: StaticResourceConfig = {
 }
 
 const stratigraphicUnit: StaticResourceConfig = {
-  appPath: '/data/stratigraphic_units',
+  appPath: '/data/stratigraphic-units',
   labels: ['Stratigraphic Unit', 'Stratigraphic Units'],
   protectedFields: ['public'],
   defaultHeaders: [

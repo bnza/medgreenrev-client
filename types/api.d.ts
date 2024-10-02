@@ -55,3 +55,5 @@ type ResourceOperationType = 'collection' | 'item'
 export type ResourcePageKey =
   | `${ResourceKey}/${ResourceOperationType}`
   | `${ResourceKey}/collection/${string}`
+
+export type ApiResourceIndex = Readonly<Record<ResourceKey, string>>

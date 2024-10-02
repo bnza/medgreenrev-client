@@ -1,12 +1,22 @@
 import { getResourceStaticConfig } from '~/utils/constants/resources'
-import type { ResourceKey } from '~~/types'
+import type { ApiId, ResourceConfig, ResourceKey } from '~~/types'
 import useApiResourcesIndexState from '~/composables/states/useApiResourcesIndexState'
 
-export default function (key: ResourceKey) {
+function useResourceConfig(key: ResourceKey): ResourceConfig
+function useResourceConfig(): {
+  getResourceConfig: (key: ResourceKey) => ResourceConfig
+  getResourceIri: (key: ResourceKey) => string
+}
+
+function useResourceConfig(key?: ResourceKey) {
   const cache = useNuxtApp().$cache.resourceConfig
   const getResourceNormalizers = useResourceNormalizers()
+
   const { index } = useApiResourcesIndexState()
-  const getResourceConfig = (key: ResourceKey) => {
+  const getResourceIri = (key: ResourceKey, id: ApiId) =>
+    `${index.value[key]}/${id}`
+
+  const getResourceConfig = (key: ResourceKey): ResourceConfig => {
     if (!cache.has(key)) {
       const resourceConfig = Object.assign(
         {
@@ -20,5 +30,7 @@ export default function (key: ResourceKey) {
     }
     return cache.get(key)
   }
-  return getResourceConfig(key)
+  return key ? getResourceConfig(key) : { getResourceConfig, getResourceIri }
 }
+
+export default useResourceConfig

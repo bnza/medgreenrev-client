@@ -1,0 +1,83 @@
+<script setup lang="ts">
+import type { ApiAction, ApiResourceStratigraphicUnit } from '~~/types'
+import useDataItemResourcePageWatchTriggerSubmit from '~/composables/useDataItemResourcePageWatchTriggerSubmit'
+import useStratigraphicUnitValidation from '~/composables/validation/useStratigraphicUnitValidation'
+
+type RT = ApiResourceStratigraphicUnit
+const props = defineProps<{
+  mode: ApiAction
+  item: Partial<RT>
+}>()
+
+const { isAuthenticated } = useAppAuth()
+const state = reactive(clone(props.item))
+
+const validation = useStratigraphicUnitValidation(props.item)
+
+const { triggerSubmit, submittingItem } = inject(dataItemPageInjectionKey)
+useDataItemResourcePageWatchTriggerSubmit(triggerSubmit, state, submittingItem)
+</script>
+
+<template>
+  <lazy-data-item-form :mode>
+    <v-row v-if="isAuthenticated" no-gutters justify="end">
+      <v-col cols="12" sm="3" class="px-2">
+        <v-checkbox label="public" v-model="state.public" />
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="12" xs="6" sm="2" class="px-2">
+        <api-resource-autocomplete
+          :validation-value="state"
+          label="site"
+          path="sites"
+          v-model="state.site"
+          :item-props="
+            (value) => ({
+              value: value.id,
+              title: value.code,
+              subtitle: value.name,
+            })
+          "
+        >
+          <template #selection="{ props, item }">
+            <v-list-item v-bind="props">
+              <template #title
+                ><span class="text-secondary font-weight-bold">{{
+                  item.raw.code
+                }}</span>
+                - <span>{{ item.raw.name }}</span></template
+              >
+            </v-list-item>
+          </template>
+        </api-resource-autocomplete>
+      </v-col>
+      <v-col cols="12" xs="12" sm="5" class="px-2">
+        <v-text-field
+          v-model="state.year"
+          label="year"
+          :rules="validation.rules['year']"
+          :validation-value="state"
+        />
+      </v-col>
+      <v-col cols="12" xs="12" sm="5" class="px-2">
+        <v-text-field
+          :rules="validation.rules['number']"
+          v-model="state.number"
+          label="number"
+          :validation-value="state"
+        />
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="12" xs="12" class="px-2">
+        <v-textarea label="interpretation" v-model="state.interpretation" />
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="12" xs="12" class="px-2">
+        <v-textarea label="description" v-model="state.description" />
+      </v-col>
+    </v-row>
+  </lazy-data-item-form>
+</template>
