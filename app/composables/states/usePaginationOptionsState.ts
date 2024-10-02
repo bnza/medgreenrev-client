@@ -15,7 +15,7 @@ export default function (resourcePageKey: ResourcePageKey) {
     }
     const paginationOptions = Object.assign({}, _componentPaginationOptions)
     const order = {}
-    paginationOptions.sortBy.forEach((sortItem) => {
+    paginationOptions.sortBy?.forEach((sortItem) => {
       let _order = 'asc'
       if (typeof sortItem.order === 'string') {
         _order = sortItem.order
@@ -31,6 +31,17 @@ export default function (resourcePageKey: ResourcePageKey) {
   const queryPaginationOptionsParams = computed(() =>
     vuetifyPaginationOptionToQsObject(state.value),
   )
+
+  // const paginationOptions = computed({
+  //   get() {
+  //     return state
+  //   },
+  //   set(value: PaginationOptionsState) {
+  //     if (JSON.stringify(state.value) !== JSON.stringify(value)) {
+  //       state.value = value
+  //     }
+  //   },
+  // })
 
   return {
     paginationOptions: state,

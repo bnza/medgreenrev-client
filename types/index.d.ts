@@ -1,4 +1,3 @@
-import type { Validation } from '@vuelidate/core'
 import type { VDataTable } from 'vuetify/lib/components/VDataTable'
 
 export type ReadonlyHeaders = VDataTable['$props']['headers']
@@ -15,7 +14,7 @@ export type UseResourceTypeOptions = Readonly<{
 export type PaginationOptionsState = {
   itemsPerPage: number
   page: number
-  sortBy: Array<{ key: string; order: 'asc' | 'desc' }>
+  sortBy?: Array<{ key: string; order: 'asc' | 'desc' }>
 }
 
 export type BaseAcl = {

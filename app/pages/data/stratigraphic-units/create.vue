@@ -4,9 +4,9 @@ provide(dataItemPageInjectionKey, dataItemPage)
 </script>
 
 <template>
-  <lazy-data-item-page resource-key="site" mode="delete">
+  <lazy-data-item-page mode="create" resource-key="stratigraphicUnit">
     <template #default="{ item }">
-      <lazy-data-item-site-form mode="delete" :item />
+      <lazy-data-item-stratigraphic-unit-form :mode="'create'" :item />
     </template>
   </lazy-data-item-page>
 </template>

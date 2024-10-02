@@ -31,24 +31,20 @@ export function useAsyncValidator({
   item: Record<string, any>
   message?: string
 }) {
-  // const oldValue = item
-  //   ? Array.isArray(prop)
-  //     ? prop.map(getValues(item))
-  //     : item[prop]
-  //   : undefined
   return async function (value) {
-    let oldValue = undefined
     if (Array.isArray(prop)) {
       value = prop.map(getValues(value))
-      if (value.some((v) => typeof v === 'undefined')) {
+      const oldValue = prop.map(getValues(item))
+
+      if (!isChanged(oldValue, value)) {
+        return true
+      }
+      if (value.some((v: unknown) => typeof v === 'undefined')) {
         return true
       }
     } else if (value === '' || value === item?.[prop]) {
       return true
     }
-    // if ('undefined' !== typeof oldValue && !isChanged(oldValue, value)) {
-    //   return true
-    // }
     return validator
       .validate(type, path, value)
       .then((result) => result || message)

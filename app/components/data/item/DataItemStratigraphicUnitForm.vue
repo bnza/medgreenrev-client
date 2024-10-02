@@ -16,6 +16,7 @@ const validation = useStratigraphicUnitValidation(props.item)
 
 const { triggerSubmit, submittingItem } = inject(dataItemPageInjectionKey)
 useDataItemResourcePageWatchTriggerSubmit(triggerSubmit, state, submittingItem)
+const inputYearRef = useTemplateRef('input-year')
 </script>
 
 <template>
@@ -27,33 +28,15 @@ useDataItemResourcePageWatchTriggerSubmit(triggerSubmit, state, submittingItem)
     </v-row>
     <v-row no-gutters>
       <v-col cols="12" xs="6" sm="2" class="px-2">
-        <api-resource-autocomplete
+        <api-resource-site-autocomplete
           :validation-value="state"
-          label="site"
-          path="sites"
           v-model="state.site"
-          :item-props="
-            (value) => ({
-              value: value.id,
-              title: value.code,
-              subtitle: value.name,
-            })
-          "
-        >
-          <template #selection="{ props, item }">
-            <v-list-item v-bind="props">
-              <template #title
-                ><span class="text-secondary font-weight-bold">{{
-                  item.raw.code
-                }}</span>
-                - <span>{{ item.raw.name }}</span></template
-              >
-            </v-list-item>
-          </template>
-        </api-resource-autocomplete>
+          :rules="validation.rules['site']"
+        />
       </v-col>
       <v-col cols="12" xs="12" sm="5" class="px-2">
         <v-text-field
+          ref="input-year"
           v-model="state.year"
           label="year"
           :rules="validation.rules['year']"

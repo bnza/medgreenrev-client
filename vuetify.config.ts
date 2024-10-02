@@ -21,6 +21,9 @@ const VBtn = {
 const VTextField = {
   variant: 'underlined',
 }
+const VAutocomplete = {
+  variant: 'underlined',
+}
 
 export default defineVuetifyConfiguration({
   blueprint: md3,
@@ -38,5 +41,6 @@ export default defineVuetifyConfiguration({
     VCard,
     VBtn,
     VTextField,
+    VAutocomplete,
   },
 })

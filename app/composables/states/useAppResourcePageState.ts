@@ -1,9 +1,9 @@
-import type { PaginationOptionsState, ResourcePageKey } from '~~/types'
+import type { ResourcePageKey } from '~~/types'
 
 export type ResourcePageState = {
   key: ResourcePageKey
   // filters: Array<Filter>
-  // tab: string | null
+  tab: string | null
   // from: [string, MaybeResourcePageKey]
   // totalItems: number
 }

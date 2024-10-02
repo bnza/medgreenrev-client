@@ -3,8 +3,6 @@ import { resourceFilterStateInjectionKey } from '~/composables/states/useResourc
 import type { Filter } from '~~/types'
 import { API_FILTERS } from '~/utils/constants/filters'
 import useFilterValidation from '~/composables/validation/useFilterValidation'
-import { helpers, minLength, required } from '@vuelidate/validators'
-import { FORM_REQUIRED_FIELD } from '~/composables/validation/messages'
 
 const {
   setFilter,
@@ -48,7 +46,8 @@ watch(
 )
 
 const operandsComponentsMap = {
-  Single: resolveComponent('SearchFiltersOperandSingle'),
+  Single: resolveComponent('SearchFiltersSingleOperand'),
+  SiteAutocomplete: resolveComponent('SearchFiltersSiteAutocompleteOperand'),
 }
 
 const operandsComponent = computed(() => {

@@ -205,10 +205,10 @@ const stratigraphicUnit: Readonly<ResourceFiltersDefinitionObject> = {
   interpretation: {
     filters: { SearchPartial },
   },
-  // 'site.id': {
-  //   filters: { SiteEqualAutocomplete },
-  //   propertyLabel: 'site',
-  // },
+  'site.id': {
+    filters: { SiteEqualAutocomplete },
+    propertyLabel: 'site',
+  },
   public: {
     filters: { BooleanIsFalse, BooleanIsTrue },
   },

@@ -25,6 +25,7 @@ const id = ref(routeParamId(route.params.id))
 const {
   deleteItem,
   resourceConfig,
+  resourcePageKey,
   fetchItem,
   itemLabel,
   patchItem,
@@ -125,6 +126,10 @@ onUnmounted(() => {
         >
       </v-btn>
     </template>
-    <slot :resource-config="resourceConfig" :item="item" />
+    <slot
+      :resource-config="resourceConfig"
+      :item="item"
+      :resource-page-key="resourcePageKey"
+    />
   </data-card>
 </template>

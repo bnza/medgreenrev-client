@@ -38,7 +38,6 @@ const params = computed(() =>
 const autocomplete = useNuxtApp().$api.autocomplete
 const loading = ref(false)
 const updateItems = async () => {
-  console.log(params.value)
   loading.value = true
   try {
     items.value = await autocomplete.search(

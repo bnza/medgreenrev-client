@@ -13,11 +13,14 @@ type UseResourceOptions = {
   resourceOperationType?: ResourceOperationType
 }
 
+const getParentKey = (parent?: ApiResourceCollectionParent) =>
+  parent ? parent[0] : ''
+
 function useResource<RT extends ApiResourceItem>(
   resourceKey: DataResourceKey,
   { parent, resourceOperationType = 'item' }: UseResourceOptions,
 ) {
-  const parentKey = parent ? parent[0] : ''
+  const parentKey = getParentKey(parent)
   if (parentKey) {
     resourceOperationType = 'collection'
   }
@@ -30,7 +33,7 @@ function useResource<RT extends ApiResourceItem>(
   if (!cache.has(resourcePageKey)) {
     cache.set(
       resourcePageKey,
-      _useResource({ resourceKey, resourcePageKey, parent, parentKey }),
+      _useResource({ resourceKey, resourcePageKey, parent }),
     )
   }
   return cache.get(resourcePageKey)
@@ -42,12 +45,10 @@ function _useResource<RT extends ApiResourceItem>({
   resourceKey,
   resourcePageKey,
   parent,
-  parentKey,
 }: {
   resourceKey: DataResourceKey
   resourcePageKey: ResourcePageKey
   parent?: ApiResourceCollectionParent
-  parentKey: string
 }) {
   const repository = useNuxtApp().$api.getRepository<RT>(resourceKey)
   const resourceConfig = useResourceConfig(resourceKey)
@@ -75,10 +76,26 @@ function _useResource<RT extends ApiResourceItem>({
     resourceConfig,
   )
 
+  parent = parent ? clone(parent) : parent
+  const parentRef = computed({
+    get() {
+      return parent
+    },
+    set(value) {
+      if (!parent) {
+        return
+      }
+      if (parent[0] === value[0]) {
+        parent[1] = value[1]
+        return
+      }
+      console.error('Parent identifier mismatch. This should not be happen')
+    },
+  })
+
   const fetchCollectionsParams = computed(() =>
     Object.assign(
-      {},
-      Object.fromEntries([parent || []]),
+      Object.fromEntries(parentRef.value ? [parentRef.value] : []),
       queryPaginationOptionsParams.value,
       resourceFilterParams.value,
     ),
@@ -86,7 +103,8 @@ function _useResource<RT extends ApiResourceItem>({
 
   type Collection = JsonLdResourceCollection<RT>
   const fetchCollection = async () => {
-    const key = resourceConfig.apiPath + parentKey ? '/' + parentKey : ''
+    const key =
+      resourceConfig.apiPath + parent ? '/' + getParentKey(parent) : ''
     const { data, error, status, refresh } = await useAsyncData<Collection>(
       key,
       () =>
@@ -126,6 +144,7 @@ function _useResource<RT extends ApiResourceItem>({
     itemLabel,
     collectionLabel,
     resourcePageKey,
+    parent: parentRef,
     fetchCollection,
     fetchItem,
     patchItem: repository.patchItem.bind(repository),

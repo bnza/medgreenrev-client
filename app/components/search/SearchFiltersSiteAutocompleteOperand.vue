@@ -14,5 +14,5 @@ const operand = computed({
 </script>
 
 <template>
-  <v-text-field v-bind="$attrs" label="value" v-model="operand" />
+  <api-resource-site-autocomplete label="value" v-model="operand" />
 </template>

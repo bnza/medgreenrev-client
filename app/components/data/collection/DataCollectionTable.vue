@@ -1,11 +1,23 @@
 <script setup lang="ts">
-import type { ApiResourceItem, DataResourceKey } from '~~/types'
+import type {
+  ApiResourceCollectionParent,
+  ApiResourceItem,
+  DataResourceKey,
+} from '~~/types'
 
-const props = defineProps<{ resourceKey: DataResourceKey }>()
-const { headers, fetchCollection, resourceConfig } =
+const props = defineProps<{
+  resourceKey: DataResourceKey
+  parent?: ApiResourceCollectionParent
+}>()
+const { headers, fetchCollection, resourceConfig, parent } =
   useResource<ApiResourceItem>(props.resourceKey, {
+    parent: props.parent,
     resourceOperationType: 'collection',
   })
+
+if (props.parent) {
+  parent.value = props.parent
+}
 
 const { items, paginationOptions, totalItems, status } = await fetchCollection()
 </script>

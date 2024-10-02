@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { DataResourceKey } from '~~/types'
+import type { ApiResourceCollectionParent, DataResourceKey } from '~~/types'
+
+defineProps<{ parent?: ApiResourceCollectionParent }>()
 
 const resourceKey: DataResourceKey = 'stratigraphicUnit'
 </script>
 
 <template>
-  <lazy-data-collection-table :resource-key>
+  <lazy-data-collection-table :resource-key :parent>
     <template #[`item.id`]="{ item, resourceConfig }">
       <navigation-resource-item
         :id="item.id"
@@ -23,5 +25,3 @@ const resourceKey: DataResourceKey = 'stratigraphicUnit'
     </template>
   </lazy-data-collection-table>
 </template>
-
-<style scoped></style>

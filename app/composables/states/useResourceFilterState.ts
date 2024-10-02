@@ -25,7 +25,7 @@ const useResourceFilterState = (
   const isChanged = ref(false)
 
   const _setFilter = (filter: Filter) => {
-    filter = structuredClone(toRaw(filter))
+    filter = clone(toRaw(filter))
     if (!('id' in filter)) {
       filter.id = increment()
     }
