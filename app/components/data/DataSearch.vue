@@ -28,11 +28,9 @@ provide(resourceFilterStateInjectionKey, resourceFilterState)
 
 onBeforeRouteLeave(() => {
   if (parentKey.value) {
-    console.log('unsetting parent')
     parentKey.value = ''
   }
 })
-console.log('parent', parent.value)
 </script>
 
 <template>

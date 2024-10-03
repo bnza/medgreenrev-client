@@ -10,11 +10,19 @@ export function useAppAuth() {
 
   const roles = computed(() => (unref(isAuthenticated) ? data.value.roles : []))
 
+  function _hasRole(role: ApiRole) {
+    return !unref(isAuthenticated) || unref(roles).includes(role)
+  }
+
+  const hasRole = computed(() => _hasRole)
+  const hasRoleAdmin = computed(() => _hasRole(ApiRole.Admin))
   const roleColor = computed(
     () => ROLE_COLORS[reduceAppRoles(roles.value)] || '#FFF',
   )
 
   return {
+    hasRole,
+    hasRoleAdmin,
     isAuthenticated,
     isLoading,
     userIdentifier,

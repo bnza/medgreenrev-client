@@ -3,6 +3,8 @@ import { mergeProps } from 'vue'
 
 const isLogoutDialogOpen = ref(false)
 const { userIdentifier, roleColor } = useAppAuth()
+
+const { mode } = useDataUiModeState()
 </script>
 
 <template>
@@ -31,7 +33,7 @@ const { userIdentifier, roleColor } = useAppAuth()
       <v-divider />
       <v-list-item
         prepend-icon="fas fa-right-from-bracket"
-        @click="isLogoutDialogOpen = true"
+        @click="mode = 'logout'"
         title="Logout"
       />
     </v-list>

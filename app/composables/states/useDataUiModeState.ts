@@ -1,19 +1,29 @@
 import type { AppUiMode } from '~~/types'
 
+enum State {
+  Current,
+  Previous,
+  LogoutPending,
+}
+
 export default function () {
-  const _mode: Ref<[AppUiMode, AppUiMode]> = useState(States.AppUiMode, () => [
-    'default',
-    'default',
-  ])
+  const _mode: Ref<[AppUiMode, AppUiMode, boolean]> = useState(
+    States.AppUiMode,
+    () => ['default', 'default', false],
+  )
 
   const icon = computed(() =>
     _mode.value[0] === 'default' ? 'fas fa-globe' : 'fas fa-table',
   )
   const toggle = () =>
-    (_mode.value[0] = _mode.value[0] === 'default' ? 'map' : 'default')
+    (_mode.value[State.Current] =
+      _mode.value[State.Current] === 'default' ? 'map' : 'default')
   const set = (value: AppUiMode) => {
-    _mode.value[1] = _mode.value[0]
-    _mode.value[0] = value
+    if (_mode.value[State.Current] !== value) {
+      _mode.value[State.LogoutPending] = value === 'logout'
+      _mode.value[State.Previous] = _mode.value[State.Current]
+      _mode.value[State.Current] = value
+    }
   }
   const prev = () => {
     _mode.value[0] = _mode.value[1]
@@ -25,5 +35,14 @@ export default function () {
     },
     set,
   })
-  return { icon, mode, prev, toggle }
+  const logoutPending = computed({
+    get() {
+      return _mode.value[State.LogoutPending]
+    },
+    set(value: false) {
+      _mode.value[State.LogoutPending] = false
+    },
+  })
+  const authMode = computed(() => ['login', 'logout'].includes(mode.value))
+  return { icon, mode, prev, toggle, authMode, logoutPending }
 }

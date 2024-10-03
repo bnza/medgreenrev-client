@@ -3,13 +3,13 @@ import UiModeSwitcher from '~/components/UiModeSwitcher.vue'
 
 const { visible, toggle } = useAppNavigationDrawerVisibleState()
 const text = computed(() => `${visible.value ? 'close' : 'open'} navigation`)
-const { mode } = useDataUiModeState()
+const { authMode } = useDataUiModeState()
 </script>
 
 <template>
   <v-app-bar color="primary" height="48" :flat="true">
     <template #prepend>
-      <v-tooltip v-if="mode !== 'login'" location="bottom" :text>
+      <v-tooltip v-if="!authMode" location="bottom" :text>
         <template #activator="{ props }">
           <v-app-bar-nav-icon
             v-bind="props"
@@ -19,7 +19,7 @@ const { mode } = useDataUiModeState()
         </template>
       </v-tooltip>
     </template>
-    <ui-mode-switcher />
+    <ui-mode-switcher v-if="!authMode" />
     <template #append>
       <auth-app-bar-icon />
     </template>

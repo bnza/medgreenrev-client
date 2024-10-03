@@ -5,7 +5,7 @@ export * from './api'
 export * from './api-jsonld'
 export * from './filters'
 export * from './resources'
-export type AppUiMode = 'default' | 'map' | 'login'
+export type AppUiMode = 'default' | 'map' | 'login' | 'logout'
 
 export type UseResourceTypeOptions = Readonly<{
   defaultHeaders: ReadonlyHeaders

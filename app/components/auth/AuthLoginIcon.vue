@@ -6,7 +6,6 @@ const { mode } = useDataUiModeState()
   <v-tooltip text="login">
     <template #activator="{ props }">
       <v-btn
-        class="mr-4"
         icon="fas fa-right-to-bracket"
         v-bind="props"
         data-testid="login-button"

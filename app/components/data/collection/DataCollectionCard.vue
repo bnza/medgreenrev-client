@@ -5,29 +5,32 @@ import { LoadingComponent } from '#components'
 const props = withDefaults(
   defineProps<{
     resourceKey: DataResourceKey
-    parent: ApiResourceCollectionParent
+    parent?: ApiResourceCollectionParent
     downloadButton?: boolean
     createButton?: boolean
     searchButton?: boolean
   }>(),
   {
     downloadButton: true,
-    createButton: true,
+    createButton: false,
     searchButton: true,
   },
 )
 
-const { resourceConfig, resourcePageKey, isFiltered } = useResource(
-  props.resourceKey,
-  {
+const { collectionLabel, resourceConfig, resourcePageKey, isFiltered } =
+  useResource(props.resourceKey, {
     parent: props.parent,
     resourceOperationType: 'collection',
-  },
-)
+  })
 
 const collectionTableComponentsMap: Partial<
   Record<DataResourceKey, ReturnType<typeof defineAsyncComponent>>
 > = {
+  site: defineAsyncComponent({
+    loader: () =>
+      import('~/components/data/collection/DataCollectionSiteTable.vue'),
+    loadingComponent: LoadingComponent,
+  }),
   stratigraphicUnit: defineAsyncComponent({
     loader: () =>
       import(
@@ -43,7 +46,7 @@ console.log(resourcePageKey)
 </script>
 
 <template>
-  <data-card :rounded="false" title="">
+  <data-card :rounded="false" :title="parent ? '' : collectionLabel">
     <template #title-append>
       <lazy-data-toolbar-title-append
         v-if="isFiltered"
@@ -52,6 +55,10 @@ console.log(resourcePageKey)
       />
     </template>
     <template #toolbar-append>
+      <lazy-navigation-resource-item-create
+        v-if="createButton"
+        :app-path="resourceConfig.appPath"
+      />
       <lazy-navigation-resource-collection-search
         v-if="searchButton"
         :resource-config="resourceConfig"
@@ -65,5 +72,3 @@ console.log(resourcePageKey)
     />
   </data-card>
 </template>
-
-<style scoped></style>
