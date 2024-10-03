@@ -21,7 +21,7 @@ withDefaults(
     variant="text"
     data-testid="update-item-button"
   >
-    <v-icon color="success" icon="fas fa-check" size="xsmall" />
+    <v-icon color="success" icon="far fa-pen-to-square" size="xsmall" />
     <v-tooltip activator="parent" location="bottom">Edit item</v-tooltip>
   </v-btn>
 </template>

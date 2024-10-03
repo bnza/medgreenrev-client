@@ -12,6 +12,8 @@ const submit = () => {
   setFiltersAndClose()
   disabled.value = false
 }
+
+const to = computed(() => history.state.back || props.backPath)
 </script>
 
 <template>
@@ -22,10 +24,10 @@ const submit = () => {
     nuxt
     data-testid="close-button"
     color="anchor"
-    :to="backPath"
+    :to
   >
-    <v-icon icon="fas fa-xmark" size="large" />
-    <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
+    <v-icon icon="fas fa-arrow-left" size="large" />
+    <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
   </v-btn>
   <v-btn
     :icon="true"

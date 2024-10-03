@@ -1,19 +1,24 @@
 <script setup lang="ts">
-import type { ApiResourceCollectionParent } from '~~/types'
+import type { ApiResourceCollectionParent, ResourceConfig } from '~~/types'
+import useSearchParentStateKey from '~/composables/states/useSearchParentStateKey'
 
-defineProps<{ basePath: string; parent?: ApiResourceCollectionParent }>()
+const props = defineProps<{
+  resourceConfig: ResourceConfig
+  parent?: ApiResourceCollectionParent
+}>()
+const parentKey = useSearchParentStateKey()
 </script>
 
 <template>
-  <v-tooltip location="bottom" text="search">
-    <template #activator="{ props }">
-      <NuxtLink
-        :to="basePath + '/search'"
-        data-testid="collection-search-link"
-        class="mr-6"
-      >
-        <v-icon icon="fas fa-magnifying-glass" v-bind="props" />
-      </NuxtLink>
-    </template>
-  </v-tooltip>
+  <v-btn
+    :icon="true"
+    nuxt
+    :to="`${props.resourceConfig.appPath}/search`"
+    variant="text"
+    data-testid="collection-search-link"
+    @click="parentKey = parent ? parent[0] : ''"
+  >
+    <v-icon color="anchor" icon="fas fa-magnifying-glass" size="small" />
+    <v-tooltip activator="parent" location="bottom">Search</v-tooltip>
+  </v-btn>
 </template>

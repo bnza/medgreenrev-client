@@ -7,6 +7,7 @@ export enum States {
   AppResourcePagePagination = 'appResourcePagePagination',
   AppResourceFilter = 'appResourceFilter',
   AppSnackbar = 'appSnackBar',
+  SearchParentKey = 'searchPArentKey',
   GlobalSequence = 'globalSequence',
   NavigationFrom = 'navigationFrom',
 }

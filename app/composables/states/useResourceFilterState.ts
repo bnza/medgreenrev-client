@@ -14,7 +14,10 @@ const useResourceFilterState = (
     `${States.AppResourceFilter}:${resourcePageKey}`,
     () => ({}),
   )
-  const { increment } = useGlobalSequence()
+  const { increment } = useGlobalSequenceState()
+  const isFiltered = computed(() =>
+    Boolean(Object.keys(state.value).length > 0),
+  )
   const isAddFilterDialogOpen = ref(false)
 
   const _filters = reactive(structuredClone(toRaw(state.value)))
@@ -93,6 +96,7 @@ const useResourceFilterState = (
     isAddFilterDialogOpen,
     isChanged,
     isEmpty,
+    isFiltered,
     resourceFilterParams,
     setFilter,
     setFiltersAndClose,

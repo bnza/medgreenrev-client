@@ -5,7 +5,7 @@ export default function () {
     States.AppSnackbar,
     () => ({}),
   )
-  const { increment } = useGlobalSequence()
+  const { increment } = useGlobalSequenceState()
 
   const set = (value: SnackbarState) => {
     const key = increment()

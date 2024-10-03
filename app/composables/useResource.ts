@@ -18,12 +18,26 @@ const getParentKey = (parent?: ApiResourceCollectionParent) =>
 
 function useResource<RT extends ApiResourceItem>(
   resourceKey: DataResourceKey,
-  { parent, resourceOperationType = 'item' }: UseResourceOptions,
+  parentKeyOrOptions: UseResourceOptions | string,
 ) {
-  const parentKey = getParentKey(parent)
+  const isResourceCached = (arg: UseResourceOptions | string): arg is string =>
+    'string' === typeof arg
+  const resourceIsCached = isResourceCached(parentKeyOrOptions)
+  const parentKey =
+    'string' === typeof parentKeyOrOptions
+      ? parentKeyOrOptions
+      : parentKeyOrOptions.parent
+        ? getParentKey(parentKeyOrOptions.parent)
+        : ''
+
+  let resourceOperationType: ResourceOperationType = resourceIsCached
+    ? 'item'
+    : parentKeyOrOptions.resourceOperationType || 'item'
+
   if (parentKey) {
     resourceOperationType = 'collection'
   }
+  const parent = resourceIsCached ? undefined : parentKeyOrOptions.parent
 
   const resourcePageKey: ResourcePageKey = parentKey
     ? `${resourceKey}/collection/${parentKey}`
@@ -31,6 +45,9 @@ function useResource<RT extends ApiResourceItem>(
 
   const cache = useNuxtApp().$cache.useResource
   if (!cache.has(resourcePageKey)) {
+    if (resourceIsCached) {
+      console.error(`Cached resource key ${resourceKey} not set`)
+    }
     cache.set(
       resourcePageKey,
       _useResource({ resourceKey, resourcePageKey, parent }),
@@ -71,7 +88,7 @@ function _useResource<RT extends ApiResourceItem>({
   const { paginationOptions, queryPaginationOptionsParams } =
     usePaginationOptionsState(resourcePageKey)
 
-  const { resourceFilterParams } = useResourceFilterState(
+  const { resourceFilterParams, isFiltered } = useResourceFilterState(
     resourcePageKey,
     resourceConfig,
   )
@@ -142,6 +159,7 @@ function _useResource<RT extends ApiResourceItem>({
     deleteItem: repository.deleteItem.bind(repository),
     headers,
     itemLabel,
+    isFiltered,
     collectionLabel,
     resourcePageKey,
     parent: parentRef,
