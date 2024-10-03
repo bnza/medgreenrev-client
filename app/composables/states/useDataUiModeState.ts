@@ -39,7 +39,7 @@ export default function () {
     get() {
       return _mode.value[State.LogoutPending]
     },
-    set(value: false) {
+    set(_: false) {
       _mode.value[State.LogoutPending] = false
     },
   })
