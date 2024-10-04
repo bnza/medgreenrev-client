@@ -6,7 +6,7 @@ const props = defineProps<{
 }>()
 const { isAuthenticated } = useAppAuth()
 const readonly = computed(
-  () => ['read', 'delete'].includes(props.mode) && isAuthenticated.value,
+  () => ['read', 'delete'].includes(props.mode) || !isAuthenticated.value,
 )
 const form = useTemplateRef('form')
 

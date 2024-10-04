@@ -21,7 +21,10 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
     <v-tabs-window-item value="data">
       <lazy-data-item-site-form v-if="item" :item="item" mode="read" />
     </v-tabs-window-item>
-    <v-tabs-window-item value="sus">
+    <v-tabs-window-item
+      value="sus"
+      data-testid="tabs-window-stratigraphic-units"
+    >
       <lazy-data-collection-card
         resource-key="stratigraphicUnit"
         :parent="['site.id', item.id]"
