@@ -24,9 +24,7 @@ watch(status, (value, oldValue) => {
     <KeepAlive>
       <lazy-app-map v-if="mode === 'map'" />
     </KeepAlive>
-    <KeepAlive>
-      <slot v-if="mode === 'default'" />
-    </KeepAlive>
+    <slot v-if="mode === 'default'" />
     <login-data-card v-if="mode === 'login'" />
     <logout-data-card v-if="mode === 'logout'" />
   </v-main>

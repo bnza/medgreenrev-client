@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import useLoginRedirectFromState from '~/composables/states/useLoginRedirectFromState'
+
 const pending = ref(false)
 const email = ref('')
 const password = ref('')
@@ -21,7 +23,7 @@ const signInAndFeedback = async ({
     showSuccess({
       text: `User ${email} successfully logged in`,
     })
-    prev()
+    prevMode()
   } catch (e) {
     loginFailed.value = true
   } finally {
@@ -29,16 +31,32 @@ const signInAndFeedback = async ({
   }
 }
 
-const { prev } = useDataUiModeState()
+const { mode, prev, logoutPending } = useDataUiModeState()
+
 watch(
   status,
   () => {
     if (status.value === 'authenticated') {
-      prev()
+      prevMode()
     }
   },
   { immediate: true },
 )
+
+const redirectFrom = useLoginRedirectFromState()
+const route = useRoute()
+const router = useRouter()
+
+const prevMode = () => {
+  if (redirectFrom.value) {
+    const to =
+      status.value === 'authenticated'
+        ? route.redirectedFrom?.fullPath || '/'
+        : '/'
+    router.replace(to)
+  }
+  prev()
+}
 </script>
 
 <template>
@@ -60,7 +78,9 @@ watch(
       <v-text-field v-model="password" type="password" label="password" />
     </v-form>
     <v-card-actions>
-      <v-btn color="anchor" :disabled="pending" @click="prev()"> cancel </v-btn>
+      <v-btn color="anchor" :disabled="pending" @click="prevMode()">
+        cancel
+      </v-btn>
       <v-spacer />
       <v-btn
         color="secondary"

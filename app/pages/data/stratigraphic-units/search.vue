@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { DataResourceKey } from '~~/types'
-
-const resourceKey: DataResourceKey = 'stratigraphicUnit'
+definePageMeta({
+  auth: false,
+})
 </script>
 
 <template>
-  <lazy-data-search :resource-key />
+  <lazy-data-search resource-key="stratigraphicUnit" />
 </template>
 
 <style scoped></style>

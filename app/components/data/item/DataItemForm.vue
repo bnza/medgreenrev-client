@@ -4,7 +4,10 @@ import type { ApiAction } from '~~/types'
 const props = defineProps<{
   mode: ApiAction
 }>()
-const readonly = computed(() => ['read', 'delete'].includes(props.mode))
+const { isAuthenticated } = useAppAuth()
+const readonly = computed(
+  () => ['read', 'delete'].includes(props.mode) && isAuthenticated.value,
+)
 const form = useTemplateRef('form')
 
 const { isValid, submitPending, triggerSubmit, submittingItem } = inject(
@@ -22,7 +25,7 @@ watchEffect(() => {
   <v-form :readonly="readonly" @submit.prevent ref="form">
     <v-container>
       <lazy-delete-item-alert v-if="mode === 'delete'" />
-      <slot />
+      <slot :readonly />
     </v-container>
   </v-form>
 </template>

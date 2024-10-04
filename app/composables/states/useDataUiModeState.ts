@@ -20,7 +20,7 @@ export default function () {
       _mode.value[State.Current] === 'default' ? 'map' : 'default')
   const set = (value: AppUiMode) => {
     if (_mode.value[State.Current] !== value) {
-      _mode.value[State.LogoutPending] = value === 'logout'
+      _mode.value[State.LogoutPending] = ['logout'].includes(value)
       _mode.value[State.Previous] = _mode.value[State.Current]
       _mode.value[State.Current] = value
     }

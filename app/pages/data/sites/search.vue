@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { DataResourceKey } from '~~/types'
-
-const resourceKey: DataResourceKey = 'site'
+definePageMeta({
+  auth: false,
+})
 </script>
 
 <template>
-  <lazy-data-search :resource-key />
+  <lazy-data-search resource-key="site" />
 </template>
 
 <style scoped></style>

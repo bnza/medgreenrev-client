@@ -26,9 +26,9 @@ export default defineNuxtConfig({
         signOut: { path: 'logout', method: 'post' },
         getSession: { path: 'users/me', method: 'get' },
       },
-      // pages: {
-      //   login: '/login',
-      // },
+      pages: {
+        login: '/login',
+      },
       session: {
         dataType: {
           id: 'string',
@@ -46,7 +46,7 @@ export default defineNuxtConfig({
       enablePeriodically: false,
     },
     disableServerSideAuth: true,
-    globalAppMiddleware: false,
+    globalAppMiddleware: true,
     baseURL: process.env.API_BASE_URL || 'http://localhost:80/api',
   },
   css: ['~/assets/styles/index.css'],
