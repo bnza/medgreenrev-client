@@ -11,4 +11,5 @@ export enum States {
   SearchParentKey = 'searchParentKey',
   GlobalSequence = 'globalSequence',
   NavigationFrom = 'navigationFrom',
+  UserPlainPassword = 'userPlainPassword',
 }

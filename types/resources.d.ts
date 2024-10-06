@@ -1,4 +1,5 @@
 import type { BaseAcl } from '~~/types/index'
+import { ApiSpecialistRole } from '~/utils'
 
 export type ApiId = string | number
 
@@ -24,4 +25,10 @@ export interface ApiResourceStratigraphicUnit extends ApiResourceItem {
   interpretation?: string
   description?: string
   public?: boolean
+}
+
+export interface ApiResourceUser extends ApiResourceItem {
+  email: string
+  roles: Array<ApiRole | ApiSpecialistRole>
+  privileges: Record<number, number>
 }

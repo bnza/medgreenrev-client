@@ -17,7 +17,7 @@ export const routeParamIdToString = (id: string | Array<string>) =>
 
 export const routeParamId = (id: string | Array<string>) => {
   const _id = routeParamIdToString(id)
-  return Number.isNaN(_id) ? _id : parseInt(_id)
+  return Number.isNaN(Number(_id)) ? _id : parseInt(_id)
 }
 export const clone = <T extends Record<string, any>>(item: MaybeRef<T>): T =>
   JSON.parse(JSON.stringify(unref(item)))

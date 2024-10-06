@@ -32,6 +32,14 @@ export default function () {
           return item
         },
       },
+      user: {
+        normalizePatchItem: (newItem, oldItem, diffItem) => {
+          if (diffItem.roles) {
+            diffItem.roles = newItem.roles
+          }
+          return diffItem
+        },
+      },
     }
 
   return function (key: ResourceKey): ResourceNormalizers {

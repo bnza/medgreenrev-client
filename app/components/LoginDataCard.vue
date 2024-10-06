@@ -12,6 +12,20 @@ const { showSuccess } = useAppSnackbarState()
 const disabled = computed(() => {
   return !password.value || !email.value || pending.value
 })
+
+const redirectFrom = useLoginRedirectFromState()
+const route = useRoute()
+const router = useRouter()
+const prevMode = () => {
+  if (redirectFrom.value) {
+    const to =
+      status.value === 'authenticated'
+        ? route.redirectedFrom?.fullPath || '/'
+        : '/'
+    router.replace(to)
+  }
+  prev()
+}
 const signInAndFeedback = async ({
   email,
   password,
@@ -42,21 +56,6 @@ watch(
   },
   { immediate: true },
 )
-
-const redirectFrom = useLoginRedirectFromState()
-const route = useRoute()
-const router = useRouter()
-
-const prevMode = () => {
-  if (redirectFrom.value) {
-    const to =
-      status.value === 'authenticated'
-        ? route.redirectedFrom?.fullPath || '/'
-        : '/'
-    router.replace(to)
-  }
-  prev()
-}
 </script>
 
 <template>

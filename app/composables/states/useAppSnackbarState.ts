@@ -13,10 +13,16 @@ export default function () {
     return key
   }
 
-  const showSuccess = (value: Pick<SnackbarState, 'text'>) => {
+  const showSuccess = (value: Pick<SnackbarState, 'text'> | string) => {
+    if ('string' === typeof value) {
+      value = { text: value }
+    }
     set(Object.assign(getDefault(), { color: 'success', timeout: 5000 }, value))
   }
-  const showError = (value: Pick<SnackbarState, 'text'>) => {
+  const showError = (value: Pick<SnackbarState, 'text'> | string) => {
+    if ('string' === typeof value) {
+      value = { text: value }
+    }
     set(Object.assign(getDefault(), { color: 'error', timeout: -1 }, value))
   }
 

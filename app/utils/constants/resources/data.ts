@@ -89,11 +89,38 @@ const stratigraphicUnit: StaticResourceConfig = {
     },
   ],
 }
+const user: StaticResourceConfig = {
+  appPath: '/admin/users',
+  labels: ['User', 'Users'],
+  defaultHeaders: [
+    {
+      key: 'id',
+      value: 'id',
+      title: 'ID',
+      align: 'center',
+      width: '200',
+      maxWidth: '200',
+    },
+    {
+      key: 'email',
+      value: 'email',
+      title: 'email',
+      width: '200',
+    },
+    {
+      key: 'roles',
+      value: 'roles',
+      title: 'roles',
+      sortable: false,
+    },
+  ],
+}
 
 const data: Readonly<Record<DataResourceKey, StaticResourceConfig>> =
   Object.freeze({
     site,
     stratigraphicUnit,
+    user,
   })
 
 export default data

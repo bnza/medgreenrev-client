@@ -1,8 +1,8 @@
-import { minValue } from '@vuelidate/validators'
-
 export const required = (value: string | undefined) =>
   Boolean(value) || 'This field is required'
 
+export const email = (value: string) =>
+  /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value) || `Invalid email`
 export const maxLength = (maxLength: number) => (value: string) =>
   value.length <= Math.round(maxLength) ||
   `Must be less than ${Math.round(maxLength)} characters`

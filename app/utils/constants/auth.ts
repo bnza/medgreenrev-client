@@ -3,6 +3,9 @@ export enum ApiRole {
   Editor = 'ROLE_EDITOR',
   User = 'ROLE_USER',
 }
+export enum ApiSpecialistRole {
+  Microstratigraphist = 'ROLE_MICROSTRATIGRAPHIST',
+}
 export const ROLE_HIERARCHY_VALUES: Readonly<Record<ApiRole, number>> =
   Object.freeze({
     [ApiRole.Admin]: 1000,

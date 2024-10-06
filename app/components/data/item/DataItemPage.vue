@@ -51,7 +51,7 @@ const code = computed(() =>
 
 const color = DATA_API_ACTIONS_BAR_COLOR[props.mode]
 
-const { isValid, submitPending, triggerSubmit, submittingItem } = inject(
+const { isValid, submitStatus, triggerSubmit, submittingItem } = inject(
   dataItemPageInjectionKey,
 )
 
@@ -63,7 +63,7 @@ const { showSuccess } = useAppSnackbarState()
 watch(submittingItem, async (value) => {
   if (value) {
     // Unset onUnmounted
-    submitPending.value = true
+    submitStatus.value = 'pending'
     let to = ''
     try {
       switch (props.mode) {
@@ -84,15 +84,16 @@ watch(submittingItem, async (value) => {
           break
       }
       showSuccess({ text: `Successfully ${props.mode}d resource` })
+      submitStatus.value = 'success'
       await router.replace(to || from.value)
     } catch (e) {
       console.log(e)
-      submitPending.value = false
+      submitStatus.value = 'error'
     }
   }
 })
 onUnmounted(() => {
-  submitPending.value = false
+  submitStatus.value = 'idle'
 })
 </script>
 
@@ -102,7 +103,7 @@ onUnmounted(() => {
     :path="resourceConfig.appPath"
     :error="error"
   />
-  <lazy-pending-request-loader-dialog :visible="submitPending" />
+  <lazy-pending-request-loader-dialog :visible="submitStatus === 'pending'" />
   <data-card v-if="status === 'success'" :title="itemLabel" :code :color>
     <template #toolbar-prepend>
       <navigation-resource-collection-back />

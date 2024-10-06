@@ -38,11 +38,15 @@ const collectionTableComponentsMap: Partial<
       ),
     loadingComponent: LoadingComponent,
   }),
+  user: defineAsyncComponent({
+    loader: () =>
+      import('~/components/data/collection/DataCollectionUserTable.vue'),
+    loadingComponent: LoadingComponent,
+  }),
 }
 const collectionTableComponent = computed(
   () => collectionTableComponentsMap[props.resourceKey],
 )
-console.log(resourcePageKey)
 </script>
 
 <template>
