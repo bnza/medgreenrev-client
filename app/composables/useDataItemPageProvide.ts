@@ -1,6 +1,4 @@
-import type { ApiResourceItem } from '~~/types'
-
-type SubmitStatus = 'idle' | 'pending' | 'success' | 'error'
+import type { ApiResourceItem, SubmitStatus } from '~~/types'
 
 export const dataItemPageInjectionKey = Symbol() as InjectionKey<
   ReturnType<typeof useDataItemPageProvide>

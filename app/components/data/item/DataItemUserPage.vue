@@ -10,12 +10,11 @@ const props = defineProps<{
 const { tab } = useResourceTabState(props.resourcePageKey)
 const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
 
-const userPassword = useUserPasswordState()
-provide(userPasswordStateInjectionKey, userPassword)
+const { isValidUser } = inject(userPasswordStateInjectionKey)
 </script>
 
 <template>
-  <lazy-user-password-dialog v-if="userPassword.isValidUser(item)" :item />
+  <lazy-user-password-dialog v-if="isValidUser(item)" :item :mode="'reset'" />
   <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
     <v-tab value="data">data</v-tab>
     <v-tab value="sites">sites</v-tab>

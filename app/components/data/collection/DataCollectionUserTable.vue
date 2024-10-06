@@ -1,11 +1,7 @@
-<script setup lang="ts">
-import type { DataResourceKey } from '~~/types'
-
-const resourceKey: DataResourceKey = 'user'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <lazy-data-collection-table :resource-key>
+  <lazy-data-collection-table resource-key="user">
     <template #[`item.id`]="{ item, resourceConfig }">
       <navigation-resource-item
         :id="item.id"

@@ -1,4 +1,5 @@
-import type { ApiResourceItem } from '~~/types'
+import type { ApiId, ApiResourceItem, SubmitStatus } from '~~/types'
+import { useNuxtApp } from '#app'
 
 type UseUserPasswordState = ReturnType<typeof useUserPasswordState>
 export const userPasswordStateInjectionKey =
@@ -17,11 +18,35 @@ export const useUserPasswordState = () => {
       }
     },
   })
+
+  const submitStatus: Ref<SubmitStatus> = ref('idle')
   const isValidUser = (
     item: Record<string, any>,
   ): item is ApiResourceItem & { email: string } =>
     'id' in item && 'email' in item
-  return { plainPassword, isPasswordDialogOpen, isValidUser }
+
+  const { showError, showSuccess } = useAppSnackbarState()
+  const repository = useNuxtApp().$api.userRepository
+  const resetPassword = async (id: ApiId) => {
+    const newPlainPassword = generatePassword()
+    submitStatus.value = 'pending'
+    try {
+      await repository.patchItem(id, { plainPassword: newPlainPassword })
+      plainPassword.value = newPlainPassword
+      submitStatus.value = 'success'
+      showSuccess('Successfully reset password')
+    } catch (e) {
+      submitStatus.value = 'error'
+      showError(e.message)
+    }
+  }
+  return {
+    plainPassword,
+    isPasswordDialogOpen,
+    isValidUser,
+    resetPassword,
+    submitStatus,
+  }
 }
 
 export default useUserPasswordState

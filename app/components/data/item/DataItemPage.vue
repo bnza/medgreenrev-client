@@ -112,6 +112,7 @@ onUnmounted(() => {
       <lazy-data-toolbar-title-append v-if="mode !== 'read'" :text="mode" />
     </template>
     <template #toolbar-append>
+      <slot name="toolbar-append" />
       <v-btn
         v-if="mode !== 'read'"
         :disabled="!isValid"

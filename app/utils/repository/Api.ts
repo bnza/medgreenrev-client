@@ -1,16 +1,10 @@
 import type { FetchOptions } from 'ofetch'
 import type { $Fetch } from 'nitropack'
-import type {
-  ApiResourceItem,
-  DataResourceKey,
-  ResourceConfig,
-  ResourceKey,
-  ResourceConfigMap,
-} from '~~/types'
+import type { ApiResourceItem, DataResourceKey, ResourceKey } from '~~/types'
 import AutocompleteRepository from './AutocompleteRepository'
 import ResourceRepository from './ResourceRepository'
 import ValidatorRepository from './ValidatorRepository'
-// import UserRepository from '~/lib/repository/UserRepository'
+import UserRepository from './UserRepository'
 
 export default class Api {
   readonly #fetcher: $Fetch
@@ -18,7 +12,7 @@ export default class Api {
   #autocomplete: AutocompleteRepository
   #resources: Map<DataResourceKey, any>
   #validator: ValidatorRepository
-  // #userRepository: UserRepository
+  #userRepository: UserRepository
 
   constructor(
     index: Record<ResourceKey, string>,
@@ -47,12 +41,15 @@ export default class Api {
     return this.#validator
   }
 
-  // get userRepository() {
-  //   if (!this.#userRepository) {
-  //     this.#userRepository = new UserRepository('users', this.#fetcher)
-  //   }
-  //   return this.#userRepository
-  // }
+  get userRepository() {
+    if (!this.#userRepository) {
+      this.#userRepository = new UserRepository(
+        this.paths['user'],
+        this.#fetcher,
+      )
+    }
+    return this.#userRepository
+  }
 
   getRepository<RT extends ApiResourceItem>(
     resourceKey: DataResourceKey,

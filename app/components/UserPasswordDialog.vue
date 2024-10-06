@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ApiResourceItem } from '~~/types'
+import type { ApiId } from '~~/types'
 
 defineProps<{
-  item: ApiResourceItem & { email: string }
+  item: { id: ApiId; email: string }
+  mode: 'reset' | 'change'
 }>()
-const { isPasswordDialogOpen, plainPassword } = inject(
-  userPasswordStateInjectionKey,
-)
+const { isPasswordDialogOpen, plainPassword, resetPassword, submitStatus } =
+  inject(userPasswordStateInjectionKey)
 const copyToClipboard = useCopyToClipboard()
 </script>
 
@@ -18,29 +18,62 @@ const copyToClipboard = useCopyToClipboard()
           item.email
         }}</span>
       </template>
-      <user-password-dialog-content-show v-if="plainPassword" :plain-password />
+      <v-container v-if="submitStatus === 'pending'" style="height: 200px">
+        <v-row align-content="center" class="fill-height" justify="center">
+          <v-col class="text-subtitle-1 text-center" cols="12">
+            {{ mode === 'reset' ? 'Resetting' : 'Changing' }} password
+          </v-col>
+          <v-col cols="6">
+            <v-progress-linear
+              color="warning"
+              height="6"
+              indeterminate
+              rounded
+            ></v-progress-linear>
+          </v-col>
+        </v-row>
+      </v-container>
+      <user-password-dialog-content-show
+        v-else-if="plainPassword"
+        :plain-password
+      />
+      <user-password-dialog-content-reset v-else-if="mode === 'reset'" />
       <template #actions>
         <v-btn
-          v-if="plainPassword"
           color="anchor"
           rounded="false"
           variant="text"
           :icon="true"
-          @click="copyToClipboard(plainPassword)"
-        >
-          <v-icon icon="far fa-copy" />
-          <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
-        </v-btn>
-        <v-spacer />
-        <v-btn
-          color="anchor"
-          rounded="false"
-          variant="text"
-          :icon="true"
+          :disabled="submitStatus === 'pending'"
           @click="isPasswordDialogOpen = false"
         >
           <v-icon icon="fas fa-xmark" />
           <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
+        </v-btn>
+        <v-spacer />
+        <v-btn
+          v-if="plainPassword"
+          color="primary"
+          rounded="false"
+          variant="text"
+          :icon="true"
+          :disabled="submitStatus === 'pending'"
+          @click="copyToClipboard(plainPassword)"
+        >
+          <v-icon icon="far fa-copy" />
+          <v-tooltip activator="parent" location="bottom">Copy</v-tooltip>
+        </v-btn>
+        <v-btn
+          v-else-if="mode === 'reset'"
+          color="primary"
+          rounded="false"
+          variant="text"
+          :icon="true"
+          :disabled="submitStatus === 'pending'"
+          @click="resetPassword(item.id)"
+        >
+          <v-icon icon="fas fa-arrow-up-from-bracket" />
+          <v-tooltip activator="parent" location="bottom">Reset</v-tooltip>
         </v-btn>
       </template>
     </v-card>
