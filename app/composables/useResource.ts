@@ -18,8 +18,9 @@ const getParentKey = (parent?: ApiResourceCollectionParent) =>
 
 function useResource<RT extends ApiResourceItem>(
   resourceKey: DataResourceKey,
-  parentKeyOrOptions: UseResourceOptions | string,
+  parentKeyOrOptions?: UseResourceOptions | string,
 ) {
+  parentKeyOrOptions = parentKeyOrOptions || {}
   const isResourceCached = (arg: UseResourceOptions | string): arg is string =>
     'string' === typeof arg
   const resourceIsCached = isResourceCached(parentKeyOrOptions)
@@ -30,14 +31,18 @@ function useResource<RT extends ApiResourceItem>(
         ? getParentKey(parentKeyOrOptions.parent)
         : ''
 
-  let resourceOperationType: ResourceOperationType = resourceIsCached
+  let resourceOperationType: ResourceOperationType = isResourceCached(
+    parentKeyOrOptions,
+  )
     ? 'item'
     : parentKeyOrOptions.resourceOperationType || 'item'
 
   if (parentKey) {
     resourceOperationType = 'collection'
   }
-  const parent = resourceIsCached ? undefined : parentKeyOrOptions.parent
+  const parent = isResourceCached(parentKeyOrOptions)
+    ? undefined
+    : parentKeyOrOptions.parent
 
   const resourcePageKey: ResourcePageKey = parentKey
     ? `${resourceKey}/collection/${parentKey}`

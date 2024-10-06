@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ApiResourceUser, ResourcePageKey } from '~~/types'
+import type { ApiResourceUser } from '~~/types'
 import { isAclResource } from '~/utils'
 
 type RT = ApiResourceUser

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import UserPasswordDialogOpenButton from '~/components/UserPasswordDialogOpenButton.vue'
-
 const dataItemPage = useDataItemPageProvide()
 provide(dataItemPageInjectionKey, dataItemPage)
 

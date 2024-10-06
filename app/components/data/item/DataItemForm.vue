@@ -10,9 +10,7 @@ const readonly = computed(
 )
 const form = useTemplateRef('form')
 
-const { isValid, submitPending, triggerSubmit, submittingItem } = inject(
-  dataItemPageInjectionKey,
-)
+const { isValid } = inject(dataItemPageInjectionKey)
 
 watchEffect(() => {
   if (form.value) {
@@ -22,7 +20,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <v-form :readonly="readonly" @submit.prevent ref="form">
+  <v-form :readonly @submit.prevent ref="form">
     <v-container>
       <lazy-delete-item-alert v-if="mode === 'delete'" />
       <slot :readonly />

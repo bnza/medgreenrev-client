@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ApiResourceSite, ResourcePageKey } from '~~/types'
+import type { ApiResourceSite } from '~~/types'
 import { isApiResourceItem } from '~/utils'
 
 const { resourcePageKey } = useResource<ApiResourceSite>('site', {})

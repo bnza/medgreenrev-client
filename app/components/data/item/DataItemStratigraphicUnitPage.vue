@@ -3,7 +3,7 @@ import type { ApiResourceStratigraphicUnit } from '~~/types'
 
 type RT = ApiResourceStratigraphicUnit
 
-const { resourcePageKey } = useResource<RT>('stratigraphicUnit', {})
+const { resourcePageKey } = useResource<RT>('stratigraphicUnit')
 const { tab } = useResourceTabState(resourcePageKey)
 const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
 </script>

@@ -30,7 +30,7 @@ const {
   itemLabel,
   patchItem,
   postItem,
-} = useResource<RT>(props.resourceKey, {})
+} = useResource<RT>(props.resourceKey)
 
 const { item, error, status } =
   props.mode === 'create'
