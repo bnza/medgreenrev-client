@@ -1,4 +1,9 @@
-import type { BaseAcl, PaginationOptionsState } from '~~/types'
+import type {
+  ApiAclResource,
+  ApiResourceItem,
+  BaseAcl,
+  PaginationOptionsState,
+} from '~~/types'
 export * from './auth'
 export * from './colors'
 export * from './states'
@@ -31,3 +36,17 @@ export const defaultBaseAcl: Readonly<BaseAcl> = Object.freeze({
   canUpdate: false,
   canDelete: false,
 })
+
+export const isAclResource = (
+  item: Record<string, any>,
+): item is ApiAclResource =>
+  '_acl' in item &&
+  ['canRead', 'canUpdate', 'canDelete'].reduce(
+    (acc, prop) => acc && prop in item._acl,
+    true,
+  )
+
+export const isApiResourceItem = (
+  item: Record<string, any>,
+): item is ApiResourceItem =>
+  'id' in item && ['string', 'number'].includes(typeof item.id)

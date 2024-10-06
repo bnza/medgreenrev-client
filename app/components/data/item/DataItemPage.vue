@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="RT extends ApiResourceItem & ApiAclResource">
+<script setup lang="ts">
 import type {
   ApiAclResource,
   ApiAction,
@@ -8,7 +8,7 @@ import type {
 import useNavigationFromState from '~/composables/states/useNavigationFromState'
 import useDiffItem from '~/composables/api/useDiffItem'
 import type { AsyncDataRequestStatus } from '#app'
-
+type RT = ApiResourceItem & ApiAclResource
 const props = withDefaults(
   defineProps<{
     codeKey?: string
@@ -112,7 +112,7 @@ onUnmounted(() => {
       <lazy-data-toolbar-title-append v-if="mode !== 'read'" :text="mode" />
     </template>
     <template #toolbar-append>
-      <slot name="toolbar-append" />
+      <slot name="toolbar-append" :item="item" />
       <v-btn
         v-if="mode !== 'read'"
         :disabled="!isValid"
