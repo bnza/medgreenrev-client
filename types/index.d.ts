@@ -25,3 +25,9 @@ export type BaseAcl = {
   canDelete: boolean
 }
 export type AsyncValidationType = 'unique'
+
+export type UserChangePasswordBody = {
+  oldPassword: string
+  newPassword: string
+  repeatPassword: string
+}

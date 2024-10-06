@@ -1,4 +1,9 @@
-import type { ApiId, ApiResourceItem, SubmitStatus } from '~~/types'
+import type {
+  ApiId,
+  ApiResourceItem,
+  SubmitStatus,
+  UserChangePasswordBody,
+} from '~~/types'
 import { useNuxtApp } from '#app'
 
 type UseUserPasswordState = ReturnType<typeof useUserPasswordState>
@@ -40,11 +45,28 @@ export const useUserPasswordState = () => {
       showError(e.message)
     }
   }
+
+  const changePassword = async (body: UserChangePasswordBody) => {
+    submitStatus.value = 'pending'
+    try {
+      await repository.changeUserPassword(body)
+      submitStatus.value = 'success'
+      showSuccess('Successfully changed password')
+      isPasswordDialogOpen.value = false
+    } catch (e) {
+      submitStatus.value = 'error'
+      showError(e.message)
+    }
+  }
+
+  const newPassword = ref('')
   return {
     plainPassword,
     isPasswordDialogOpen,
     isValidUser,
     resetPassword,
+    changePassword,
+    newPassword,
     submitStatus,
   }
 }

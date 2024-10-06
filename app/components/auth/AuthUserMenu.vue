@@ -23,13 +23,13 @@ const { mode } = useDataUiModeState()
       </v-tooltip>
     </template>
     <v-list>
-      <!--      <v-list-item-->
-      <!--        data-testid="user-settings-me-link"-->
-      <!--        prepend-icon="fas fa-user-gear"-->
-      <!--        :title="userIdentifier"-->
-      <!--        nuxt-->
-      <!--        to="/settings/me"-->
-      <!--      />-->
+      <v-list-item
+        data-testid="user-settings-me-link"
+        prepend-icon="fas fa-user-gear"
+        :title="userIdentifier"
+        nuxt
+        to="/settings/me"
+      />
       <v-divider />
       <v-list-item
         prepend-icon="fas fa-right-from-bracket"

@@ -29,13 +29,13 @@ const { hasRoleAdmin } = useAppAuth()
             data-testid="app-nav-drawer-li-data"
           />
         </template>
-        <v-list-item
+        <!--        <v-list-item
           nuxt
           to="/data/samples"
           router
           title="Sample"
           data-testid="app-nav-drawer-li-samples"
-        />
+        />-->
         <v-list-item
           nuxt
           to="/data/sites"

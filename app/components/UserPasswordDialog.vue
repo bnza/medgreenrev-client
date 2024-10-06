@@ -1,13 +1,24 @@
 <script setup lang="ts">
-import type { ApiId } from '~~/types'
+import type { ApiId, UserChangePasswordBody } from '~~/types'
+import UserPasswordDialogContentChange from '~/components/UserPasswordDialogContentChange.vue'
 
 defineProps<{
   item: { id: ApiId; email: string }
   mode: 'reset' | 'change'
 }>()
-const { isPasswordDialogOpen, plainPassword, resetPassword, submitStatus } =
-  inject(userPasswordStateInjectionKey)
+const {
+  isPasswordDialogOpen,
+  plainPassword,
+  resetPassword,
+  changePassword,
+  submitStatus,
+} = inject(userPasswordStateInjectionKey)
 const copyToClipboard = useCopyToClipboard()
+const changePasswordRequestBody: Ref<UserChangePasswordBody> = ref({
+  oldPassword: '',
+  newPassword: '',
+  repeatPassword: '',
+})
 </script>
 
 <template>
@@ -38,6 +49,10 @@ const copyToClipboard = useCopyToClipboard()
         :plain-password
       />
       <user-password-dialog-content-reset v-else-if="mode === 'reset'" />
+      <user-password-dialog-content-change
+        v-else-if="mode === 'change'"
+        v-model="changePasswordRequestBody"
+      />
       <template #actions>
         <v-btn
           color="anchor"
@@ -71,6 +86,21 @@ const copyToClipboard = useCopyToClipboard()
           :icon="true"
           :disabled="submitStatus === 'pending'"
           @click="resetPassword(item.id)"
+        >
+          <v-icon icon="fas fa-arrow-up-from-bracket" />
+          <v-tooltip activator="parent" location="bottom">Reset</v-tooltip>
+        </v-btn>
+        <v-btn
+          v-else-if="mode === 'change'"
+          color="primary"
+          rounded="false"
+          variant="text"
+          :icon="true"
+          :disabled="
+            !Boolean(changePasswordRequestBody.newPassword) ||
+            submitStatus === 'pending'
+          "
+          @click="changePassword(changePasswordRequestBody)"
         >
           <v-icon icon="fas fa-arrow-up-from-bracket" />
           <v-tooltip activator="parent" location="bottom">Reset</v-tooltip>

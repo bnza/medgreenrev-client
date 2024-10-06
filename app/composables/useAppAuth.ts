@@ -11,7 +11,7 @@ export function useAppAuth() {
   const roles = computed(() => (unref(isAuthenticated) ? data.value.roles : []))
 
   function _hasRole(role: ApiRole) {
-    return unref(isAuthenticated) || unref(roles).includes(role)
+    return unref(isAuthenticated) && unref(roles).includes(role)
   }
 
   const hasRole = computed(() => _hasRole)
