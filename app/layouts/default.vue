@@ -3,13 +3,13 @@ import LoginDataCard from '~/components/LoginDataCard.vue'
 
 const { mode, authMode, logoutPending } = useDataUiModeState()
 const { status } = useAuth()
-watch(status, (value, oldValue) => {
-  if (value === 'unauthenticated' && oldValue === 'authenticated') {
+watch(status, (value) => {
+  if (value === 'unauthenticated') {
     if (logoutPending.value) {
       logoutPending.value = false
       return
     }
-    console.log('Session expired')
+    console.warn('Session expired')
     mode.value = 'login'
   }
 })

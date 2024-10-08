@@ -32,6 +32,18 @@ export default function () {
           return item
         },
       },
+      stratigraphicUnitsMediaObject: {
+        normalizePostItem: (item) => {
+          item = clone(item)
+          if ('item' in item && 'id' in item.item) {
+            item.item = getResourceIri(
+              'stratigraphicUnit',
+              Number(item.item.id),
+            )
+          }
+          return item
+        },
+      },
       user: {
         normalizePatchItem: (newItem, oldItem, diffItem) => {
           if (diffItem.roles) {

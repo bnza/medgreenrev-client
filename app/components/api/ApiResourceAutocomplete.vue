@@ -4,7 +4,6 @@ import type { ApiResourceCollectionParent } from '~~/types'
 const props = withDefaults(
   defineProps<{
     authorizedOnly?: boolean
-    readonly?: boolean
     orderBy?: string | [string, 'asc' | 'desc']
     parent?: ApiResourceCollectionParent
     path: string
@@ -13,7 +12,6 @@ const props = withDefaults(
   {
     authorizedOnly: false,
     orderBy: () => ['id', 'asc'],
-    readonly: false,
   },
 )
 
@@ -74,7 +72,7 @@ watch(
     }
     updateItemsDebounced()
   },
-  { immediate: !props.readonly, deep: true },
+  { immediate: true, deep: true },
 )
 watch(() => props.watch, updateItems)
 </script>

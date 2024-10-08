@@ -5,6 +5,8 @@ import { isApiResourceItem } from '~/utils'
 const { resourcePageKey } = useResource<ApiResourceSite>('site', {})
 const { tab } = useResourceTabState(resourcePageKey)
 const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
+
+const { isAuthenticated } = useAppAuth()
 </script>
 
 <template>
@@ -26,6 +28,7 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
             v-if="isApiResourceItem(item)"
             resource-key="stratigraphicUnit"
             :parent="['site.id', item.id]"
+            :create-button="isAuthenticated"
           />
         </v-tabs-window-item>
       </v-tabs-window>

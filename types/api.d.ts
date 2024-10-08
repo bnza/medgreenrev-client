@@ -37,10 +37,12 @@ export type StaticResourceConfig = Omit<
 
 export type DataResourceKey =
   // | 'sample'
-  'site' | 'user' | 'stratigraphicUnit'
-// | 'sitesUser'
-// | 'stratigraphicUnitsRelationship'
-// | 'stratigraphicUnitsMediaObject'
+  | 'site'
+  | 'user'
+  | 'stratigraphicUnit'
+  // | 'sitesUser'
+  // | 'stratigraphicUnitsRelationship'
+  | 'stratigraphicUnitsMediaObject'
 
 export type VocabularyResourceKey = 'vocabularySuRelationship'
 

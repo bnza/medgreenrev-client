@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ApiResourceCollectionParent, DataResourceKey } from '~~/types'
 import { LoadingComponent } from '#components'
+import useCreateParentStateKey from '~/composables/states/useCreateParentStateKey'
 
 const props = withDefaults(
   defineProps<{
@@ -47,6 +48,12 @@ const collectionTableComponentsMap: Partial<
 const collectionTableComponent = computed(
   () => collectionTableComponentsMap[props.resourceKey],
 )
+const createParentState = useCreateParentStateKey()
+const setCreateParentState = () => {
+  if (props.parent) {
+    createParentState.value = [props.resourceKey, props.parent[1]]
+  }
+}
 </script>
 
 <template>
@@ -62,6 +69,7 @@ const collectionTableComponent = computed(
       <lazy-navigation-resource-item-create
         v-if="createButton"
         :app-path="resourceConfig.appPath"
+        @click="setCreateParentState"
       />
       <lazy-navigation-resource-collection-search
         v-if="searchButton"

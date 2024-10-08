@@ -22,7 +22,6 @@ const props = withDefaults(
     nuxt
     :to="`${appPath}/${id}/delete`"
     variant="text"
-    @click="console.log(from)"
     data-testid="delete-item-button"
   >
     <v-icon color="error" icon="fas fa-minus" size="xsmall" />

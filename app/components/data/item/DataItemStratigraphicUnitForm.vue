@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import type { ApiAction, ApiResourceStratigraphicUnit } from '~~/types'
+import type {
+  ApiAction,
+  ApiResourceSite,
+  ApiResourceStratigraphicUnit,
+} from '~~/types'
 import useDataItemResourcePageWatchTriggerSubmit from '~/composables/useDataItemResourcePageWatchTriggerSubmit'
 import useStratigraphicUnitValidation from '~/composables/validation/useStratigraphicUnitValidation'
+import useCreateParentStateKey from '~/composables/states/useCreateParentStateKey'
 
 type RT = ApiResourceStratigraphicUnit
 const props = defineProps<{
@@ -16,7 +21,15 @@ const validation = useStratigraphicUnitValidation(props.item)
 
 const { triggerSubmit, submittingItem } = inject(dataItemPageInjectionKey)
 useDataItemResourcePageWatchTriggerSubmit(triggerSubmit, state, submittingItem)
-const inputYearRef = useTemplateRef('input-year')
+const createParentState = useCreateParentStateKey()
+if (createParentState.value) {
+  state.site = await useNuxtApp()
+    .$api.getRepository<ApiResourceSite>('site')
+    .fetchItem(createParentState.value[1])
+}
+onUnmounted(() => {
+  createParentState.value = undefined
+})
 </script>
 
 <template>
@@ -27,23 +40,23 @@ const inputYearRef = useTemplateRef('input-year')
       </v-col>
     </v-row>
     <v-row no-gutters>
-      <v-col cols="12" xs="6" sm="2" class="px-2">
+      <v-col cols="12" xs="6" sm="4" class="px-2">
         <api-resource-site-autocomplete
+          :readonly="createParentState"
           :validation-value="state"
           v-model="state.site"
           :rules="validation.rules['site']"
         />
       </v-col>
-      <v-col cols="12" xs="12" sm="5" class="px-2">
+      <v-col cols="12" xs="12" sm="4" class="px-2">
         <v-text-field
-          ref="input-year"
           v-model="state.year"
           label="year"
           :rules="validation.rules['year']"
           :validation-value="state"
         />
       </v-col>
-      <v-col cols="12" xs="12" sm="5" class="px-2">
+      <v-col cols="12" xs="12" sm="4" class="px-2">
         <v-text-field
           :rules="validation.rules['number']"
           v-model="state.number"

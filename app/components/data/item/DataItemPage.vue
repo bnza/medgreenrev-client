@@ -117,6 +117,7 @@ onUnmounted(() => {
         v-if="mode !== 'read'"
         :disabled="!isValid"
         color="anchor"
+        data-testid="submit-button"
         rounded="false"
         variant="text"
         :icon="true"

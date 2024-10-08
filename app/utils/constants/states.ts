@@ -9,6 +9,7 @@ export enum States {
   AppSnackbar = 'appSnackBar',
   LoginRedirectFrom = 'loginRedirectFrom',
   SearchParentKey = 'searchParentKey',
+  CreateParentKey = 'createParentKey',
   GlobalSequence = 'globalSequence',
   NavigationFrom = 'navigationFrom',
   UserPlainPassword = 'userPlainPassword',

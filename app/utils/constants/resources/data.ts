@@ -116,10 +116,17 @@ const user: StaticResourceConfig = {
   ],
 }
 
+const stratigraphicUnitsMediaObject: StaticResourceConfig = {
+  appPath: '/',
+  labels: ['Medium (Stratigraphic Unit)', 'Media (Stratigraphic Unit)'],
+  defaultHeaders: [],
+}
+
 const data: Readonly<Record<DataResourceKey, StaticResourceConfig>> =
   Object.freeze({
     site,
     stratigraphicUnit,
+    stratigraphicUnitsMediaObject,
     user,
   })
 

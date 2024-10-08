@@ -53,3 +53,14 @@ export const validateState =
   ) =>
   (state: T) =>
     fn(state[prop])
+
+export const each =
+  (fn: (...args: any[]) => true | string) => (value: any[]) =>
+    value.length > 0
+      ? value.reduce((acc, curr) => {
+          if ('string' === typeof acc) {
+            return acc
+          }
+          return fn(curr)
+        }, true)
+      : 'This field is required'

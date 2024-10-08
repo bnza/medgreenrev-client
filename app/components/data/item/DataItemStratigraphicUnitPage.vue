@@ -13,7 +13,7 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
     <template #default="{ item }">
       <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
         <v-tab value="data">data</v-tab>
-        <v-tab value="sites">samples</v-tab>
+        <v-tab value="media">media</v-tab>
       </v-tabs>
       <v-tabs-window v-model="tab">
         <v-tabs-window-item value="data">
@@ -23,11 +23,13 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
             mode="read"
           />
         </v-tabs-window-item>
-        <v-tabs-window-item value="samples" data-testid="tabs-window-samples">
-          <!--      <lazy-data-collection-card-->
-          <!--        resource-key="stratigraphicUnit"-->
-          <!--        :parent="['site.id', item.id]"-->
-          <!--      />-->
+        <v-tabs-window-item value="media" data-testid="tabs-window-media">
+          <lazy-media-object-join-container
+            v-if="isApiResourceItem(item)"
+            resource-key="stratigraphicUnitsMediaObject"
+            :parent="['item.id', item.id]"
+            :can-update="item._acl.canUpdate"
+          />
         </v-tabs-window-item>
       </v-tabs-window>
     </template>

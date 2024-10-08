@@ -33,3 +33,15 @@ export interface ApiResourceUser extends ApiResourceItem {
   roles: Array<ApiRole | ApiSpecialistRole>
   privileges: Record<number, number>
 }
+
+export interface ApiResourceMediaObject extends ApiResourceItem {
+  contentUrl: string
+  originalFilename: string
+  mimeType: string
+  size: number
+}
+
+export interface ApiResourceItemMediaObject extends ApiResourceItem {
+  item: ApiResourceItem
+  mediaObject: ApiResourceMediaObject
+}

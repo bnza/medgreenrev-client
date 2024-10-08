@@ -55,7 +55,7 @@ function useResource<RT extends ApiResourceItem>(
     }
     cache.set(
       resourcePageKey,
-      _useResource({ resourceKey, resourcePageKey, parent }),
+      _useResource<RT>({ resourceKey, resourcePageKey, parent }),
     )
   }
   return cache.get(resourcePageKey)
@@ -170,6 +170,7 @@ function _useResource<RT extends ApiResourceItem>({
     parent: parentRef,
     fetchCollection,
     fetchItem,
+    paginationOptions,
     patchItem: repository.patchItem.bind(repository),
     postItem: repository.postItem.bind(repository),
     resourceConfig,
