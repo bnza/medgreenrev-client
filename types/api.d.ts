@@ -36,6 +36,7 @@ export type StaticResourceConfig = Omit<
 >
 
 export type DataResourceKey =
+  | 'pottery'
   // | 'sample'
   | 'site'
   | 'user'
@@ -44,7 +45,11 @@ export type DataResourceKey =
   // | 'stratigraphicUnitsRelationship'
   | 'stratigraphicUnitsMediaObject'
 
-export type VocabularyResourceKey = 'vocabularySuRelationship'
+export type VocabularyResourceKey =
+  | 'vocabularyPotteryFunctionalGroup'
+  | 'vocabularyPotteryPart'
+  | 'vocabularyPotteryTypology'
+  | 'vocabularySuRelationship'
 
 export type ResourceKey = DataResourceKey | VocabularyResourceKey
 

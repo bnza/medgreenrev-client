@@ -1,5 +1,5 @@
 import type { $Fetch } from 'nitropack'
-import type { ApiResourceItem } from '~~/types'
+import type { ApiResourceItem, JsonLdResourceItem } from '~~/types'
 import AbstractRepository from '~/utils/repository/AbstractRepository'
 class ResourceRepository<
   ResourceType extends ApiResourceItem,

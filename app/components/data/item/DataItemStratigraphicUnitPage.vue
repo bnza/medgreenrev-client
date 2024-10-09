@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import type { ApiResourceStratigraphicUnit } from '~~/types'
+import { isApiResourceItem } from '~/utils'
 
 type RT = ApiResourceStratigraphicUnit
 
 const { resourcePageKey } = useResource<RT>('stratigraphicUnit')
 const { tab } = useResourceTabState(resourcePageKey)
 const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
+
+const { isAuthenticated } = useAppAuth()
 </script>
 
 <template>
@@ -13,6 +16,7 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
     <template #default="{ item }">
       <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
         <v-tab value="data">data</v-tab>
+        <v-tab value="potteries">potteries</v-tab>
         <v-tab value="media">media</v-tab>
       </v-tabs>
       <v-tabs-window v-model="tab">
@@ -21,6 +25,17 @@ const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
             v-if="item"
             :item="item"
             mode="read"
+          />
+        </v-tabs-window-item>
+        <v-tabs-window-item
+          value="potteries"
+          data-testid="tabs-window-potteries"
+        >
+          <lazy-data-collection-card
+            v-if="isApiResourceItem(item)"
+            resource-key="pottery"
+            :parent="['stratigraphicUnit.id', item.id]"
+            :create-button="isAuthenticated"
           />
         </v-tabs-window-item>
         <v-tabs-window-item value="media" data-testid="tabs-window-media">

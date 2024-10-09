@@ -29,7 +29,7 @@ export default function <RT extends ApiResourceStratigraphicUnit>(
     number: [
       validateState<RT>('number', required),
       validateState<RT>('number', isInteger),
-      validateState<RT>('year', greaterThanOrEqual(0)),
+      validateState<RT>('number', greaterThanOrEqual(1)),
       uniqueSu,
     ],
   }

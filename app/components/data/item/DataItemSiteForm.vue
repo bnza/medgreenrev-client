@@ -28,6 +28,7 @@ useDataItemResourcePageWatchTriggerSubmit(triggerSubmit, state, submittingItem)
     <v-row no-gutters>
       <v-col cols="12" xs="6" sm="2" class="px-2">
         <v-text-field
+          :disabled="mode === 'update'"
           class="text-input-secondary"
           :rules="validation.rules['code']"
           v-model="state.code"

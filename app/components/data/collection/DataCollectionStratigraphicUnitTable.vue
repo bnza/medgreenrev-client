@@ -15,6 +15,9 @@ const resourceKey: DataResourceKey = 'stratigraphicUnit'
         :app-path="resourceConfig.appPath"
       />
     </template>
+    <template #[`item.code`]="{ item }">
+      <p class="text-secondary">{{ item.code }}</p>
+    </template>
     <template #[`item.public`]="{ item }">
       <v-checkbox-btn
         density="compact"

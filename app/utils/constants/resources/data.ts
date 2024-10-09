@@ -1,5 +1,80 @@
 import type { DataResourceKey, StaticResourceConfig } from '~~/types'
 
+const pottery: StaticResourceConfig = {
+  appPath: '/data/potteries',
+  labels: ['Pottery', 'Potteries'],
+  protectedFields: ['public'],
+  defaultHeaders: [
+    {
+      key: 'id',
+      value: 'id',
+      title: 'ID',
+      align: 'center',
+      width: '200',
+      maxWidth: '200',
+    },
+    {
+      key: 'code',
+      value: 'code',
+      title: 'code',
+      width: '200',
+      sortable: false,
+    },
+    {
+      key: 'number',
+      value: 'number',
+      title: 'number',
+    },
+    {
+      key: 'projectIdentifier',
+      value: 'projectIdentifier',
+      title: 'project identifier',
+      sortable: false,
+    },
+    {
+      key: 'fragmentsNumber',
+      value: 'fragmentsNumber',
+      title: 'fragments (num.)',
+    },
+    {
+      key: 'chronologyLower',
+      value: 'chronologyLower',
+      title: 'chronology (lower)',
+    },
+    {
+      key: 'chronologyUpper',
+      value: 'chronologyUpper',
+      title: 'chronology (upper)',
+    },
+    {
+      key: 'functionalGroup.value',
+      value: 'functionalGroup',
+      title: 'functional group',
+    },
+    {
+      key: 'typology.value',
+      value: 'typology',
+      title: 'typology',
+    },
+    {
+      key: 'part.value',
+      value: 'part',
+      title: 'part',
+    },
+    {
+      key: 'description',
+      value: 'description',
+      title: 'description',
+      sortable: false,
+    },
+    {
+      key: 'public',
+      value: 'public',
+      title: 'public',
+      sortable: false,
+    },
+  ],
+}
 const site: StaticResourceConfig = {
   appPath: '/data/sites',
   labels: ['Site', 'Sites'],
@@ -51,6 +126,12 @@ const stratigraphicUnit: StaticResourceConfig = {
       align: 'center',
       width: '200',
       maxWidth: '200',
+    },
+    {
+      key: 'site.code',
+      value: 'site.code',
+      title: 'site',
+      width: '80',
     },
     {
       key: 'code',
@@ -124,6 +205,7 @@ const stratigraphicUnitsMediaObject: StaticResourceConfig = {
 
 const data: Readonly<Record<DataResourceKey, StaticResourceConfig>> =
   Object.freeze({
+    pottery,
     site,
     stratigraphicUnit,
     stratigraphicUnitsMediaObject,

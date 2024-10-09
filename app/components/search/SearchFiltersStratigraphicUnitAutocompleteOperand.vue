@@ -14,5 +14,10 @@ const operand = computed({
 </script>
 
 <template>
-  <v-text-field label="value" v-model="operand" :rules="[required]" />
+  <api-resource-stratigraphic-unit-autocomplete
+    item-value="id"
+    item-title="code"
+    label="value"
+    v-model="operand"
+  />
 </template>

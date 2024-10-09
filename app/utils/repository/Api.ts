@@ -23,6 +23,9 @@ export default class Api {
     this.#resources = new Map<DataResourceKey, any>()
   }
 
+  get fetch() {
+    return this.#fetcher
+  }
   // getResourceConfig(key: ResourceKey) {
   //   return this.#configs[key]
   // }

@@ -1,5 +1,6 @@
 import { defineNuxtPlugin } from '#app'
 import useApiResourcesIndexState from '~/composables/states/useApiResourcesIndexState'
+import type { JsonLdDocument } from '~~/types'
 
 export default defineNuxtPlugin({
   name: 'api-index',

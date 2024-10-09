@@ -22,6 +22,7 @@ function useResourceConfig(key?: ResourceKey) {
         {
           name: key,
           apiPath: index.value[key],
+          protectedFields: [],
         },
         getResourceStaticConfig(key),
         getResourceNormalizers(key),

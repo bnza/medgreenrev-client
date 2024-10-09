@@ -1,3 +1,5 @@
+import type { VocabularyResourceKey } from '~~/types/api'
+
 export type FilterKey =
   | 'SearchExact'
   | 'SearchPartial'
@@ -8,6 +10,8 @@ export type FilterKey =
   | 'NumericLowerThanOrEqual'
   | 'SiteEqualAutocomplete'
   | 'StratigraphicUnitEqualAutocomplete'
+  | 'VocabularyPotteryTypologyEqualAutocomplete'
+  | 'VocabularyPotteryFunctionalGroupEqualAutocomplete'
   | 'BooleanIsTrue'
   | 'BooleanIsFalse'
 
@@ -24,6 +28,7 @@ export type FilterDefinitionObject = {
   multiple: boolean
   propertyLabel?: string
   operandsComponent: string
+  operandComponentVocabularyKey?: VocabularyResourceKey
   operandListItemPropertyKey?: string
   operandsNumber: number
   addToObject: (filterObject: Record<string, any>, filter: Filter) => void

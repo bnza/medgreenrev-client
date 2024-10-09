@@ -20,7 +20,7 @@ const triggerSubmit = ref(false)
       </v-card-title>
       <search-add-filter-card-content
         v-model:trigger-submit="triggerSubmit"
-        @update:invalid="isInvalid = $event"
+        v-model:is-invalid="isInvalid"
       />
       <v-card-actions>
         <v-btn

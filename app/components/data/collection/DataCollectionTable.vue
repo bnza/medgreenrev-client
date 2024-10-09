@@ -25,7 +25,9 @@ const { items, paginationOptions, totalItems, status } = await fetchCollection()
 <template>
   <v-data-table-server
     :loading="status === 'pending'"
-    v-bind="$attrs"
+    fixed-header
+    fixed-footer
+    height="calc(100vh - 300px)"
     :headers
     :items
     :items-length="totalItems"

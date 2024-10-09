@@ -131,6 +131,7 @@ const SiteEqualAutocomplete: Readonly<FilterDefinitionObject> = {
     filterObj[filter.property] = filter.operands[0].id
   },
 }
+
 const StratigraphicUnitEqualAutocomplete: Readonly<FilterDefinitionObject> = {
   id: 'StratigraphicUnitEqualAutocomplete',
   label: 'equals',
@@ -143,6 +144,40 @@ const StratigraphicUnitEqualAutocomplete: Readonly<FilterDefinitionObject> = {
     filterObj[filter.property] = filter.operands[0].id
   },
 }
+const VocabularyPotteryTypologyEqualAutocomplete: Readonly<FilterDefinitionObject> =
+  {
+    id: 'VocabularyPotteryTypologyEqualAutocomplete',
+    label: 'equals',
+    multiple: true,
+    propertyLabel: 'typology',
+    operandsComponent: 'VocabularyAutocomplete',
+    operandComponentVocabularyKey: 'vocabularyPotteryTypology',
+    operandListItemPropertyKey: 'value',
+    operandsNumber: 1,
+    addToObject: (filterObj, filter) => {
+      if (!filterObj[filter.property]) {
+        filterObj[filter.property] = []
+      }
+      filterObj[filter.property].push(filter.operands[0].id)
+    },
+  }
+const VocabularyPotteryFunctionalGroupEqualAutocomplete: Readonly<FilterDefinitionObject> =
+  {
+    id: 'VocabularyPotteryFunctionalGroupEqualAutocomplete',
+    label: 'equals',
+    multiple: true,
+    propertyLabel: 'functional group',
+    operandsComponent: 'VocabularyAutocomplete',
+    operandComponentVocabularyKey: 'vocabularyPotteryFunctionalGroup',
+    operandListItemPropertyKey: 'value',
+    operandsNumber: 1,
+    addToObject: (filterObj, filter) => {
+      if (!filterObj[filter.property]) {
+        filterObj[filter.property] = []
+      }
+      filterObj[filter.property].push(filter.operands[0].id)
+    },
+  }
 
 export const API_FILTERS: Readonly<Record<FilterKey, FilterDefinitionObject>> =
   {
@@ -157,6 +192,8 @@ export const API_FILTERS: Readonly<Record<FilterKey, FilterDefinitionObject>> =
     BooleanIsFalse,
     SiteEqualAutocomplete,
     StratigraphicUnitEqualAutocomplete,
+    VocabularyPotteryFunctionalGroupEqualAutocomplete,
+    VocabularyPotteryTypologyEqualAutocomplete,
   }
 
 export const FILTER_COMPONENT = Object.freeze({
@@ -164,6 +201,46 @@ export const FILTER_COMPONENT = Object.freeze({
   Operator: 1,
   Operands: 2,
 })
+const pottery: Readonly<ResourceFiltersDefinitionObject> = {
+  'site.id': {
+    filters: { SiteEqualAutocomplete },
+    propertyLabel: 'site',
+  },
+  'stratigraphicUnit.id': {
+    filters: { StratigraphicUnitEqualAutocomplete },
+    propertyLabel: 'stratigraphic unit',
+  },
+  number: {
+    filters: {
+      NumericEqual,
+      NumericGreaterThan,
+      NumericGreaterThanOrEqual,
+      NumericLowerThan,
+      NumericLowerThanOrEqual,
+    },
+  },
+  fragmentsNumber: {
+    propertyLabel: 'fragments number',
+    filters: {
+      NumericEqual,
+      NumericGreaterThan,
+      NumericGreaterThanOrEqual,
+      NumericLowerThan,
+      NumericLowerThanOrEqual,
+    },
+  },
+  'typology.id': {
+    propertyLabel: 'typology',
+    filters: { VocabularyPotteryTypologyEqualAutocomplete },
+  },
+  'functionalGroup.id': {
+    propertyLabel: 'functional group',
+    filters: { VocabularyPotteryFunctionalGroupEqualAutocomplete },
+  },
+  description: {
+    filters: { SearchPartial },
+  },
+}
 
 const site: Readonly<ResourceFiltersDefinitionObject> = {
   code: {
@@ -209,6 +286,7 @@ const stratigraphicUnit: Readonly<ResourceFiltersDefinitionObject> = {
     filters: { SiteEqualAutocomplete },
     propertyLabel: 'site',
   },
+
   public: {
     filters: { BooleanIsFalse, BooleanIsTrue },
   },
@@ -239,6 +317,7 @@ const sample: Readonly<ResourceFiltersDefinitionObject> = {
 export const RESOURCE_PAGES_STATE: Readonly<
   Partial<Record<ResourceKey, ResourceFiltersDefinitionObject>>
 > = {
+  pottery,
   // samples,
   site,
   stratigraphicUnit,

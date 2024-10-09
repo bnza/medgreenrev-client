@@ -27,6 +27,11 @@ const { collectionLabel, resourceConfig, resourcePageKey, isFiltered } =
 const collectionTableComponentsMap: Partial<
   Record<DataResourceKey, ReturnType<typeof defineAsyncComponent>>
 > = {
+  pottery: defineAsyncComponent({
+    loader: () =>
+      import('~/components/data/collection/DataCollectionPotteryTable.vue'),
+    loadingComponent: LoadingComponent,
+  }),
   site: defineAsyncComponent({
     loader: () =>
       import('~/components/data/collection/DataCollectionSiteTable.vue'),
@@ -77,10 +82,12 @@ const setCreateParentState = () => {
         :parent
       />
     </template>
-    <component
-      :is="collectionTableComponent"
-      data-testid="children-collection-table"
-      :parent
-    />
+    <Suspense>
+      <component
+        :is="collectionTableComponent"
+        data-testid="children-collection-table"
+        :parent
+      />
+    </Suspense>
   </data-card>
 </template>

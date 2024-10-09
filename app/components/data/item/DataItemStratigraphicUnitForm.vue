@@ -42,7 +42,8 @@ onUnmounted(() => {
     <v-row no-gutters>
       <v-col cols="12" xs="6" sm="4" class="px-2">
         <api-resource-site-autocomplete
-          :readonly="createParentState"
+          :disabled="mode === 'update'"
+          readonly
           :validation-value="state"
           v-model="state.site"
           :rules="validation.rules['site']"
@@ -50,6 +51,7 @@ onUnmounted(() => {
       </v-col>
       <v-col cols="12" xs="12" sm="4" class="px-2">
         <v-text-field
+          :disabled="mode === 'update'"
           v-model="state.year"
           label="year"
           :rules="validation.rules['year']"
@@ -58,6 +60,7 @@ onUnmounted(() => {
       </v-col>
       <v-col cols="12" xs="12" sm="4" class="px-2">
         <v-text-field
+          :disabled="mode === 'update'"
           :rules="validation.rules['number']"
           v-model="state.number"
           label="number"

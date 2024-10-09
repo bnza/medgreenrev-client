@@ -17,6 +17,25 @@ export default function () {
   const { getResourceIri } = useApiResourcesIndexState()
   const normalizers: Partial<Record<ResourceKey, OptionalResourceNormalizers>> =
     {
+      pottery: {
+        normalizePostItem: (item) => {
+          item = clone(item)
+
+          if (item?.number) {
+            item.number = Number(item.number)
+          }
+          if (item?.fragmentsNumber) {
+            item.fragmentsNumber = Number(item.fragmentsNumber)
+          }
+          if (item?.stratigraphicUnit?.id) {
+            item.stratigraphicUnit = getResourceIri(
+              'stratigraphicUnit',
+              item.stratigraphicUnit.id,
+            )
+          }
+          return item
+        },
+      },
       stratigraphicUnit: {
         normalizePostItem: (item) => {
           item = clone(item)
