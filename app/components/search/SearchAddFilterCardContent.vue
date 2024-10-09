@@ -47,6 +47,7 @@ watch(
 )
 
 const operandsComponentsMap = {
+  Exists: resolveComponent('SearchFiltersBooleanOperand'),
   Single: resolveComponent('SearchFiltersSingleOperand'),
   SiteAutocomplete: resolveComponent('SearchFiltersSiteAutocompleteOperand'),
   StratigraphicUnitAutocomplete: resolveComponent(

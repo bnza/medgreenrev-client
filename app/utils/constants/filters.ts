@@ -97,6 +97,22 @@ const NumericLowerThanOrEqual: Readonly<FilterDefinitionObject> = {
   },
 }
 
+const Exists: Readonly<FilterDefinitionObject> = {
+  id: 'Exists',
+  label: 'is empty',
+  multiple: false,
+  operandsComponent: 'Exists',
+  operandsNumber: 0,
+  addToObject: (filterObj, filter) => {
+    if (!('exists' in filterObj)) {
+      filterObj['exists'] = []
+    }
+    // exists filter does not support . notation
+    filterObj['exists'][filter.property.replace(/(\..+)/, '')] =
+      !filter.operands[0]
+  },
+}
+
 const BooleanIsTrue: Readonly<FilterDefinitionObject> = {
   id: 'BooleanIsTrue',
   label: 'is true',
@@ -161,6 +177,7 @@ const VocabularyPotteryTypologyEqualAutocomplete: Readonly<FilterDefinitionObjec
       filterObj[filter.property].push(filter.operands[0].id)
     },
   }
+
 const VocabularyPotteryFunctionalGroupEqualAutocomplete: Readonly<FilterDefinitionObject> =
   {
     id: 'VocabularyPotteryFunctionalGroupEqualAutocomplete',
@@ -179,8 +196,27 @@ const VocabularyPotteryFunctionalGroupEqualAutocomplete: Readonly<FilterDefiniti
     },
   }
 
+const VocabularyPotteryPartEqualAutocomplete: Readonly<FilterDefinitionObject> =
+  {
+    id: 'VocabularyPotteryPartEqualAutocomplete',
+    label: 'equals',
+    multiple: true,
+    propertyLabel: 'functional group',
+    operandsComponent: 'VocabularyAutocomplete',
+    operandComponentVocabularyKey: 'vocabularyPotteryFunctionalGroup',
+    operandListItemPropertyKey: 'value',
+    operandsNumber: 1,
+    addToObject: (filterObj, filter) => {
+      if (!filterObj[filter.property]) {
+        filterObj[filter.property] = []
+      }
+      filterObj[filter.property].push(filter.operands[0].id)
+    },
+  }
+
 export const API_FILTERS: Readonly<Record<FilterKey, FilterDefinitionObject>> =
   {
+    Exists,
     SearchExact,
     SearchPartial,
     NumericEqual,
@@ -192,6 +228,7 @@ export const API_FILTERS: Readonly<Record<FilterKey, FilterDefinitionObject>> =
     BooleanIsFalse,
     SiteEqualAutocomplete,
     StratigraphicUnitEqualAutocomplete,
+    VocabularyPotteryPartEqualAutocomplete,
     VocabularyPotteryFunctionalGroupEqualAutocomplete,
     VocabularyPotteryTypologyEqualAutocomplete,
   }
@@ -228,6 +265,39 @@ const pottery: Readonly<ResourceFiltersDefinitionObject> = {
       NumericLowerThan,
       NumericLowerThanOrEqual,
     },
+  },
+  projectIdentifier: {
+    propertyLabel: 'project identifier',
+    filters: {
+      SearchPartial,
+      Exists,
+    },
+  },
+  chronologyLower: {
+    propertyLabel: 'chronology (lower)',
+    filters: {
+      NumericEqual,
+      NumericGreaterThan,
+      NumericGreaterThanOrEqual,
+      NumericLowerThan,
+      NumericLowerThanOrEqual,
+      Exists,
+    },
+  },
+  chronologyUpper: {
+    propertyLabel: 'chronology (upper)',
+    filters: {
+      NumericEqual,
+      NumericGreaterThan,
+      NumericGreaterThanOrEqual,
+      NumericLowerThan,
+      NumericLowerThanOrEqual,
+      Exists,
+    },
+  },
+  'part.id': {
+    propertyLabel: 'part',
+    filters: { VocabularyPotteryPartEqualAutocomplete, Exists },
   },
   'typology.id': {
     propertyLabel: 'typology',

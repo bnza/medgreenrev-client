@@ -2,6 +2,7 @@ import type {
   ApiResourceCollectionParent,
   ApiResourceItem,
   DataResourceKey,
+  JsonLdResourceCollection,
   ResourceOperationType,
   ResourcePageKey,
 } from '~~/types'

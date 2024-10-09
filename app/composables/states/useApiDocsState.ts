@@ -1,3 +1,5 @@
+import type { JsonLdApiDocumentation } from '~~/types'
+
 export default function () {
   const state: Ref<JsonLdApiDocumentation | {}> = useState(
     States.ApiDocs,

@@ -1,4 +1,9 @@
-import type { ApiId, ApiResourceIndex, ResourceKey } from '~~/types'
+import type {
+  ApiId,
+  ApiResourceIndex,
+  JsonLdDocument,
+  ResourceKey,
+} from '~~/types'
 
 export default function (fetched?: JsonLdDocument) {
   const state = useState<ApiResourceIndex | {}>(

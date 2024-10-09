@@ -1,6 +1,8 @@
 export const required = (value: string | undefined) =>
   Boolean(value) || 'This field is required'
 
+export const defined = (value: string | undefined) =>
+  'undefined' !== typeof value || 'This field is required'
 export const email = (value: string) =>
   /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value) || `Invalid email`
 export const maxLength = (maxLength: number) => (value: string) =>
