@@ -5,7 +5,7 @@ export type ResourcePageState = {
   // filters: Array<Filter>
   tab: string | null
   // from: [string, MaybeResourcePageKey]
-  // totalItems: number
+  filteredItemsCount: number
 }
 
 export const getDefaultResourcePageState = (
@@ -16,7 +16,7 @@ export const getDefaultResourcePageState = (
     filters: [],
     tab: null,
     from: ['/', ''],
-    totalItems: 0,
+    filteredItemsCount: 0,
   })
 
 type AppResourcePagesState = Record<string, ResourcePageState> | {}

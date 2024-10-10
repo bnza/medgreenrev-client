@@ -17,6 +17,7 @@ const props = withDefaults(
     searchButton: true,
   },
 )
+const { isAuthenticated } = useAppAuth()
 
 const { collectionLabel, resourceConfig, resourcePageKey, isFiltered } =
   useResource(props.resourceKey, {
@@ -71,6 +72,10 @@ const setCreateParentState = () => {
       />
     </template>
     <template #toolbar-append>
+      <lazy-navigation-resource-collection-download
+        v-if="downloadButton && isAuthenticated"
+        :resource-page-key
+      />
       <lazy-navigation-resource-item-create
         v-if="createButton"
         :app-path="resourceConfig.appPath"

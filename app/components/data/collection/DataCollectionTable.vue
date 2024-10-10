@@ -3,7 +3,10 @@ import type {
   ApiResourceCollectionParent,
   ApiResourceItem,
   DataResourceKey,
+  JsonLdResourceCollection,
+  JsonLdResourceItem,
 } from '~~/types'
+import type { AsyncDataRequestStatus } from '#app'
 
 const props = defineProps<{
   resourceKey: DataResourceKey
@@ -19,10 +22,12 @@ if (props.parent) {
   parent.value = props.parent
 }
 
-// @ts-ignore
-let results: Ref<Partial<Awaited<ReturnType<typeof fetchCollection>>>> = ref({
-  items: ref([]),
-  status: ref('pending'),
+type FetchCollectionReturnType = Awaited<ReturnType<typeof fetchCollection>>
+
+let results = ref({
+  totalItems: ref(0),
+  items: ref([] as JsonLdResourceItem<ApiResourceItem>[]),
+  status: ref('pending' as AsyncDataRequestStatus),
 })
 
 fetchCollection().then((_results) => (results.value = _results))
@@ -36,7 +41,7 @@ fetchCollection().then((_results) => (results.value = _results))
     height="calc(100vh - 300px)"
     :headers
     :items="results.items"
-    :items-length="results.totalItems || 0"
+    :items-length="results.totalItems"
     :items-per-page="results.paginationOptions?.itemsPerPage"
     :items-per-page-options
     :page="results.paginationOptions?.page || 1"
@@ -52,8 +57,6 @@ fetchCollection().then((_results) => (results.value = _results))
       />
     </template>
   </v-data-table-server>
-
-  <!--  <loading-component v-else />-->
 </template>
 
 <style scoped></style>

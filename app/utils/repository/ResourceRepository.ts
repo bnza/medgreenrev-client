@@ -1,5 +1,9 @@
 import type { $Fetch } from 'nitropack'
-import type { ApiResourceItem, JsonLdResourceItem } from '~~/types'
+import type {
+  ApiResourceItem,
+  JsonLdResourceCollection,
+  JsonLdResourceItem,
+} from '~~/types'
 import AbstractRepository from '~/utils/repository/AbstractRepository'
 class ResourceRepository<
   ResourceType extends ApiResourceItem,
@@ -20,17 +24,28 @@ class ResourceRepository<
     return this.$fetch<JsonLdResourceItem<ResourceType>>(url, { method: 'GET' })
   }
 
-  // async exportCollection(fetchOptions: FetchOptions) {
-  //   return this.$fetch<string>(`${this.resourceConfig.apiPath}/export`, {
-  //     // @ts-ignore
-  //     method: 'GET',
-  //     headers: {
-  //       Accept: 'text/csv',
-  //       'Content-Type': 'text/csv',
-  //     },
-  //     ...fetchOptions,
-  //   })
-  // }
+  async exportCollection(query: Record<string, any>) {
+    return this.$fetch<string>(this.baseUrl.replace(/(\/\w+)$/, '/export$1'), {
+      method: 'GET',
+      headers: {
+        Accept: 'text/csv',
+        'Content-Type': 'text/csv',
+      },
+      query,
+    })
+  }
+
+  async fetchResourceTotalItems() {
+    return this.$fetch<JsonLdResourceCollection<ApiResourceItem>>(
+      this.baseUrl,
+      {
+        method: 'GET',
+        query: {
+          totalItems: 0,
+        },
+      },
+    )
+  }
 
   async patchItem(
     id: string | number,

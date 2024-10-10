@@ -5,9 +5,11 @@ import type {
   JsonLdResourceCollection,
   ResourceOperationType,
   ResourcePageKey,
+  SubmitStatus,
 } from '~~/types'
 import useResourceFilterState from '~/composables/states/useResourceFilterState'
 import useResourceConfig from '~/composables/useResourceConfig'
+import { useResourceFilteredItemsCountState } from '~/composables/states/useResourceFilteredItemsCountState'
 
 type UseResourceOptions = {
   parent?: ApiResourceCollectionParent
@@ -16,11 +18,33 @@ type UseResourceOptions = {
 
 const getParentKey = (parent?: ApiResourceCollectionParent) =>
   parent ? parent[0] : ''
+export type UseResourceReturnType = ReturnType<typeof _useResource>
+
+const isResourcePageKey = (key: string): key is ResourcePageKey =>
+  /\/(collection|item)/.test(key)
 
 function useResource<RT extends ApiResourceItem>(
   resourceKey: DataResourceKey,
   parentKeyOrOptions?: UseResourceOptions | string,
+): UseResourceReturnType
+
+function useResource<RT extends ApiResourceItem>(
+  resourceKey: ResourcePageKey,
+): UseResourceReturnType
+
+function useResource<RT extends ApiResourceItem>(
+  resourceKey: DataResourceKey | ResourcePageKey,
+  parentKeyOrOptions?: UseResourceOptions | string,
 ) {
+  const cache = useNuxtApp().$cache.useResource
+  if (isResourcePageKey(resourceKey)) {
+    if (!cache.has(resourceKey)) {
+      // @TODO improve error handling: can you extract some useResource() params from key?
+      console.error(`Cached resource key ${resourceKey} not set`)
+    }
+    return cache.get(resourceKey)
+  }
+
   parentKeyOrOptions = parentKeyOrOptions || {}
   const isResourceCached = (arg: UseResourceOptions | string): arg is string =>
     'string' === typeof arg
@@ -49,7 +73,6 @@ function useResource<RT extends ApiResourceItem>(
     ? `${resourceKey}/collection/${parentKey}`
     : `${resourceKey}/${resourceOperationType}`
 
-  const cache = useNuxtApp().$cache.useResource
   if (!cache.has(resourcePageKey)) {
     if (resourceIsCached) {
       console.error(`Cached resource key ${resourceKey} not set`)
@@ -61,8 +84,6 @@ function useResource<RT extends ApiResourceItem>(
   }
   return cache.get(resourcePageKey)
 }
-
-export type UseResourceReturnType = ReturnType<typeof _useResource>
 
 function _useResource<RT extends ApiResourceItem>({
   resourceKey,
@@ -125,6 +146,9 @@ function _useResource<RT extends ApiResourceItem>({
   )
 
   type Collection = JsonLdResourceCollection<RT>
+
+  const filteredItemsCountState =
+    useResourceFilteredItemsCountState(resourcePageKey)
   const fetchCollection = async () => {
     const key =
       resourceConfig.apiPath + parent ? '/' + getParentKey(parent) : ''
@@ -142,6 +166,7 @@ function _useResource<RT extends ApiResourceItem>({
     }
     const items = computed(() => data.value?.['hydra:member'])
     const totalItems = computed(() => data.value?.['hydra:totalItems'] || 0)
+    filteredItemsCountState.value = totalItems.value
     return {
       items,
       totalItems,
@@ -150,6 +175,23 @@ function _useResource<RT extends ApiResourceItem>({
       refresh,
     }
   }
+
+  const fetchResourceTotalItem = (fetch = false) => {
+    const status: Ref<SubmitStatus> = ref('idle')
+    const error: Ref<Error> = ref(undefined)
+    const totalItems: Ref<number> = ref(0)
+    const _fetch = () =>
+      repository
+        .fetchResourceTotalItems()
+        .then((results) => (totalItems.value = results['hydra:totalItems']))
+    if (fetch) {
+      _fetch()
+    }
+    return { status, error, totalItems, refresh: fetch }
+  }
+
+  const exportCollection = () =>
+    repository.exportCollection(fetchCollectionsParams.value)
 
   const fetchItem = async (id: Ref<string | number>) => {
     const key = resourceConfig.apiPath + id.value
@@ -168,10 +210,12 @@ function _useResource<RT extends ApiResourceItem>({
     isFiltered,
     collectionLabel,
     resourcePageKey,
-    parent: parentRef,
+    exportCollection,
     fetchCollection,
     fetchItem,
+    fetchResourceTotalItem,
     paginationOptions,
+    parent: parentRef,
     patchItem: repository.patchItem.bind(repository),
     postItem: repository.postItem.bind(repository),
     resourceConfig,
