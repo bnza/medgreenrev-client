@@ -41,7 +41,7 @@ export type DataResourceKey =
   | 'site'
   | 'user'
   | 'stratigraphicUnit'
-  // | 'sitesUser'
+  | 'sitesUser'
   // | 'stratigraphicUnitsRelationship'
   | 'stratigraphicUnitsMediaObject'
 

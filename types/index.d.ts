@@ -1,5 +1,14 @@
 import type { VDataTable } from 'vuetify/lib/components/VDataTable'
 
+declare global {
+  export type SessionData = {
+    id: string
+    email: string
+    roles: Array<ApiRole>
+    privileges: Record<number, number>
+  }
+}
+export {}
 export type ReadonlyHeaders = VDataTable['$props']['headers']
 export * from './api'
 export * from './api-jsonld'

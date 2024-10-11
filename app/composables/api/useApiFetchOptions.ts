@@ -32,7 +32,7 @@ export function useApiFetchOptions() {
         await signOut({ redirect: false })
         mode.value = 'login'
       }
-      if (response.status === 500) {
+      if ([400, 500].includes(response.status)) {
         const text =
           response._data && 'hydra:description' in response._data
             ? response._data['hydra:description']

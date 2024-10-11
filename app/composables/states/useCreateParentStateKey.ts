@@ -1,7 +1,7 @@
-import type { ApiId, ApiResourceItem, DataResourceKey } from '~~/types'
+import type { ApiResourceCollectionParent, ApiResourceItem } from '~~/types'
 
 export default function <RT extends ApiResourceItem>() {
-  return useState<[DataResourceKey, ApiId] | undefined>(
+  return useState<ApiResourceCollectionParent | undefined>(
     States.CreateParentKey,
     () => undefined,
   )

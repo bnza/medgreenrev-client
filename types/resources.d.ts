@@ -48,6 +48,11 @@ export interface ApiResourceUser extends ApiResourceItem {
   privileges: Record<number, number>
 }
 
+export interface ApiResourceSitesUser extends ApiResourceItem {
+  site: Pick<ApiResourceSite, 'id' | 'code' | 'name'>
+  user: Pick<ApiResourceUser, 'id' | 'email'>
+}
+
 export interface ApiResourceMediaObject extends ApiResourceItem {
   contentUrl: string
   originalFilename: string

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ApiResourceUser } from '~~/types'
-import { isAclResource } from '~/utils'
+import { isAclResource, isApiResourceItem } from '~/utils'
 
 type RT = ApiResourceUser
 
@@ -33,10 +33,14 @@ const { isValidUser } = inject(userPasswordStateInjectionKey)
           <lazy-data-item-user-form v-if="item" :item="item" mode="read" />
         </v-tabs-window-item>
         <v-tabs-window-item value="sites" data-testid="tabs-window-sites">
-          <!--      <lazy-data-collection-card-->
-          <!--        resource-key="stratigraphicUnit"-->
-          <!--        :parent="['site.id', item.id]"-->
-          <!--      />-->
+          <lazy-data-collection-card
+            v-if="isApiResourceItem(item)"
+            resource-key="sitesUser"
+            :parent="['user.id', item.id]"
+            create-button
+            :download-button="false"
+            :search-button="false"
+          />
         </v-tabs-window-item>
       </v-tabs-window>
     </template>

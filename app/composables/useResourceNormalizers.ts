@@ -36,6 +36,21 @@ export default function () {
           return item
         },
       },
+      sitesUser: {
+        normalizePostItem: (item) => {
+          item = clone(item)
+          if (item.site?.id) {
+            item.site = getResourceIri('site', item.site.id)
+          }
+          if (item.user?.id) {
+            item.user = getResourceIri('user', item.user.id)
+          }
+          if (item.privileges) {
+            item.privileges = Number(item.privileges)
+          }
+          return item
+        },
+      },
       stratigraphicUnit: {
         normalizePostItem: (item) => {
           item = clone(item)

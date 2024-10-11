@@ -114,6 +114,37 @@ const site: StaticResourceConfig = {
   ],
 }
 
+const sitesUser: StaticResourceConfig = {
+  appPath: '/admin/sites-users-privileges',
+  labels: ['Sites/Users Privilege', 'Sites/Users Privileges'],
+  defaultHeaders: [
+    {
+      key: 'id',
+      value: 'id',
+      title: 'ID',
+      align: 'center',
+      width: '200',
+      maxWidth: '200',
+    },
+    {
+      key: 'site.code',
+      value: 'site.code',
+      title: 'site',
+      width: '200',
+    },
+    {
+      key: 'user.email',
+      value: 'user.email',
+      title: 'user',
+    },
+    {
+      key: 'privileges',
+      value: 'privileges',
+      title: 'privileges',
+    },
+  ],
+}
+
 const stratigraphicUnit: StaticResourceConfig = {
   appPath: '/data/stratigraphic-units',
   labels: ['Stratigraphic Unit', 'Stratigraphic Units'],
@@ -207,6 +238,7 @@ const data: Readonly<Record<DataResourceKey, StaticResourceConfig>> =
   Object.freeze({
     pottery,
     site,
+    sitesUser,
     stratigraphicUnit,
     stratigraphicUnitsMediaObject,
     user,

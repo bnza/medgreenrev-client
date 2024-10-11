@@ -3,7 +3,6 @@ import type {
   ApiResourceCollectionParent,
   ApiResourceItem,
   DataResourceKey,
-  JsonLdResourceCollection,
   JsonLdResourceItem,
 } from '~~/types'
 import type { AsyncDataRequestStatus } from '#app'
@@ -12,6 +11,7 @@ const props = defineProps<{
   resourceKey: DataResourceKey
   parent?: ApiResourceCollectionParent
 }>()
+console.log(props.parent)
 const { headers, fetchCollection, resourceConfig, parent } =
   useResource<ApiResourceItem>(props.resourceKey, {
     parent: props.parent,
@@ -21,8 +21,6 @@ const { headers, fetchCollection, resourceConfig, parent } =
 if (props.parent) {
   parent.value = props.parent
 }
-
-type FetchCollectionReturnType = Awaited<ReturnType<typeof fetchCollection>>
 
 let results = ref({
   totalItems: ref(0),

@@ -6,7 +6,7 @@ const { resourcePageKey } = useResource<ApiResourceSite>('site', {})
 const { tab } = useResourceTabState(resourcePageKey)
 const bgColor = DATA_API_ACTIONS_BAR_COLOR['read']
 
-const { isAuthenticated } = useAppAuth()
+const { isAuthenticated, hasRoleAdmin } = useAppAuth()
 </script>
 
 <template>
@@ -15,6 +15,7 @@ const { isAuthenticated } = useAppAuth()
       <v-tabs v-model="tab" color="anchor" :bg-color="bgColor">
         <v-tab value="data">data</v-tab>
         <v-tab value="sus">stratigraphic units</v-tab>
+        <v-tab v-if="hasRoleAdmin" value="users">users</v-tab>
       </v-tabs>
       <v-tabs-window v-model="tab">
         <v-tabs-window-item value="data">
@@ -29,6 +30,20 @@ const { isAuthenticated } = useAppAuth()
             resource-key="stratigraphicUnit"
             :parent="['site.id', item.id]"
             :create-button="isAuthenticated"
+          />
+        </v-tabs-window-item>
+        <v-tabs-window-item
+          v-if="hasRoleAdmin"
+          value="users"
+          data-testid="tabs-window-users"
+        >
+          <lazy-data-collection-card
+            v-if="isApiResourceItem(item)"
+            resource-key="sitesUser"
+            :parent="['site.id', item.id]"
+            create-button
+            :download-button="false"
+            :search-button="false"
           />
         </v-tabs-window-item>
       </v-tabs-window>

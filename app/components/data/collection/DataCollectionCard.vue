@@ -38,6 +38,11 @@ const collectionTableComponentsMap: Partial<
       import('~/components/data/collection/DataCollectionSiteTable.vue'),
     loadingComponent: LoadingComponent,
   }),
+  sitesUser: defineAsyncComponent({
+    loader: () =>
+      import('~/components/data/collection/DataCollectionSitesUserTable.vue'),
+    loadingComponent: LoadingComponent,
+  }),
   stratigraphicUnit: defineAsyncComponent({
     loader: () =>
       import(
@@ -57,7 +62,7 @@ const collectionTableComponent = computed(
 const createParentState = useCreateParentStateKey()
 const setCreateParentState = () => {
   if (props.parent) {
-    createParentState.value = [props.resourceKey, props.parent[1]]
+    createParentState.value = props.parent
   }
 }
 </script>
