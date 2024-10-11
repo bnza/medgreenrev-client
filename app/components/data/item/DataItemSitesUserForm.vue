@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import type {
-  ApiAction,
-  ApiResourceSite,
-  ApiResourceSitesUser,
-  DataResourceKey,
-} from '~~/types'
+import type { ApiAction, ApiResourceSitesUser, DataResourceKey } from '~~/types'
 import useSitesUserValidation from '~/composables/validation/useSitesUserValidation'
 import { ApiSiteRole } from '~/utils'
 import useCreateParentStateKey from '~/composables/states/useCreateParentStateKey'

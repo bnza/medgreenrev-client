@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import useAuthSessionSitesUsersPrivileges from '~/composables/useAuthSessionSitesUsersPrivileges'
 import { SITES_ROLE_COLORS } from '~/utils'
 
 const props = defineProps<{
